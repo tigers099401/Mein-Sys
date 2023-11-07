@@ -83,7 +83,7 @@ class MainApp(App):
 
     def on_start(self):
         # CSVファイルから背景色と文字の色を取得
-        background_color, title_color, subtitle_color = self.get_colors_from_csv("test\MAINSYS\CSV\color_settings.csv")
+        background_color, title_color, subtitle_color = self.get_colors_from_csv("MAINSYS\CSV\color_settings.csv")
         self.set_background_color(background_color)
         self.set_text_color(title_color, subtitle_color)
         print("背景色:", background_color)
