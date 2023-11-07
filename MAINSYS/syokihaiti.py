@@ -64,7 +64,7 @@ class MainApp(App):
         layout.add_widget(button5)
 
         # 背景色のRGBA値をCSVから読み込み
-        background_color, _, _ = self.get_colors_from_csv("test\MAINSYS\CSV\color_settings.csv")
+        background_color, _, _ = self.get_colors_from_csv("MAINSYS\CSV\color_settings.csv")
 
         # 背景の色を設定
         with layout.canvas.before:
@@ -92,7 +92,7 @@ class MainApp(App):
         os.system("kakuninn.py")
 
     def on_start(self):
-        background_color, title_color, subtitle_color = self.get_colors_from_csv("test\MAINSYS\CSV\color_settings.csv")
+        background_color, title_color, subtitle_color = self.get_colors_from_csv("MAINSYS\CSV\color_settings.csv")
         self.set_background_color(background_color)
         self.set_text_color(title_color, subtitle_color)
 
