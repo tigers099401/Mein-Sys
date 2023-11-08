@@ -64,25 +64,25 @@ class MainApp(App):
         self.bg_rect.size = instance.size
 
     def launch_main2(self, instance):
-        # main2.pyを実行
+        # 時間を実行
         os.system("python button_clock.py")
 
     def launch_main3(self, instance):
-        # main3.pyを実行
+        # 天気を実行
         os.system("python weather2.py")
         os.system("python weathersearch.py")
 
     def launch_main4(self, instance):
-        # main3.pyを実行
+        # 予定を実行
         os.system("python Calendar.py")
 
     def launch_main5(self, instance):
-        # main3.pyを実行
+        # 背景を実行
         os.system("python haikei.py")
 
     def launch_main6(self, instance):
-        # main3.pyを実行
-        os.system("python MAINSYS/teshaikei.py")
+        # 確定を実行
+        os.system("python MAINSYS/haikei.py")
 
     def on_start(self):
         # CSVファイルから背景色と文字の色を取得
