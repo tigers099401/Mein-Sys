@@ -72,7 +72,7 @@ class MainApp(App):
         layout.add_widget(confirm_button)  # 確定ボタンを追加
 
         # 背景色のRGBA値をCSVから読み込み
-        background_color, _, _ = self.get_colors_from_csv("MAINSYS\CSV\color_settings.csv")
+        background_color, _, _ = self.get_colors_from_csv("MAINSYS/CSV/color_settings.csv")
 
         # 背景の色を設定
         with layout.canvas.before:
@@ -103,7 +103,7 @@ class MainApp(App):
         os.system("python haikei.py")
 
     def on_start(self):
-        background_color, title_color, subtitle_color = self.get_colors_from_csv("MAINSYS\CSV\color_settings.csv")
+        background_color, title_color, subtitle_color = self.get_colors_from_csv("MAINSYS/CSV/color_settings.csv")
         self.set_background_color(background_color)
         self.set_text_color(title_color, subtitle_color)
 
@@ -164,10 +164,12 @@ class MainApp(App):
         self.background_rect.source = image_path
 
     def save_button_positions(self, instance):
-    # ボタンの位置情報を CSV ファイルに保存
+        # ボタンの位置情報を CSV ファイルに保存
         with open("MAINSYS/CSV/button_positions.csv", "w", newline="") as file:
             writer = csv.writer(file)
-            writer.writerow(["ButtonName", "X", "Y"])  # ヘッダ行
+            writer.writerow(["ButtonName", "X", "Y"])  # ヘッダー行
+
+            # ボタンの位置情報を保存
             for child in self.root.children:
                 if isinstance(child, DraggableButton) and child.text != "確定":
                     writer.writerow([child.text, child.center_x, child.center_y])
