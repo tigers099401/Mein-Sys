@@ -10,13 +10,13 @@ import os
 class DraggableButton(Button):
     def on_touch_down(self, touch):
         if self.collide_point(*touch.pos):
-            touch.grab(self)  # タッチをボタンにグラブ
+            touch.grab(self)
             return True
         return super(DraggableButton, self).on_touch_down(touch)
 
     def on_touch_up(self, touch):
         if touch.grab_current is self:
-            touch.ungrab(self)  # タッチのグラブを解除
+            touch.ungrab(self)
             return True
         return super(DraggableButton, self).on_touch_up(touch)
 
@@ -73,6 +73,9 @@ class MainApp(App):
 
         layout.bind(pos=self.update_background, size=self.update_background)
 
+        # 背景画像を設定
+        self.set_background_image_from_csv()
+
         return layout
 
     def launch_main2(self, instance):
@@ -127,6 +130,30 @@ class MainApp(App):
         for child in self.root.children:
             if isinstance(child, Label):
                 child.color = title_color
+
+    def set_background_image_from_csv(self):
+        # CSVファイルから背景画像のパスを取得
+        background_image_path = self.get_background_image_path("MAINSYS/CSV/selected_backgrounds.csv")
+        if background_image_path:
+            self.set_background_image(background_image_path)
+
+    def get_background_image_path(self, csv_file):
+        # 背景画像のパスをCSVファイルから取得
+        background_image_path = None
+        try:
+            with open(csv_file, "r", encoding="utf-8") as file:
+                reader = csv.reader(file)
+                for row in reader:
+                    if len(row) > 0:
+                        background_image_path = row[0]
+                        break  # 最初の行の値を使用
+        except FileNotFoundError:
+            pass
+        return background_image_path
+
+    def set_background_image(self, image_path):
+        # 背景画像のパスを指定して背景を設定
+        self.background_rect.source = image_path
 
 if __name__ == "__main__":
     main_app = MainApp()
