@@ -2,12 +2,13 @@ from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.uix.button import Button
+from kivy.uix.scatter import Scatter
 from kivy.graphics import Color, Rectangle
 import csv
 import japanize_kivy
 import os
 
-class DraggableButton(Button):
+class DraggableButton(Scatter):
     def on_touch_down(self, touch):
         if self.collide_point(*touch.pos):
             touch.grab(self)
@@ -29,12 +30,8 @@ class DraggableButton(Button):
 
 class MainApp(App):
     def build(self):
-        layout = GridLayout(cols=2, spacing=10, padding=10)
+        layout = GridLayout(cols=1, spacing=10, padding=10)
 
-        # 左側に機能ボタンを配置
-        left_layout = GridLayout(cols=1, spacing=10, size_hint_x=None, width=200)
-        right_layout = GridLayout(cols=1, spacing=10)
-        
         # タイトルのラベル
         title_label = Label(
             text="ほしい機能を選んでね",
@@ -44,35 +41,22 @@ class MainApp(App):
             halign="center",
         )
 
-        button1 = DraggableButton(text="時間表示設定", size_hint=(None, None))
-        button1.bind(on_press=self.launch_main2)
+        layout.add_widget(Label())  # 上部の余白用
+        layout.add_widget(title_label)
 
-        button2 = DraggableButton(text="天気予報", size_hint=(None, None))
-        button2.bind(on_press=self.launch_main3)
+        # ボタンの位置情報をCSVから読み込んで配置
+        button_positions = self.get_button_positions_from_csv("MAINSYS/CSV/button_positions.csv")
+        for position in button_positions:
+            button = DraggableButton(size=(100, 100), pos=position)
+            layout.add_widget(button)
 
-        button3 = DraggableButton(text="予定表示", size_hint=(None, None))
-        button3.bind(on_press=self.launch_main4)
-
-        button4 = DraggableButton(text="背景設定", size_hint=(None, None))
-        button4.bind(on_press=self.launch_main5)
-
-        # 確定ボタンを右側の上部に配置
-        confirm_button = Button(text="確定", size_hint=(None, None))
+        # 「確定」ボタンを右上に配置
+        confirm_button = Button(text="確定", size_hint=(None, None), size=(100, 50), pos=(800, 500))
         confirm_button.bind(on_press=self.save_button_positions)
-
-        left_layout.add_widget(Label())  # 上部の余白用
-        left_layout.add_widget(title_label)
-        left_layout.add_widget(button1)
-        left_layout.add_widget(button2)
-        left_layout.add_widget(button3)
-        left_layout.add_widget(button4)
-
-        layout.add_widget(left_layout)
-        layout.add_widget(right_layout)
-        layout.add_widget(confirm_button)  # 確定ボタンを追加
+        layout.add_widget(confirm_button)
 
         # 背景色のRGBA値をCSVから読み込み
-        background_color, _, _ = self.get_colors_from_csv("MAINSYS\CSV\color_settings.csv")
+        background_color, _, _ = self.get_colors_from_csv("MAINSYS/CSV/color_settings.csv")
 
         # 背景の色を設定
         with layout.canvas.before:
@@ -84,26 +68,30 @@ class MainApp(App):
         # 背景画像を設定
         self.set_background_image_from_csv()
 
-        # ボタンの位置情報を保存するリスト
-        self.button_positions = []
-
         return layout
 
-    def launch_main2(self, instance):
-        os.system("python button_clock.py")
+    def get_button_positions_from_csv(self, csv_file):
+        button_positions = []
+        try:
+            with open(csv_file, "r", encoding="utf-8") as file:
+                reader = csv.reader(file)
+                for row in reader:
+                    if len(row) == 2:
+                        x, y = map(int, row)
+                        button_positions.append((x, y))
+        except FileNotFoundError:
+            pass
+        return button_positions
 
-    def launch_main3(self, instance):
-        os.system("python weather2.py")
-        os.system("python weathersearch.py")
-
-    def launch_main4(self, instance):
-        os.system("python Calendar.py")
-
-    def launch_main5(self, instance):
-        os.system("python haikei.py")
+    def save_button_positions(self, instance):
+        button_positions = [(int(button.center_x), int(button.center_y)) for button in self.root.children if isinstance(button, DraggableButton)]
+        with open("MAINSYS/CSV/button_positions.csv", "w", newline="", encoding="utf-8") as file:
+            writer = csv.writer(file)
+            for position in button_positions:
+                writer.writerow(position)
 
     def on_start(self):
-        background_color, title_color, subtitle_color = self.get_colors_from_csv("MAINSYS\CSV\color_settings.csv")
+        background_color, title_color, subtitle_color = self.get_colors_from_csv("MAINSYS/CSV/color_settings.csv")
         self.set_background_color(background_color)
         self.set_text_color(title_color, subtitle_color)
 
@@ -162,15 +150,6 @@ class MainApp(App):
     def set_background_image(self, image_path):
         # 背景画像のパスを指定して背景を設定
         self.background_rect.source = image_path
-
-    def save_button_positions(self, instance):
-    # ボタンの位置情報を CSV ファイルに保存
-        with open("MAINSYS/CSV/button_positions.csv", "w", newline="") as file:
-            writer = csv.writer(file)
-            writer.writerow(["ButtonName", "X", "Y"])  # ヘッダ行
-            for child in self.root.children:
-                if isinstance(child, DraggableButton) and child.text != "確定":
-                    writer.writerow([child.text, child.center_x, child.center_y])
 
 if __name__ == "__main__":
     main_app = MainApp()
