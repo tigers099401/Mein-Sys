@@ -70,14 +70,14 @@ class BackgroundChangerApp(App):
         text_red, text_green, text_blue, text_alpha = text_color
 
         # csvファイルの保存先ディレクトリ
-        csv_dir = 'test\MAINSYS\CSV'
+        csv_dir = 'MAINSYS\CSV'
 
         # ディレクトリが存在しない場合、作成
         if not os.path.exists(csv_dir):
             os.makedirs(csv_dir)
 
         # csvファイルの保存パス
-        csv_path = os.path.join(csv_dir, 'MAINSYS\CSV\color_settings.csv')
+        csv_path = os.path.join(csv_dir, 'color_settings.csv')
 
         self.save_colors_to_csv(csv_path, background_red, background_green, background_blue, background_alpha,
                                 text_red, text_green, text_blue, text_alpha)
