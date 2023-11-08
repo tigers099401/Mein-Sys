@@ -112,25 +112,25 @@ class MainApp(App):
             if isinstance(child, DraggableButton):
                 button_positions.append([child.text, child.center_x, child.center_y])
 
-        with open("test/MAINSYS/CSV/dbutton_positions.csv", "w", newline="") as file:
+        with open("MAINSYS/CSV/button_positions.csv", "w", newline="") as file:
             writer = csv.writer(file)
             writer.writerows(button_positions)
 
     def load_button_positions(self):
         button_positions = []
         try:
-            with open("MAINSYS/CSV/button_positions.csv", "r", newline="") as file:
+            with open("MAINSYS/CSV/button_positions.csv", "r", newline="", encoding="utf-8") as file:
                 reader = csv.reader(file)
                 for row in reader:
                     button_positions.append(row)
         except FileNotFoundError:
             pass
 
-        for text, x, y in button_positions:
-            for child in self.layout.children:
-                if isinstance(child, DraggableButton) and child.text == text:
-                    child.center_x = float(x)
-                    child.center_y = float(y)
+    for text, x, y in button_positions:
+        for child in self.layout.children:
+            if isinstance(child, DraggableButton) and child.text == text:
+                child.center_x = float(x)
+                child.center_y = float(y)
 
     def on_start(self):
         background_color, title_color, subtitle_color = self.get_colors_from_csv("MAINSYS/CSV/color_settings.csv")

@@ -70,7 +70,7 @@ class BackgroundChangerApp(App):
         text_red, text_green, text_blue, text_alpha = text_color
 
         # csvファイルの保存先ディレクトリ
-        csv_dir = 'test\MAINSYS\CSV'
+        csv_dir = 'MAINSYS\CSV'
 
         # ディレクトリが存在しない場合、作成
         if not os.path.exists(csv_dir):
