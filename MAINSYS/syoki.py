@@ -93,7 +93,7 @@ class MainApp(App):
     def set_text_color(self, title_color, subtitle_color):
         # タイトルとサブタイトルの文字色を変更
         self.root.children[1].color = title_color  # タイトルの文字色を変更
-        self.root.children[2].color = title_color # サブタイトルの文字色を変更
+        self.root.children[2].color = subtitle_color  # サブタイトルの文字色を変更
 
     def show_confirmation_popup(self, instance):
         # ポップアップウィンドウを作成

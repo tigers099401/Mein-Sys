@@ -10,13 +10,13 @@ import os
 class DraggableButton(Button):
     def on_touch_down(self, touch):
         if self.collide_point(*touch.pos):
-            touch.grab(self)
+            touch.grab(self)  # タッチをボタンにグラブ
             return True
         return super(DraggableButton, self).on_touch_down(touch)
 
     def on_touch_up(self, touch):
         if touch.grab_current is self:
-            touch.ungrab(self)
+            touch.ungrab(self)  # タッチのグラブを解除
             return True
         return super(DraggableButton, self).on_touch_up(touch)
 
@@ -29,12 +29,8 @@ class DraggableButton(Button):
 
 class MainApp(App):
     def build(self):
-        layout = GridLayout(cols=2, spacing=10, padding=10)
+        layout = GridLayout(cols=1, spacing=10, padding=10)
 
-        # 左側に機能ボタンを配置
-        left_layout = GridLayout(cols=1, spacing=10, size_hint_x=None, width=200)
-        right_layout = GridLayout(cols=1, spacing=10)
-        
         # タイトルのラベル
         title_label = Label(
             text="ほしい機能を選んでね",
@@ -56,20 +52,16 @@ class MainApp(App):
         button4 = DraggableButton(text="背景設定", size_hint=(None, None))
         button4.bind(on_press=self.launch_main5)
 
-        # 確定ボタンを右側の上部に配置
-        confirm_button = Button(text="確定", size_hint=(None, None))
-        confirm_button.bind(on_press=self.save_button_positions)
+        button5 = DraggableButton(text="確認画面", size_hint=(None, None))
+        button5.bind(on_press=self.launch_main6)
 
-        left_layout.add_widget(Label())  # 上部の余白用
-        left_layout.add_widget(title_label)
-        left_layout.add_widget(button1)
-        left_layout.add_widget(button2)
-        left_layout.add_widget(button3)
-        left_layout.add_widget(button4)
-
-        layout.add_widget(left_layout)
-        layout.add_widget(right_layout)
-        layout.add_widget(confirm_button)  # 確定ボタンを追加
+        layout.add_widget(Label())  # 上部の余白用
+        layout.add_widget(title_label)
+        layout.add_widget(button1)
+        layout.add_widget(button2)
+        layout.add_widget(button3)
+        layout.add_widget(button4)
+        layout.add_widget(button5)
 
         # 背景色のRGBA値をCSVから読み込み
         background_color, _, _ = self.get_colors_from_csv("MAINSYS/CSV/color_settings.csv")
@@ -80,12 +72,6 @@ class MainApp(App):
             self.background_rect = Rectangle(pos=layout.pos, size=layout.size)
 
         layout.bind(pos=self.update_background, size=self.update_background)
-
-        # 背景画像を設定
-        self.set_background_image_from_csv()
-
-        # ボタンの位置情報を保存するリスト
-        self.button_positions = []
 
         return layout
 
@@ -101,6 +87,9 @@ class MainApp(App):
 
     def launch_main5(self, instance):
         os.system("python haikei.py")
+
+    def launch_main6(self, instance):
+        os.system("kakuninn.py")
 
     def on_start(self):
         background_color, title_color, subtitle_color = self.get_colors_from_csv("MAINSYS/CSV/color_settings.csv")
