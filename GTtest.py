@@ -2,33 +2,24 @@ from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 import csv
-import os
 
 class PositionSaverApp(App):
     def build(self):
+        # ボタン位置情報を保存するリスト
+        self.button_positions = []
+
         # メインのレイアウト
         layout = BoxLayout(orientation='vertical')
 
-        # ボタンの位置情報をCSVファイルから読み込み
-        button_positions = self.load_button_positions()
+        # ボタンを作成
+        button = Button(text="ドラッグして位置を変更")
+        button.bind(on_touch_move=self.on_button_move)
 
-        if button_positions:
-            # CSVファイルから位置情報が読み込まれた場合
-            for position in button_positions:
-                # 位置情報を元にボタンを作成
-                button = Button(text="ドラッグして位置を変更")
-                button.center_x, button.center_y = position
+        # レイアウトにボタンを追加
+        layout.add_widget(button)
 
-                # ボタンの移動を有効にする
-                button.bind(on_touch_move=self.on_button_move)
-
-                # レイアウトにボタンを追加
-                layout.add_widget(button)
-        else:
-            # 位置情報がCSVファイルにない場合、デフォルトのボタンを作成
-            button = Button(text="ドラッグして位置を変更")
-            button.bind(on_touch_move=self.on_button_move)
-            layout.add_widget(button)
+        # CSVファイルから位置情報を読み込む
+        self.load_button_positions()
 
         return layout
 
@@ -42,21 +33,29 @@ class PositionSaverApp(App):
                 # ボタンがタッチされている場合、位置情報を更新
                 instance.center_x = touch.x
                 instance.center_y = touch.y
+                self.update_button_positions(instance)
+
+    def update_button_positions(self, button):
+        # ボタンの位置情報を更新
+        self.button_positions = [[button.center_x, button.center_y]]
 
     def load_button_positions(self):
-        # CSVファイルからボタンの位置情報を読み込む
-        csv_file = "CSV/GTcsv.csv"
-        button_positions = []
-        if os.path.exists(csv_file):
-            with open(csv_file, "r") as file:
+        # CSVファイルから位置情報を読み込み、最後に配置されたボタンの位置を復元
+        try:
+            with open("CSV/GTcsv.csv", "r", newline="") as file:
                 reader = csv.reader(file)
                 for row in reader:
-                    try:
-                        position = [float(row[0]), float(row[1])]
-                        button_positions.append(position)
-                    except (ValueError, IndexError):
-                        pass
-        return button_positions
+                    if len(row) == 2:
+                        self.button_positions = [[float(row[0]), float(row[1])]]
+        except FileNotFoundError:
+            pass
+
+    def on_stop(self):
+        # アプリが終了するときにボタン位置情報をCSVファイルに保存
+        with open("CSV/GTcsv.csv", "w", newline="") as file:
+            writer = csv.writer(file)
+            for position in self.button_positions:
+                writer.writerow(position)
 
 if __name__ == '__main__':
     PositionSaverApp().run()
