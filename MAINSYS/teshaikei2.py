@@ -78,7 +78,7 @@ class MainApp(App):
 
     def launch_main5(self, instance):
         # main3.pyを実行
-        os.system("python haikei.py")
+        os.system("python MAINSYS/haikei.py")
 
     def launch_main6(self, instance):
         # main3.pyを実行

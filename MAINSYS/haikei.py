@@ -7,6 +7,7 @@ import csv
 import os
 from kivy.core.window import Window
 import japanize_kivy
+import subprocess  # 外部スクリプトを実行するために必要なモジュール
 
 class BackgroundChangerApp(App):
     def build(self):
@@ -70,7 +71,7 @@ class BackgroundChangerApp(App):
         text_red, text_green, text_blue, text_alpha = text_color
 
         # csvファイルの保存先ディレクトリ
-        csv_dir = 'MAINSYS\CSV'
+        csv_dir = 'MAINSYS/CSV'
 
         # ディレクトリが存在しない場合、作成
         if not os.path.exists(csv_dir):
@@ -81,6 +82,13 @@ class BackgroundChangerApp(App):
 
         self.save_colors_to_csv(csv_path, background_red, background_green, background_blue, background_alpha,
                                 text_red, text_green, text_blue, text_alpha)
+
+        # 保存後に別のPythonスクリプトを実行
+        script_path = 'MAINSYS/teshaikei2.py'
+        if os.path.exists(script_path):
+            subprocess.Popen(['python', script_path])
+        else:
+            print(f"スクリプト '{script_path}' は存在しません。")
 
     def save_colors_to_csv(self, csv_file, background_red, background_green, background_blue, background_alpha,
                            text_red, text_green, text_blue, text_alpha):
