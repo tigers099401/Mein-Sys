@@ -3,6 +3,10 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 import csv
 import os
+from kivy.config import Config
+
+Config.set('graphics', 'width', '400')
+Config.set('graphics', 'height', '300')
 
 class ButtonPositionApp(App):
     def build(self):
@@ -11,6 +15,9 @@ class ButtonPositionApp(App):
 
         # ボタンを作成して配置
         buttons = self.load_button_positions()
+        print(f"Number of buttons: {len(buttons)}")  # 追加
+        print(f"Button positions: {[(button.pos[0], button.pos[1]) for button in buttons]}")  # 追加
+        
         if buttons:
             for button in buttons:
                 layout.add_widget(button)
@@ -33,7 +40,7 @@ class ButtonPositionApp(App):
         return buttons
 
     def create_button(self, x, y):
-        button = Button(text="Drag me", size_hint=(None, None), size=(100, 50))  # 幅100、高さ50のボタン
+        button = Button(text="Drag me", size_hint=(None, None), size=(200, 100))  # 幅100、高さ50のボタン
         button.pos = (x, y)
         return button
 
