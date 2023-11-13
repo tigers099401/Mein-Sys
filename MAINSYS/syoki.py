@@ -123,7 +123,7 @@ class MainApp(App):
         self.popup.dismiss()
         if instance.text == 'いいえ':
             # "teshaikei.py" を実行
-            os.system("python MAINSYS/teshaikei2.py")
+            os.system("python MAINSYS/haikei.py")
 
 if __name__ == "__main__":
     MainApp().run()

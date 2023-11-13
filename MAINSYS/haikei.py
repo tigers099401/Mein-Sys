@@ -84,7 +84,7 @@ class BackgroundChangerApp(App):
                                 text_red, text_green, text_blue, text_alpha)
 
         # 保存後に別のPythonスクリプトを実行
-        script_path = 'MAINSYS/teshaikei2.py'
+        script_path = 'MAINSYS/button_mover.py'
         if os.path.exists(script_path):
             subprocess.Popen(['python', script_path])
         else:

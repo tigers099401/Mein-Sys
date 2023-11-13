@@ -24,8 +24,13 @@ class DraggableButton(Button):
         if touch.grab_current is self:
             self.center_x = touch.x
             self.center_y = touch.y
+            self.on_button_move()  # ボタンが移動したときの処理を追加
             return True
         return super(DraggableButton, self).on_touch_move(touch)
+
+    def on_button_move(self):
+        # ボタンが移動したときの処理
+        App.get_running_app().on_button_move(self)
 
 class MainApp(App):
     def build(self):
@@ -44,17 +49,21 @@ class MainApp(App):
             halign="center",
         )
 
-        button1 = DraggableButton(text="時間表示設定", size_hint=(None, None))
+        button1 = DraggableButton(text=u"時間表示設定", size_hint=(None, None))
         button1.bind(on_press=self.launch_main2)
+        button1.bind(on_button_move=self.on_button_move)  # ボタンが移動したときの処理を追加
 
-        button2 = DraggableButton(text="天気予報", size_hint=(None, None))
+        button2 = DraggableButton(text=u"天気予報", size_hint=(None, None))
         button2.bind(on_press=self.launch_main3)
+        button2.bind(on_button_move=self.on_button_move)
 
-        button3 = DraggableButton(text="予定表示", size_hint=(None, None))
+        button3 = DraggableButton(text=u"予定表示", size_hint=(None, None))
         button3.bind(on_press=self.launch_main4)
+        button3.bind(on_button_move=self.on_button_move)
 
-        button4 = DraggableButton(text="背景設定", size_hint=(None, None))
+        button4 = DraggableButton(text=u"背景設定", size_hint=(None, None))
         button4.bind(on_press=self.launch_main5)
+        button4.bind(on_button_move=self.on_button_move)
 
         # 確定ボタンを右側の上部に配置
         confirm_button = Button(text="確定", size_hint=(None, None))
@@ -106,6 +115,10 @@ class MainApp(App):
         background_color, title_color, subtitle_color = self.get_colors_from_csv("MAINSYS/CSV/color_settings.csv")
         self.set_background_color(background_color)
         self.set_text_color(title_color, subtitle_color)
+
+    def on_button_move(self, instance):
+        # ボタンが移動したときに呼ばれるメソッド
+        self.save_button_positions()
 
     def get_colors_from_csv(self, csv_file):
         background_color = (0.5, 0.7, 1, 1)  # 背景色（RGBA値を使用）
@@ -163,7 +176,7 @@ class MainApp(App):
         # 背景画像のパスを指定して背景を設定
         self.background_rect.source = image_path
 
-    def save_button_positions(self, instance):
+    def save_button_positions(self):
         # ボタンの位置情報を CSV ファイルに保存
         with open("MAINSYS/CSV/button_positions.csv", "w", newline="") as file:
             writer = csv.writer(file)
