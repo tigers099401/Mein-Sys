@@ -1,26 +1,31 @@
-# button_mover.py
 from kivy.app import App
 from kivy.uix.button import Button
 from kivy.uix.floatlayout import FloatLayout
 import csv
+import japanize_kivy
 
 class ButtonMoverApp(App):
     def build(self):
         # ウィンドウを作成
         layout = FloatLayout()
 
-        # ボタンの数
-        num_buttons = 4
+        # ボタンの名前と初期位置
+        button_info = [
+            {"name": "時間表示設定", "pos": (50, 100)},
+            {"name": "天気予報", "pos": (200, 100)},
+            {"name": "予定表示", "pos": (350, 100)},
+            {"name": "追加", "pos": (500, 100)},
+        ]
 
         # ボタンリスト
         self.buttons = []
 
-        for i in range(num_buttons):
+        for info in button_info:
             # ボタンを作成
-            button = Button(text=f'Move me {i+1}!')
+            button = Button(text=info["name"])
             button.size_hint = (None, None)
             button.size = (100, 50)
-            button.pos = (i * 150 + 50, 100)
+            button.pos = info["pos"]
 
             # ボタンが移動したときのイベントを追加
             button.bind(on_touch_move=self.on_button_move)
@@ -44,9 +49,9 @@ class ButtonMoverApp(App):
 
     def save_button_positions(self):
         # 各ボタンの座標をCSVファイルに保存するメソッド
-        for i, button in enumerate(self.buttons):
+        for button in self.buttons:
             button_pos = button.pos
-            filename = f'button_{i + 1}_position.csv'
+            filename = f'{button.text.lower()}_position.csv'
             with open(filename, 'w', newline='') as csvfile:
                 csv_writer = csv.writer(csvfile)
                 csv_writer.writerow(['x', 'y'])
