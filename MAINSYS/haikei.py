@@ -107,6 +107,6 @@ class BackgroundChangerApp(App):
                 'TextBlue': text_blue,
                 'TextAlpha': text_alpha
             })
-
+    
 if __name__ == '__main__':
     BackgroundChangerApp().run()

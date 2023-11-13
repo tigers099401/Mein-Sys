@@ -63,7 +63,7 @@ class ButtonLoaderApp(App):
         # ボタンが押下されたときの処理
         if instance.text == "時間表示設定":
             # 指定のファイルを実行する
-            os.system("python MAINSYS\時計機能pathを入力してね")
+            os.system("python .\Clock.py")
 
         if instance.text == "天気予報":
             # 指定のファイルを実行する
