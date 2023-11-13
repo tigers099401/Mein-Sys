@@ -67,7 +67,7 @@ class ButtonMoverApp(App):
         # 確定ボタンが押下されたときの処理
         self.save_button_positions()
         # button_loader.py を実行
-        os.system("python MAINSYS/button_loader.py")
+        os.system("python MAINSYS/botton_loader.py")
 
 if __name__ == '__main__':
     # アプリケーションを起動
