@@ -47,6 +47,7 @@ def save_to_csv(image_link):
 # 「次へ」ボタンが押されたときの処理
 def launch_syokihaiti():
     os.system("python mainsys/button_mover.py")
+    root.destroy()  # メインウィンドウを閉じる
 
 # 「次へ」ボタンを作成
 next_button = tk.Button(root, text="次へ", command=launch_syokihaiti)
