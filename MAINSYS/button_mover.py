@@ -2,6 +2,7 @@ from kivy.app import App
 from kivy.uix.button import Button
 from kivy.uix.floatlayout import FloatLayout
 import csv
+import os
 import japanize_kivy
 
 class ButtonMoverApp(App):
@@ -36,6 +37,11 @@ class ButtonMoverApp(App):
             # ボタンをリストに追加
             self.buttons.append(button)
 
+            # 確定ボタンを作成
+            confirm_button = Button(text="確定", size_hint=(None, None), size=(100, 50), pos=(layout.width - 100, 0))
+            confirm_button.bind(on_press=self.on_confirm_button_press)
+            layout.add_widget(confirm_button)
+
         return layout
 
     def on_button_move(self, instance, touch):
@@ -56,6 +62,12 @@ class ButtonMoverApp(App):
                 csv_writer = csv.writer(csvfile)
                 csv_writer.writerow(['x', 'y'])
                 csv_writer.writerow([button_pos[0], button_pos[1]])
+
+    def on_confirm_button_press(self, instance):
+        # 確定ボタンが押下されたときの処理
+        self.save_button_positions()
+        # button_loader.py を実行
+        os.system("python MAINSYS/button_loader.py")
 
 if __name__ == '__main__':
     # アプリケーションを起動
