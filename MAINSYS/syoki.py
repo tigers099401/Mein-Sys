@@ -8,6 +8,21 @@ import japanize_kivy
 import os
 from kivy.core.window import Window
 from kivy.uix.popup import Popup
+import subprocess
+import time
+
+#後ろの画面消す
+class RunningTask:
+    def __init__(self):
+        self.running = True
+
+    def run(self):
+        while self.running:
+            print("Task is running...")
+            time.sleep(1)
+
+    def stop(self):
+        self.running = False
 
 class MainApp(App):
     def build(self):
@@ -116,14 +131,15 @@ class MainApp(App):
 
     def launch_haikeigazou(self, instance):
         # "haikeigazou.py" を実行
-        os.system("python MAINSYS\haikeigazou.py")
-        self.popup.dismiss()
+        subprocess.Popen(["python", "MAINSYS\haikeigazou.py"])
+        App.get_running_app().stop()
 
     def dismiss_popup(self, instance):
         self.popup.dismiss()
         if instance.text == 'いいえ':
-            # "teshaikei.py" を実行
-            os.system("python MAINSYS/haikei.py")
+            # "teshaikei.py" を実行かつ、画面を閉じる
+            subprocess.Popen(["python", "MAINSYS/haikei.py"])
+            App.get_running_app().stop()
 
 if __name__ == "__main__":
     MainApp().run()
