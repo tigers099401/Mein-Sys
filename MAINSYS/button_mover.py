@@ -91,7 +91,7 @@ class ButtonMoverApp(App):
     def load_color_settings(self):
         # 色設定を読み込むメソッド
         try:
-            with open('MAINSYS/CSV/color_settings.csv', 'r') as csvfile:
+            with open('color_settings.csv', 'r') as csvfile:
                 csv_reader = csv.reader(csvfile)
                 row = next(csv_reader)  # 一行目を読み込む
                 background_color = [float(value) for value in row[:4]]
