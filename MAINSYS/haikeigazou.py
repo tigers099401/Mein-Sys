@@ -4,6 +4,7 @@ from PIL import Image, ImageTk
 import csv
 import os
 
+
 # メインウィンドウの作成
 root = tk.Tk()
 root.title("背景画像選択")

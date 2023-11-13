@@ -6,6 +6,20 @@ from kivy.graphics import Color, Rectangle
 import csv
 import japanize_kivy
 import os
+import subprocess
+import time
+
+class RunningTask:
+    def __init__(self):
+        self.running = True
+
+    def run(self):
+        while self.running:
+            print("Task is running...")
+            time.sleep(1)
+
+    def stop(self):
+        self.running = False
 
 class MainApp(App):
     def build(self):
@@ -65,7 +79,8 @@ class MainApp(App):
 
     def launch_main2(self, instance):
         # main2.pyを実行
-        os.system("python button_clock.py")
+        subprocess.Popen(["python", "MAINSYS/Clock.py"])
+        App.get_running_app().stop()
 
     def launch_main3(self, instance):
         # main3.pyを実行

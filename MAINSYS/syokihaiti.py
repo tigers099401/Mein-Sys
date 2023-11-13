@@ -6,6 +6,21 @@ from kivy.graphics import Color, Rectangle
 import csv
 import japanize_kivy
 import os
+import threading
+import subprocess
+import time
+
+class RunningTask:
+    def __init__(self):
+        self.running = True
+
+    def run(self):
+        while self.running:
+            print("Task is running...")
+            time.sleep(1)
+
+    def stop(self):
+        self.running = False
 
 class DraggableButton(Button):
     def on_touch_down(self, touch):
