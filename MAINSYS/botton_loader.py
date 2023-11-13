@@ -1,26 +1,31 @@
-# botton_loader.py
 from kivy.app import App
 from kivy.uix.button import Button
 from kivy.uix.floatlayout import FloatLayout
 import csv
+import japanize_kivy
 
 class ButtonLoaderApp(App):
     def build(self):
         # ウィンドウを作成
         layout = FloatLayout()
 
-        # ボタンの数
-        num_buttons = 4
+        # ボタンの情報
+        button_info = [
+            {"name": "時間表示設定", "pos": (50, 100)},
+            {"name": "天気予報", "pos": (200, 100)},
+            {"name": "予定表示", "pos": (350, 100)},
+            {"name": "追加", "pos": (500, 100)},
+        ]
 
         # ボタンリスト
         self.buttons = []
 
-        for i in range(num_buttons):
+        for info in button_info:
             # CSVファイルからボタンの座標を取得
-            button_pos = self.load_button_position(i + 1)
+            button_pos = self.load_button_position(info["name"])
 
             # ボタンを作成
-            button = Button(text=f'Loaded Button {i+1}')
+            button = Button(text=f'{info["name"]}')
             button.size_hint = (None, None)
             button.size = (100, 50)
             button.pos = button_pos
@@ -33,10 +38,10 @@ class ButtonLoaderApp(App):
 
         return layout
 
-    def load_button_position(self, button_number):
+    def load_button_position(self, button_name):
         # CSVファイルからボタンの座標を取得するメソッド
         try:
-            filename = f'button_{button_number}_position.csv'
+            filename = f'{button_name.lower()}_position.csv'
             with open(filename, 'r') as csvfile:
                 csv_reader = csv.reader(csvfile)
                 next(csv_reader)  # Skip header
