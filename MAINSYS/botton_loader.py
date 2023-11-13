@@ -1,6 +1,7 @@
 from kivy.app import App
 from kivy.uix.button import Button
 from kivy.uix.floatlayout import FloatLayout
+from kivy.graphics import Color, Rectangle
 import csv
 import japanize_kivy
 
@@ -8,6 +9,19 @@ class ButtonLoaderApp(App):
     def build(self):
         # ウィンドウを作成
         layout = FloatLayout()
+
+        # 背景の色と画像のパスを取得
+        background_color, background_image_path = self.get_background_settings()
+
+        # 背景の色を設定
+        with layout.canvas.before:
+            Color(*background_color)
+            self.background_rect = Rectangle(pos=layout.pos, size=layout.size)
+
+        # 背景画像を設定
+        if background_image_path:
+            with layout.canvas.before:
+                self.background_image = Rectangle(pos=layout.pos, size=layout.size, source=background_image_path)
 
         # ボタンの情報
         button_info = [
@@ -36,7 +50,48 @@ class ButtonLoaderApp(App):
             # ボタンをリストに追加
             self.buttons.append(button)
 
+        # ウィンドウのサイズ変更時に呼び出す関数を設定
+        layout.bind(size=self.on_size)
+
         return layout
+
+    def get_background_settings(self):
+        # selected_backgrounds.csvから背景画像のパスを取得
+        background_image_path = self.get_background_image_path("MAINSYS/CSV/selected_backgrounds.csv")
+        if background_image_path:
+            return (1, 1, 1, 1), background_image_path
+
+        # selected_backgrounds.csvがない場合はcolor_settings.csvから背景色を取得
+        background_color = self.get_background_color("MAINSYS/CSV/color_settings.csv")
+        return background_color, None
+
+    def get_background_image_path(self, csv_file):
+        try:
+            with open(csv_file, "r", encoding="utf-8") as file:
+                reader = csv.reader(file)
+                for row in reader:
+                    if len(row) > 0:
+                        background_image_path = row[0]
+                        return background_image_path
+        except FileNotFoundError:
+            pass
+        return None
+
+    def get_background_color(self, csv_file):
+        # color_settings.csvから背景色を取得
+        try:
+            with open(csv_file, "r", encoding="utf-8") as file:
+                reader = csv.reader(file)
+                next(reader)  # ヘッダー行をスキップ
+                row = next(reader, None)
+                if row:
+                    background_color = (float(row[0]), float(row[1]), float(row[2]), float(row[3]))
+                else:
+                    background_color = (1, 1, 1, 1)  # デフォルト値
+        except (FileNotFoundError, ValueError, IndexError):
+            # ファイルが存在しない、不正な値、またはインデックスエラーが発生した場合はデフォルト値を返す
+            background_color = (1, 1, 1, 1)
+        return background_color
 
     def load_button_position(self, button_name):
         # CSVファイルからボタンの座標を取得するメソッド
@@ -57,6 +112,12 @@ class ButtonLoaderApp(App):
             button_pos = (100, 100)
 
         return button_pos
+
+    def on_size(self, instance, value):
+        # ウィンドウサイズが変更されたときに呼び出される関数
+        self.background_rect.size = instance.size
+        if hasattr(self, 'background_image'):
+            self.background_image.size = instance.size
 
 if __name__ == '__main__':
     # 別のアプリケーションで座標を読み込み、ボタンを配置
