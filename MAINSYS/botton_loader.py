@@ -3,6 +3,7 @@ from kivy.uix.button import Button
 from kivy.uix.floatlayout import FloatLayout
 from kivy.graphics import Color, Rectangle
 import csv
+import os
 import japanize_kivy
 
 class ButtonLoaderApp(App):
@@ -50,10 +51,34 @@ class ButtonLoaderApp(App):
             # ボタンをリストに追加
             self.buttons.append(button)
 
+            # ボタンが押下されたときのイベントを追加
+            button.bind(on_press=self.on_button_press)
+
         # ウィンドウのサイズ変更時に呼び出す関数を設定
         layout.bind(size=self.on_size)
 
         return layout
+    
+    def on_button_press(self, instance):
+        # ボタンが押下されたときの処理
+        if instance.text == "時間表示設定":
+            # 指定のファイルを実行する
+            os.system("python MAINSYS\時計機能pathを入力してね")
+
+        if instance.text == "天気予報":
+            # 指定のファイルを実行する
+            os.system("python MAINSYS\天気機能のpathを入力してね")
+
+        if instance.text == "予定表示":
+            # 指定のファイルを実行する
+            os.system("python MAINSYS\予定表示のpathを入力してね")
+
+        if instance.text == "追加":
+            # 指定のファイルを実行する
+            os.system("python MAINSYS\追加機能のpathを入力してね")
+
+        else:
+            print("ドンマイ")
 
     def get_background_settings(self):
         # selected_backgrounds.csvから背景画像のパスを取得
