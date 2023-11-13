@@ -8,7 +8,19 @@ import os
 from kivy.core.window import Window
 import japanize_kivy
 import subprocess  # 外部スクリプトを実行するために必要なモジュール
+import time
 
+class RunningTask:
+    def __init__(self):
+        self.running = True
+
+    def run(self):
+        while self.running:
+            print("Task is running...")
+            time.sleep(1)
+
+    def stop(self):
+        self.running = False
 class BackgroundChangerApp(App):
     def build(self):
         layout = BoxLayout(orientation='vertical', spacing=10, padding=10)
@@ -86,7 +98,8 @@ class BackgroundChangerApp(App):
         # 保存後に別のPythonスクリプトを実行
         script_path = 'MAINSYS/button_mover.py'
         if os.path.exists(script_path):
-            subprocess.Popen(['python', script_path])
+            subprocess.Popen(["python", script_path])
+            App.get_running_app().stop()
         else:
             print(f"スクリプト '{script_path}' は存在しません。")
 

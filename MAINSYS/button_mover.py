@@ -5,6 +5,20 @@ from kivy.graphics import Color, Rectangle
 import csv
 import os
 import japanize_kivy
+import subprocess
+import time
+
+class RunningTask:
+    def __init__(self):
+        self.running = True
+
+    def run(self):
+        while self.running:
+            print("Task is running...")
+            time.sleep(1)
+
+    def stop(self):
+        self.running = False
 
 class ButtonMoverApp(App):
     def build(self):
@@ -86,7 +100,9 @@ class ButtonMoverApp(App):
         # 確定ボタンが押下されたときの処理
         self.save_button_positions()
         # button_loader.py を実行
-        os.system("python MAINSYS/botton_loader.py")
+        subprocess.Popen(["python", "MAINSYS/botton_loader.py"])
+        App.get_running_app().stop()
+        
 
     def load_color_settings(self):
         # 色設定を読み込むメソッド
