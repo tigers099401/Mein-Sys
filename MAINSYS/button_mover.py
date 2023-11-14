@@ -5,7 +5,6 @@ from kivy.graphics import Color, Rectangle
 import csv
 import subprocess
 import time
-import os.path
 import japanize_kivy
 
 class RunningTask:
@@ -29,17 +28,19 @@ class ButtonMoverApp(App):
         self.buttons = []  # ここで初期化
         self.background_color = [1, 1, 1, 1]  # デフォルトは白い背景
 
-        # 背景色と文字色の設定を読み込む
-        self.load_color_settings()
-
-        # selected_backgrounds.csvから背景画像のパスを取得
-        background_image_path = self.get_background_image_path("MAINSYS/CSV/selected_backgrounds.csv")
+        # 背景の色と画像のパスを取得
+        background_color, background_image_path = self.get_background_settings()
+        
+        # 背景の色を設定
+        with self.layout.canvas.before:
+            Color(*background_color)
+            self.background_rect = Rectangle(pos=self.layout.pos, size=self.layout.size)
 
         # 背景画像を設定
         if background_image_path:
             with self.layout.canvas.before:
-                self.background_image = Rectangle(pos=self.layout.pos, size=self.layout.size, source=background_image_path)
-
+                self.load_background_image(background_image_path)
+        
         # ボタンの名前と初期位置
         button_info = [
             {"name": "時間表示設定", "pos": (50, 100)},
@@ -87,6 +88,44 @@ class ButtonMoverApp(App):
         # アプリケーションが終了するときに呼ばれるメソッド
         self.save_button_positions()
 
+    def get_background_settings(self):
+        # selected_backgrounds.csvから背景画像のパスを取得
+        background_image_path = self.get_background_image_path("MAINSYS/CSV/selected_backgrounds.csv")
+        if background_image_path:
+            return (1, 1, 1, 1), background_image_path
+
+        # selected_backgrounds.csvがない場合はcolor_settings.csvから背景色を取得
+        background_color = self.get_background_color("MAINSYS/CSV/color_settings.csv")
+        return background_color, None
+
+    def get_background_image_path(self, csv_file):
+        try:
+            with open(csv_file, "r", encoding="utf-8") as file:
+                reader = csv.reader(file)
+                for row in reader:
+                    if len(row) > 0:
+                        background_image_path = row[0]
+                        return background_image_path
+        except FileNotFoundError:
+            pass
+        return None
+
+    def get_background_color(self, csv_file):
+        # color_settings.csvから背景色を取得
+        try:
+            with open(csv_file, "r", encoding="utf-8") as file:
+                reader = csv.reader(file)
+                next(reader)  # ヘッダー行をスキップ
+                row = next(reader, None)
+                if row:
+                    background_color = (float(row[0]), float(row[1]), float(row[2]), float(row[3]))
+                else:
+                    background_color = (1, 1, 1, 1)  # デフォルト値
+        except (FileNotFoundError, ValueError, IndexError):
+            # ファイルが存在しない、不正な値、またはインデックスエラーが発生した場合はデフォルト値を返す
+            background_color = (1, 1, 1, 1)
+        return background_color
+
     def save_button_positions(self):
         # 各ボタンの座標をCSVファイルに保存するメソッド
         for button in self.buttons:
@@ -104,59 +143,21 @@ class ButtonMoverApp(App):
         subprocess.Popen(["python", "MAINSYS/botton_loader.py"])
         App.get_running_app().stop()
 
-    def load_color_settings(self):
-        # 色設定を読み込むメソッド
-        try:
-            with open('MAINSYS/CSV/color_settings.csv', 'r') as csvfile:
-                csv_reader = csv.reader(csvfile)
-
-                # ヘッダー行を読み飛ばす
-                header = next(csv_reader)
-
-                row = next(csv_reader)  # 次の行を読み込む
-                print("読み込んだ色の値:", row)
-
-                self.background_color = [float(value) for value in row[:4]]
-
-                # 背景色を設定
-                self.layout.canvas.before.clear()
-                with self.layout.canvas.before:
-                    Color(*self.background_color)
-                    Rectangle(pos=self.layout.pos, size=self.layout.size)
-
-                # ボタンの背景色を設定
-                for button in self.buttons:
-                    button.background_color = self.background_color
-
-        except FileNotFoundError:
-            print("color_settings.csv が見つかりません。デフォルトの色を使用します。")
-
-    def get_background_image_path(self, csv_file):
-        try:
-            if os.path.isfile(csv_file):
-                with open(csv_file, "r", encoding="utf-8") as file:
-                    reader = csv.reader(file)
-                    for row in reader:
-                        if len(row) > 0:
-                            background_image_path = row[0]
-                            return background_image_path
-        except FileNotFoundError:
-            pass
-        return None
+    def load_background_image(self, background_image_path):
+        # 背景画像を設定
+        if background_image_path:
+            with self.layout.canvas.before:
+                self.background_image = Rectangle(pos=self.layout.pos, size=self.layout.size, source=background_image_path)
 
     def on_size(self, instance, value):
         print("on_sizeメソッドが呼ばれました。")
         # ウィンドウサイズが変更されたときに呼び出される関数
-        self.load_color_settings()  # 色を再読み込みする
-        background_image_path = self.get_background_image_path("MAINSYS/CSV/selected_backgrounds.csv")
+        self.update_background_size()
+        self.load_background_image(self.get_background_image_path("MAINSYS/CSV/selected_backgrounds.csv"))
 
-        # 背景画像を設定
-        if background_image_path:
-            if not hasattr(self, 'background_image'):
-                with self.layout.canvas.before:
-                    self.background_image = Rectangle(pos=self.layout.pos, size=self.layout.size, source=background_image_path)
-            else:
-                self.background_image.source = background_image_path
+    def update_background_size(self):
+        # 背景のサイズをウィンドウのサイズに合わせる
+        self.background_rect.size = self.layout.size
 
 if __name__ == '__main__':
     # アプリケーションを起動
