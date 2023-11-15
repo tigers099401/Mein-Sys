@@ -165,3 +165,4 @@ class ButtonLoaderApp(App):
 if __name__ == '__main__':
     # 別のアプリケーションで座標を読み込み、ボタンを配置
     ButtonLoaderApp().run()
+0

@@ -3,7 +3,7 @@ from tkinter import filedialog
 from PIL import Image, ImageTk
 import csv
 import os
-
+import subprocess
 
 # メインウィンドウの作成
 root = tk.Tk()
@@ -47,8 +47,8 @@ def save_to_csv(image_link):
 
 # 「次へ」ボタンが押されたときの処理
 def launch_syokihaiti():
-    os.system("python mainsys/button_mover.py")
     root.destroy()  # メインウィンドウを閉じる
+    subprocess.run(["python", "mainsys/button_mover.py"])
 
 # 「次へ」ボタンを作成
 next_button = tk.Button(root, text="次へ", command=launch_syokihaiti)
