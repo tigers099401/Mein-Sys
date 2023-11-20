@@ -13,7 +13,7 @@ import os
 class WeatherApp(App):
     def load_csv(self):
 
-        file_path = "test\onoD\onoD_csv_list\onoD_opt.csv"
+        file_path = "MAINSYS/CSV/onoD_opt.csv"
         # CSVファイルを読み込む
         with open(file_path, mode='r') as file:
             reader = csv.reader(file)
@@ -82,7 +82,7 @@ class WeatherApp(App):
         for day_data in weekly_data:
             day_layout = BoxLayout(orientation='vertical', spacing=5)
             dLabel1 = Label()
-            title_label = Label(text="天候情報",font_size='25sp', font_name='test\GTfont\Mystic Soul.ttf', color=(1, 0, 0, 1))
+            title_label = Label(text="天候情報",font_size='25sp',color=(1, 0, 0, 1))
             day_label = Label(text=day_data['day'],font_size='20sp')
             max_temp_label = Label(text=f"最高気温: {day_data['max_temp']}°C",font_size='20sp')
             min_temp_label = Label(text=f"最低気温: {day_data['min_temp']}°C",font_size='20sp')
