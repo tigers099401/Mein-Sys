@@ -3,6 +3,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.graphics import Color, Rectangle
+from kivy.config import Config
 import csv
 import japanize_kivy
 import os
@@ -10,6 +11,9 @@ from kivy.core.window import Window
 from kivy.uix.popup import Popup
 import subprocess
 import time
+
+# ウィンドウサイズの指定
+Window.size = (800, 600)  # 任意のサイズに変更
 
 #後ろの画面消す
 class RunningTask:
@@ -60,6 +64,7 @@ class MainApp(App):
         center_layout.add_widget(Label())  # 右側の余白
         layout.add_widget(center_layout)
 
+
         # ウィンドウサイズ変更時に背景の大きさを調整
         Window.bind(on_resize=self.on_window_resize)
 
@@ -78,6 +83,7 @@ class MainApp(App):
         self.background_color, title_color, subtitle_color = self.get_colors_from_csv("MAINSYS/CSV/color_settings.csv")
         self.set_background_color(self.background_color, Window.width, Window.height)
         self.set_text_color(title_color, subtitle_color)
+        
 
     def get_colors_from_csv(self, csv_file):
         background_color = (0.5, 0.7, 1, 1)  # 背景色（RGBA値を使用）
