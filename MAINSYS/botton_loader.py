@@ -5,6 +5,20 @@ from kivy.graphics import Color, Rectangle
 import csv
 import os
 import japanize_kivy
+import subprocess
+import time
+
+class RunningTask:
+    def __init__(self):
+        self.running = True
+
+    def run(self):
+        while self.running:
+            print("Task is running...")
+            time.sleep(1)
+
+    def stop(self):
+        self.running = False
 
 class ButtonLoaderApp(App):
     def build(self):
@@ -63,19 +77,23 @@ class ButtonLoaderApp(App):
         # ボタンが押下されたときの処理
         if instance.text == "時間表示設定":
             # 指定のファイルを実行する
-            os.system("python MAINSYS\時計機能pathを入力してね")
+            subprocess.Popen(["python", "MAINSYS/Clock.py"])
+            App.get_running_app().stop()
 
         if instance.text == "天気予報":
             # 指定のファイルを実行する
-            os.system("python MAINSYS\天気機能のpathを入力してね")
+            subprocess.Popen(["python", "MAINSYS/天気機能のpathを入力してね"])
+            App.get_running_app().stop()
 
         if instance.text == "予定表示":
             # 指定のファイルを実行する
-            os.system("python MAINSYS\予定表示のpathを入力してね")
+            subprocess.Popen(["python", "MAINSYS/予定表示のpathを入力してね"])
+            App.get_running_app().stop()
 
         if instance.text == "追加":
             # 指定のファイルを実行する
-            os.system("python MAINSYS\追加機能のpathを入力してね")
+            subprocess.Popen(["python", "MAINSYS/追加のpathを入力してね"])
+            App.get_running_app().stop()
 
         else:
             print("ドンマイ")
@@ -147,3 +165,4 @@ class ButtonLoaderApp(App):
 if __name__ == '__main__':
     # 別のアプリケーションで座標を読み込み、ボタンを配置
     ButtonLoaderApp().run()
+0

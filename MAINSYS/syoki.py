@@ -3,13 +3,42 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.graphics import Color, Rectangle
+from kivy.config import Config
 import csv
 import japanize_kivy
 import os
 from kivy.core.window import Window
 from kivy.uix.popup import Popup
+import subprocess
+import time
+
+## インチあたりのピクセル数
+pixels_per_inch = 96
+
+# 縦8cm、横15cmのサイズをピクセルに変換
+width_cm = 15
+height_cm = 8
+width_pixels = int(width_cm * pixels_per_inch / 2.54)
+height_pixels = int(height_cm * pixels_per_inch / 2.54)
+
+# ウィンドウサイズの指定
+Window.size = (width_pixels, height_pixels)
+
 
 class MainApp(App):
+    #後ろの画面消す
+    class RunningTask:
+        def __init__(self):
+            self.running = True
+
+        def run(self):
+            while self.running:
+                print("Task is running...")
+                time.sleep(1)
+
+        def stop(self):
+         self.running = False
+
     def build(self):
         layout = BoxLayout(orientation='vertical', spacing=10, padding=10)
 
@@ -45,6 +74,7 @@ class MainApp(App):
         center_layout.add_widget(Label())  # 右側の余白
         layout.add_widget(center_layout)
 
+
         # ウィンドウサイズ変更時に背景の大きさを調整
         Window.bind(on_resize=self.on_window_resize)
 
@@ -63,6 +93,7 @@ class MainApp(App):
         self.background_color, title_color, subtitle_color = self.get_colors_from_csv("MAINSYS/CSV/color_settings.csv")
         self.set_background_color(self.background_color, Window.width, Window.height)
         self.set_text_color(title_color, subtitle_color)
+        
 
     def get_colors_from_csv(self, csv_file):
         background_color = (0.5, 0.7, 1, 1)  # 背景色（RGBA値を使用）
@@ -116,14 +147,15 @@ class MainApp(App):
 
     def launch_haikeigazou(self, instance):
         # "haikeigazou.py" を実行
-        os.system("python MAINSYS\haikeigazou.py")
-        self.popup.dismiss()
+        subprocess.Popen(["python", "MAINSYS\haikeigazou.py"])
+        App.get_running_app().stop()
 
     def dismiss_popup(self, instance):
         self.popup.dismiss()
         if instance.text == 'いいえ':
-            # "teshaikei.py" を実行
-            os.system("python MAINSYS/haikei.py")
+            # "teshaikei.py" を実行かつ、画面を閉じる
+            subprocess.Popen(["python", "MAINSYS/haikei.py"])
+            App.get_running_app().stop()
 
 if __name__ == "__main__":
     MainApp().run()
