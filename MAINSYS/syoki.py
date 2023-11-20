@@ -12,23 +12,33 @@ from kivy.uix.popup import Popup
 import subprocess
 import time
 
+## インチあたりのピクセル数
+pixels_per_inch = 96
+
+# 縦8cm、横15cmのサイズをピクセルに変換
+width_cm = 15
+height_cm = 8
+width_pixels = int(width_cm * pixels_per_inch / 2.54)
+height_pixels = int(height_cm * pixels_per_inch / 2.54)
+
 # ウィンドウサイズの指定
-Window.size = (800, 600)  # 任意のサイズに変更
+Window.size = (width_pixels, height_pixels)
 
-#後ろの画面消す
-class RunningTask:
-    def __init__(self):
-        self.running = True
-
-    def run(self):
-        while self.running:
-            print("Task is running...")
-            time.sleep(1)
-
-    def stop(self):
-        self.running = False
 
 class MainApp(App):
+    #後ろの画面消す
+    class RunningTask:
+        def __init__(self):
+            self.running = True
+
+        def run(self):
+            while self.running:
+                print("Task is running...")
+                time.sleep(1)
+
+        def stop(self):
+         self.running = False
+
     def build(self):
         layout = BoxLayout(orientation='vertical', spacing=10, padding=10)
 
