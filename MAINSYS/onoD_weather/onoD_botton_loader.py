@@ -40,24 +40,24 @@ class ButtonLoaderApp(App):
 
         # ボタンの情報
         button_info = [
-            {"name": "時間表示設定", "pos": (50, 100)},
-            {"name": "天気予報", "pos": (200, 100)},
-            {"name": "予定表示", "pos": (350, 100)},
-            {"name": "追加", "pos": (500, 100)},
+            "時間表示設定",
+            "天気予報",
+            "予定表示", 
+            "追加"
         ]
 
         # ボタンリスト
         self.buttons = []
-
+        i = 0
         for info in button_info:
+            
             # CSVファイルからボタンの座標を取得
-            button_pos = self.load_button_position(info)
-
+            button_pos_x, button_pos_y = self.load_button_position(i)
             # ボタンを作成
-            button = Button(text=f'{info["name"]}')
+            button = Button(text=button_info[i])
             button.size_hint = (None, None)
             button.size = (100, 50)
-            button.pos = button_pos
+            button.pos = button_pos_x, button_pos_y
 
             # ボタンをレイアウトに追加
             layout.add_widget(button)
@@ -67,6 +67,7 @@ class ButtonLoaderApp(App):
 
             # ボタンが押下されたときのイベントを追加
             button.bind(on_press=self.on_button_press)
+            i = i + 1
 
         # ウィンドウのサイズ変更時に呼び出す関数を設定
         layout.bind(size=self.on_size)
@@ -136,17 +137,20 @@ class ButtonLoaderApp(App):
             background_color = (1, 1, 1, 1)
         return background_color
 
-    def load_button_position(self, info):
+    def load_button_position(self, i):
         # CSVファイルからボタンの座標を取得するメソッド
 
         filename = 'MAINSYS\onoD_weather\onoD_move.csv'
         with open(filename, 'r') as csvfile:
             reader = csv.reader(csvfile)
             data = list(reader)
-            button_pos = data[info][1]
+            
+            button_pos_x = data[i][0]
+            button_pos_y = data[i][1]
+            print(button_pos_x,button_pos_y)
 
 
-        return button_pos
+        return button_pos_x,button_pos_y
 
     def on_size(self, instance, value):
         # ウィンドウサイズが変更されたときに呼び出される関数
