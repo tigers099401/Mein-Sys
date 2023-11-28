@@ -140,7 +140,7 @@ class ButtonLoaderApp(App):
     def load_button_position(self, i):
         # CSVファイルからボタンの座標を取得するメソッド
 
-        filename = 'MAINSYS\onoD_weather\onoD_move.csv'
+        filename = 'MAINSYS\CSV\move.csv'
         with open(filename, 'r') as csvfile:
             reader = csv.reader(csvfile)
             data = list(reader)
