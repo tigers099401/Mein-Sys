@@ -138,9 +138,6 @@ class ButtonMoverApp(App):
     def on_confirm_button_press(self, instance):
         # 確定ボタンが押下されたときの処理
         self.save_button_positions()
-        # button_loader.py を実行
-        subprocess.Popen(["python", "MAINSYS/botton_loader.py"])
-        App.get_running_app().stop()
 
     def load_background_image(self, background_image_path):
         # 背景画像を設定
