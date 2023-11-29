@@ -65,7 +65,7 @@ class MainDisplayApp(App):
 
     # 設定ボタンが押されたときの処理
     def on_settings_button_press(self, instance):
-        os.system("python settings.py")
+        os.system("python PROGRAMS\settings.py")
 
 
     def get_background_settings(self):
