@@ -3,6 +3,7 @@ from kivy.uix.button import Button
 from kivy.uix.floatlayout import FloatLayout
 from kivy.graphics import Color, Rectangle
 import csv
+import os
 import subprocess
 import time
 import japanize_kivy
@@ -138,6 +139,8 @@ class ButtonMoverApp(App):
     def on_confirm_button_press(self, instance):
         # 確定ボタンが押下されたときの処理
         self.save_button_positions()
+        subprocess.Popen(["python", "PROGRAMS\main_facter.py"])
+        App.get_running_app().stop()
 
     def load_background_image(self, background_image_path):
         # 背景画像を設定
