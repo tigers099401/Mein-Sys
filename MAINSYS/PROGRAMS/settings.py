@@ -24,7 +24,7 @@ class MyWidget(BoxLayout):
         self.add_widget(top_buttons_layout)
 
         # 確定ボタンを作成して右下に追加（左に少しだけ寄せる）
-        confirm_button = Button(text="確定", size_hint=(None, None), size=(200, 50), pos_hint={'center_x': 0.88, 'center_y': 0})
+        confirm_button = Button(text="戻る", size_hint=(None, None), size=(200, 50), pos_hint={'center_x': 0.88, 'center_y': 0})
         confirm_button.bind(on_press=self.on_button_press)
         self.add_widget(confirm_button)
 
@@ -100,6 +100,17 @@ class MyWidget(BoxLayout):
         print(f"Button {button_text} pressed!")
         
         if button_text == "配置設定":
+            # time_display_app.pyを実行する
+            app_path = os.path.join(os.getcwd(), "testplay/testplay22/time_display_app.py")
+            process = subprocess.Popen(["python", app_path])
+            process.communicate()
+
+    #戻る
+    def on_button_press(self, instance):
+        button_text = instance.text
+        print(f"Button {button_text} pressed!")
+        
+        if button_text == "戻る":
             # time_display_app.pyを実行する
             app_path = os.path.join(os.getcwd(), "testplay/testplay22/time_display_app.py")
             process = subprocess.Popen(["python", app_path])
