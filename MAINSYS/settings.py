@@ -28,7 +28,51 @@ class MyWidget(BoxLayout):
         confirm_button.bind(on_press=self.on_button_press)
         self.add_widget(confirm_button)
 
-    #画面遷移の書き方
+    #時間表示設定
+    def on_button_press(self, instance):
+        button_text = instance.text
+        print(f"Button {button_text} pressed!")
+        
+        if button_text == "時間表示設定":
+            # time_display_app.pyを実行する
+            app_path = os.path.join(os.getcwd(), "testplay/testplay22/time_display_app.py")
+            process = subprocess.Popen(["python", app_path])
+            process.communicate()
+
+    #天気予報
+    def on_button_press(self, instance):
+        button_text = instance.text
+        print(f"Button {button_text} pressed!")
+        
+        if button_text == "天気予報":
+            # time_display_app.pyを実行する
+            app_path = os.path.join(os.getcwd(), "testplay/testplay22/time_display_app.py")
+            process = subprocess.Popen(["python", app_path])
+            process.communicate()
+
+    #予定表示
+    def on_button_press(self, instance):
+        button_text = instance.text
+        print(f"Button {button_text} pressed!")
+        
+        if button_text == "予定表示":
+            # time_display_app.pyを実行する
+            app_path = os.path.join(os.getcwd(), "testplay/testplay22/time_display_app.py")
+            process = subprocess.Popen(["python", app_path])
+            process.communicate()
+
+    #フォント・カラー
+    def on_button_press(self, instance):
+        button_text = instance.text
+        print(f"Button {button_text} pressed!")
+        
+        if button_text == "フォント・カラー":
+            # time_display_app.pyを実行する
+            app_path = os.path.join(os.getcwd(), "testplay/testplay22/time_display_app.py")
+            process = subprocess.Popen(["python", app_path])
+            process.communicate()
+
+    #背景画像
     def on_button_press(self, instance):
         button_text = instance.text
         print(f"Button {button_text} pressed!")
@@ -39,11 +83,23 @@ class MyWidget(BoxLayout):
             process = subprocess.Popen(["python", app_path])
             process.communicate()
 
+    #追加
     def on_button_press(self, instance):
         button_text = instance.text
         print(f"Button {button_text} pressed!")
         
-        if button_text == "フォント・カラー":
+        if button_text == "追加":
+            # time_display_app.pyを実行する
+            app_path = os.path.join(os.getcwd(), "testplay/testplay22/time_display_app.py")
+            process = subprocess.Popen(["python", app_path])
+            process.communicate()
+
+    #配置設定
+    def on_button_press(self, instance):
+        button_text = instance.text
+        print(f"Button {button_text} pressed!")
+        
+        if button_text == "配置設定":
             # time_display_app.pyを実行する
             app_path = os.path.join(os.getcwd(), "testplay/testplay22/time_display_app.py")
             process = subprocess.Popen(["python", app_path])

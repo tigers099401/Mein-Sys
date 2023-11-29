@@ -84,9 +84,7 @@ class MainApp(App):
         # ウィンドウサイズが変更されたときに呼ばれるメソッド
         self.set_background_color(self.background_color, width, height)
 
-    def launch_main2(self, instance):
-        # main2.pyを実行
-        os.system("python MAINSYS/syokihaiti.py")
+    
 
     def on_start(self):
         # CSVファイルから背景色を取得
