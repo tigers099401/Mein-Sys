@@ -1,19 +1,16 @@
-from kivy.app import App
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.button import Button
-from kivy.uix.floatlayout import FloatLayout
-from kivy.uix.label import Label
 import csv
 
-# 天気情報：WeatherApp
-# 予定情報：CalendarApp
-# 時計：App
+from kivy.app import App
+from kivy.uix.button import Button
+from kivy.uix.floatlayout import FloatLayout
 from WEATHERS.oneday_weather import WeatherApp
 #from PROGRAMS.calendar import CalendarApp
 
 
 
-
+# 天気情報：WeatherApp
+# 予定情報：CalendarApp
+# 時計：App
 class MainDisplayApp(App):
     def load_button_position(self,row):
         # CSVファイルからアプリの座標を取得するメソッド
