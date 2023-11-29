@@ -6,8 +6,11 @@ from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.popup import Popup
 from kivy.uix.filechooser import FileChooserListView
+from kivy.uix.colorpicker import ColorPicker
 from kivy.clock import Clock
 import time
+import csv
+import os
 import japanize_kivy
 
 class MovableBoxLayout(BoxLayout):
@@ -20,12 +23,16 @@ class TimeDisplayApp(App):
         self.layout = MovableBoxLayout(orientation='vertical', size_hint=(1, 1))
 
         # 時刻表示用のラベル
-        self.time_label = Label(text=self.get_japanese_time(), font_size='40sp', size_hint=(1, 0.7))
+        self.time_label = Label(text=self.get_japanese_time(), font_size='40sp', size_hint=(1, 0.6))
         self.layout.add_widget(self.time_label)
 
         # フォント変更ボタン
-        font_button = Button(text='フォント変更', on_press=self.show_font_chooser, size_hint=(1, 0.3))
+        font_button = Button(text='フォント変更', on_press=self.show_font_chooser, size_hint=(1, 0.2))
         self.layout.add_widget(font_button)
+
+        # 色変更ボタン
+        color_button = Button(text='色変更', on_press=self.show_color_picker, size_hint=(1, 0.2))
+        self.layout.add_widget(color_button)
 
         # 定期的に時間を更新するためのClockイベント
         Clock.schedule_interval(self.update_time, 1)
@@ -51,12 +58,44 @@ class TimeDisplayApp(App):
             self.time_label.font_name = selected_font
             popup.dismiss()
 
+            # 選択されたフォントをCSVに保存
+            csv_path = os.path.join('MAINSYS', 'CSV', 'selected_fonts.csv')
+            with open(csv_path, 'a', newline='', encoding='utf-8') as csvfile:
+                csv_writer = csv.writer(csvfile)
+                csv_writer.writerow([selected_font])
+
         button_layout = BoxLayout(size_hint_y=None, height=40)
         button_layout.add_widget(Button(text='キャンセル', on_press=popup.dismiss))
         button_layout.add_widget(Button(text='選択', on_press=lambda instance: set_font(file_chooser.selection[0])))
 
         content.add_widget(button_layout)
-        popup.content = content  # Set the content after creating the content
+        popup.content = content  # コンテンツを作成した後に設定
+
+        popup.open()
+
+    def show_color_picker(self, instance):
+        popup = Popup(title='色を選択', size_hint=(0.9, 0.9))
+
+        color_picker = ColorPicker()
+        content = BoxLayout(orientation='vertical')
+        content.add_widget(color_picker)
+
+        def set_color(selected_color):
+            self.time_label.color = selected_color
+            popup.dismiss()
+
+            # 選択された色をCSVに保存
+            csv_path = os.path.join('MAINSYS', 'CSV', 'selected_colors.csv')
+            with open(csv_path, 'a', newline='', encoding='utf-8') as csvfile:
+                csv_writer = csv.writer(csvfile)
+                csv_writer.writerow([selected_color])
+
+        button_layout = BoxLayout(size_hint_y=None, height=40)
+        button_layout.add_widget(Button(text='キャンセル', on_press=popup.dismiss))
+        button_layout.add_widget(Button(text='選択', on_press=lambda instance: set_color(color_picker.color)))
+
+        content.add_widget(button_layout)
+        popup.content = content
 
         popup.open()
 
