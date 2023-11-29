@@ -128,7 +128,7 @@ class ButtonMoverApp(App):
 
     def save_button_positions(self):
         # 各ボタンの座標をCSVファイルに保存するメソッド
-        filename = 'MAINSYS\CSV\move.csv'
+        filename = 'CSV\move.csv'
         with open(filename, 'w', newline='') as csvfile:
             csv_writer = csv.writer(csvfile)
             for button in self.buttons:
