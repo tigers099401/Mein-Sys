@@ -11,7 +11,6 @@ from kivy.clock import Clock
 import time
 import csv
 import os
-import japanize_kivy
 
 class MovableBoxLayout(BoxLayout):
     def on_touch_move(self, touch):
@@ -47,6 +46,14 @@ class TimeDisplayApp(App):
         # 現在時刻を取得する
         return time.strftime("%H:%M:%S", time.localtime())
 
+    def save_to_csv(self, data, csv_filename):
+        # ファイルが存在しなければ新規作成、存在すれば上書き
+        csv_path = os.path.join('MAINSYS', 'CSV', csv_filename)
+        with open(csv_path, 'w', newline='', encoding='utf-8') as csvfile:
+            csv_writer = csv.writer(csvfile)
+            for item in data:
+                csv_writer.writerow([item])
+
     def show_font_chooser(self, instance):
         popup = Popup(title='フォントを選択', size_hint=(0.9, 0.9))
 
@@ -58,19 +65,15 @@ class TimeDisplayApp(App):
             self.time_label.font_name = selected_font
             popup.dismiss()
 
-            # 選択されたフォントをCSVに保存
-            csv_path = os.path.join('MAINSYS', 'CSV', 'selected_fonts.csv')
-            with open(csv_path, 'a', newline='', encoding='utf-8') as csvfile:
-                csv_writer = csv.writer(csvfile)
-                csv_writer.writerow([selected_font])
+            # 選択されたフォントをCSVに保存（上書き）
+            self.save_to_csv([selected_font], 'selected_fonts.csv')
 
         button_layout = BoxLayout(size_hint_y=None, height=40)
         button_layout.add_widget(Button(text='キャンセル', on_press=popup.dismiss))
         button_layout.add_widget(Button(text='選択', on_press=lambda instance: set_font(file_chooser.selection[0])))
 
         content.add_widget(button_layout)
-        popup.content = content  # コンテンツを作成した後に設定
-
+        popup.content = content
         popup.open()
 
     def show_color_picker(self, instance):
@@ -84,11 +87,8 @@ class TimeDisplayApp(App):
             self.time_label.color = selected_color
             popup.dismiss()
 
-            # 選択された色をCSVに保存
-            csv_path = os.path.join('MAINSYS', 'CSV', 'selected_colors.csv')
-            with open(csv_path, 'a', newline='', encoding='utf-8') as csvfile:
-                csv_writer = csv.writer(csvfile)
-                csv_writer.writerow([selected_color])
+            # 選択された色をCSVに保存（上書き）
+            self.save_to_csv([selected_color], 'selected_colors.csv')
 
         button_layout = BoxLayout(size_hint_y=None, height=40)
         button_layout.add_widget(Button(text='キャンセル', on_press=popup.dismiss))
@@ -96,7 +96,6 @@ class TimeDisplayApp(App):
 
         content.add_widget(button_layout)
         popup.content = content
-
         popup.open()
 
 if __name__ == '__main__':
