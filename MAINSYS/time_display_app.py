@@ -1,5 +1,4 @@
 # time_display_app.py
-
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
@@ -8,9 +7,11 @@ from kivy.uix.popup import Popup
 from kivy.uix.filechooser import FileChooserListView
 from kivy.uix.colorpicker import ColorPicker
 from kivy.clock import Clock
+from kivy.utils import get_color_from_hex
 import time
 import csv
 import os
+import japanize_kivy
 
 class MovableBoxLayout(BoxLayout):
     def on_touch_move(self, touch):
@@ -36,6 +37,10 @@ class TimeDisplayApp(App):
         # 定期的に時間を更新するためのClockイベント
         Clock.schedule_interval(self.update_time, 1)
 
+        # 色とフォントの初期設定
+        self.load_color_from_csv()
+        self.load_font_from_csv()
+
         return self.layout
 
     def update_time(self, dt):
@@ -48,11 +53,33 @@ class TimeDisplayApp(App):
 
     def save_to_csv(self, data, csv_filename):
         # ファイルが存在しなければ新規作成、存在すれば上書き
-        csv_path = os.path.join('MAINSYS', 'CSV', csv_filename)
+        csv_directory = 'MAINSYS/CSV'
+        os.makedirs(csv_directory, exist_ok=True)
+        csv_path = os.path.join(csv_directory, csv_filename)
         with open(csv_path, 'w', newline='', encoding='utf-8') as csvfile:
             csv_writer = csv.writer(csvfile)
             for item in data:
                 csv_writer.writerow([item])
+
+    def load_color_from_csv(self):
+        # selected_colors.csvから色情報を読み取り、ラベルの色に設定
+        csv_path = os.path.join('MAINSYS', 'CSV', 'selected_colors.csv')
+        if os.path.exists(csv_path):
+            with open(csv_path, 'r', encoding='utf-8') as csvfile:
+                csv_reader = csv.reader(csvfile)
+                for row in csv_reader:
+                    color_values = [float(value) for value in row[0].strip('[]').split(',')]
+                    self.time_label.color = color_values
+
+    def load_font_from_csv(self):
+        # selected_fonts.csvからフォント情報を読み取り、ラベルのフォントに設定
+        csv_path = os.path.join('MAINSYS', 'CSV', 'selected_fonts.csv')
+        if os.path.exists(csv_path):
+            with open(csv_path, 'r', encoding='utf-8') as csvfile:
+                csv_reader = csv.reader(csvfile)
+                for row in csv_reader:
+                    font_path = row[0]
+                    self.time_label.font_name = font_path
 
     def show_font_chooser(self, instance):
         popup = Popup(title='フォントを選択', size_hint=(0.9, 0.9))
