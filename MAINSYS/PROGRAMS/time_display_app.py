@@ -74,7 +74,7 @@ class TimeDisplayApp(App):
                 csv_reader = csv.reader(csvfile)
                 row = next(csv_reader, None)  # Read the first row
                 if row:
-                    color_values = [float(value) for value in row[0].strip('[]').split(',')]
+                    color_values = [float(value) for value in row]
                     # 色情報を4つの要素に固定
                     while len(color_values) < 4:
                         color_values.append(1.0)  # 不足している場合は1.0で埋める
