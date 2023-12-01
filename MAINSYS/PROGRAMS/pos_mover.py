@@ -91,12 +91,12 @@ class ButtonMoverApp(App):
 
     def get_background_settings(self):
         # selected_backgrounds.csvから背景画像のパスを取得
-        background_image_path = self.get_background_image_path("MAINSYS/CSV/selected_backgrounds.csv")
+        background_image_path = self.get_background_image_path("MAINSYS\CSV\selected_backgrounds.csv")
         if background_image_path:
             return (1, 1, 1, 1), background_image_path
 
         # selected_backgrounds.csvがない場合はcolor_settings.csvから背景色を取得
-        background_color = self.get_background_color("MAINSYS/CSV/color_settings.csv")
+        background_color = self.get_background_color("MAINSYS\CSV\color_settings.csv")
         return background_color, None
 
     def get_background_image_path(self, csv_file):
@@ -129,7 +129,7 @@ class ButtonMoverApp(App):
 
     def save_button_positions(self):
         # 各ボタンの座標をCSVファイルに保存するメソッド
-        filename = 'CSV\move.csv'
+        filename = 'MAINSYS\CSV\move.csv'
         with open(filename, 'w', newline='') as csvfile:
             csv_writer = csv.writer(csvfile)
             for button in self.buttons:
@@ -139,7 +139,7 @@ class ButtonMoverApp(App):
     def on_confirm_button_press(self, instance):
         # 確定ボタンが押下されたときの処理
         self.save_button_positions()
-        subprocess.Popen(["python", "PROGRAMS\main_facter.py"])
+        subprocess.Popen(["python", "MAINSYS\PROGRAMS\main_facter.py"])
         App.get_running_app().stop()
 
     def load_background_image(self, background_image_path):
@@ -152,7 +152,7 @@ class ButtonMoverApp(App):
         print("on_sizeメソッドが呼ばれました。")
         # ウィンドウサイズが変更されたときに呼び出される関数
         self.update_background_size()
-        self.load_background_image(self.get_background_image_path("MAINSYS/CSV/selected_backgrounds.csv"))
+        self.load_background_image(self.get_background_image_path("MAINSYS\CSV\selected_backgrounds.csv"))
 
     def update_background_size(self):
         # 背景のサイズをウィンドウのサイズに合わせる

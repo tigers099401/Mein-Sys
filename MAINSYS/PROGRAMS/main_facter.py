@@ -5,7 +5,7 @@ from kivy.app import App
 from kivy.uix.button import Button
 from kivy.uix.floatlayout import FloatLayout
 from WEATHERS.oneday_weather import WeatherApp
-#from PROGRAMS.calendar import CalendarApp
+from onoD_calendar import CalendarApp
 
 # 天気情報：WeatherApp
 # 予定情報：CalendarApp
@@ -36,11 +36,11 @@ class MainDisplayApp(App):
 
         # calenderApp と WeatherApp のインスタンスを作成
         weather_app = WeatherApp()
-        #calender_app = CalendarApp()
+        calender_app = CalendarApp()
 
         # 各アプリのレイアウトを作成
         weather_layout = weather_app.build()
-        #calendar_layout = calender_app.build()
+        calendar_layout = calender_app.build()
 
         # 天気アプリの座標を読み込み
         posrow = 1 
@@ -50,7 +50,7 @@ class MainDisplayApp(App):
         # 予定アプリの座標を読み込み
         posrow = 2
         x, y = self.load_button_position(posrow)
-        #calendar_layout.pos = (x, y)
+        calendar_layout.pos = (x, y)
 
         # 設定ボタンの生成
         button = Button(text="設定", size_hint=(None, None), pos_hint={'top': 1})
@@ -58,7 +58,7 @@ class MainDisplayApp(App):
         
         self.layout.add_widget(button)
         self.layout.add_widget(weather_layout)
-        #self.layout.add_widget(calendar_layout)
+        self.layout.add_widget(calendar_layout)
 
         return self.layout
     
@@ -75,7 +75,7 @@ class MainDisplayApp(App):
             return (1, 1, 1, 1), background_image_path
 
         # selected_backgrounds.csvがない場合はcolor_settings.csvから背景色を取得
-        background_color = self.get_background_color("MAINSYS/CSV/color_settings.csv")
+        background_color = self.get_background_color("MAINSYS\CSV\color_settings.csv")
         return background_color, None
 
 
@@ -126,7 +126,7 @@ class MainDisplayApp(App):
     
     # CSVファイルからアプリの座標を取得するメソッド
     def load_button_position(self,row):
-        filename = 'CSV\move.csv'
+        filename = 'MAINSYS\CSV\move.csv'
         
         with open(filename, 'r') as csvfile:
             reader = csv.reader(csvfile)

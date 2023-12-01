@@ -14,7 +14,7 @@ canvas = tk.Canvas(root, width=400, height=400)
 canvas.pack()
 
 # 背景画像の初期値
-selected_background = "./FONT/haro.jpg"  # 初期の背景画像パス
+selected_background = "MAINSYS\IMAGE\haro.jpg"  # 初期の背景画像パス
 
 def change_background():
     global selected_background
@@ -48,7 +48,7 @@ def save_to_csv(image_link):
 # 「次へ」ボタンが押されたときの処理
 def launch_syokihaiti():
     root.destroy()  # メインウィンドウを閉じる
-    subprocess.run(["python", "PROGRAMS/pos_mover.py"])
+    subprocess.run(["python", "MAINSYS\PROGRAMS\pos_mover.py"])
 
 # 「次へ」ボタンを作成
 next_button = tk.Button(root, text="次へ", command=launch_syokihaiti)
