@@ -7,7 +7,6 @@ from kivy.uix.popup import Popup
 from kivy.uix.filechooser import FileChooserListView
 from kivy.uix.colorpicker import ColorPicker
 from kivy.clock import Clock
-from kivy.utils import get_color_from_hex
 import time
 import csv
 import os
@@ -38,8 +37,7 @@ class TimeDisplayApp(App):
         Clock.schedule_interval(self.update_time, 1)
 
         # 色とフォントの初期設定
-        self.load_color_from_csv()
-        self.load_font_from_csv()
+        self.load_settings_from_csv()
 
         return self.layout
 
@@ -58,28 +56,47 @@ class TimeDisplayApp(App):
         csv_path = os.path.join(csv_directory, csv_filename)
         with open(csv_path, 'w', newline='', encoding='utf-8') as csvfile:
             csv_writer = csv.writer(csvfile)
-            for item in data:
-                csv_writer.writerow([item])
+            csv_writer.writerow(data)
 
-    def load_color_from_csv(self):
-        # selected_colors.csvから色情報を読み取り、ラベルの色に設定
-        csv_path = os.path.join('MAINSYS', 'CSV', 'selected_colors.csv')
+    def load_settings_from_csv(self):
+        # settings.csvから色とフォント情報を読み取り、ラベルに設定
+        csv_path = os.path.join('MAINSYS', 'CSV', 'settings.csv')
         if os.path.exists(csv_path):
             with open(csv_path, 'r', encoding='utf-8') as csvfile:
                 csv_reader = csv.reader(csvfile)
-                for row in csv_reader:
+                row = next(csv_reader, None)  # Read the first row
+                if row:
                     color_values = [float(value) for value in row[0].strip('[]').split(',')]
+                    # 色情報を4つの要素に固定
+                    while len(color_values) < 4:
+                        color_values.append(1.0)  # 不足している場合は1.0で埋める
                     self.time_label.color = color_values
 
-    def load_font_from_csv(self):
-        # selected_fonts.csvからフォント情報を読み取り、ラベルのフォントに設定
-        csv_path = os.path.join('MAINSYS', 'CSV', 'selected_fonts.csv')
-        if os.path.exists(csv_path):
-            with open(csv_path, 'r', encoding='utf-8') as csvfile:
-                csv_reader = csv.reader(csvfile)
-                for row in csv_reader:
-                    font_path = row[0]
-                    self.time_label.font_name = font_path
+                    row = next(csv_reader, None)  # Read the second row
+                    if row:
+                        self.time_label.font_name = row[0]
+
+    def save_settings_to_csv(self):
+        # settings.csvに色とフォント情報を保存
+        color_values, font_name = self.get_settings_data()
+
+        csv_directory = 'MAINSYS/CSV'
+        os.makedirs(csv_directory, exist_ok=True)
+        csv_path = os.path.join(csv_directory, 'settings.csv')
+
+        with open(csv_path, 'w', newline='', encoding='utf-8') as csvfile:
+            csv_writer = csv.writer(csvfile)
+            csv_writer.writerow(color_values)
+            csv_writer.writerow([font_name])
+
+    def get_settings_data(self):
+        # 現在の色とフォント情報をリストで返す
+        color_values = [round(value, 3) for value in self.time_label.color]
+        # 色情報を4つの要素に固定
+        while len(color_values) < 4:
+            color_values.append(1.0)  # 不足している場合は1.0で埋める
+        font_name = self.time_label.font_name
+        return color_values, font_name
 
     def show_font_chooser(self, instance):
         popup = Popup(title='フォントを選択', size_hint=(0.9, 0.9))
@@ -92,8 +109,8 @@ class TimeDisplayApp(App):
             self.time_label.font_name = selected_font
             popup.dismiss()
 
-            # 選択されたフォントをCSVに保存（上書き）
-            self.save_to_csv([selected_font], 'selected_fonts.csv')
+            # 色とフォント情報をCSVに保存（上書き）
+            self.save_settings_to_csv()
 
         button_layout = BoxLayout(size_hint_y=None, height=40)
         button_layout.add_widget(Button(text='キャンセル', on_press=popup.dismiss))
@@ -114,8 +131,8 @@ class TimeDisplayApp(App):
             self.time_label.color = selected_color
             popup.dismiss()
 
-            # 選択された色をCSVに保存（上書き）
-            self.save_to_csv([selected_color], 'selected_colors.csv')
+            # 色とフォント情報をCSVに保存（上書き）
+            self.save_settings_to_csv()
 
         button_layout = BoxLayout(size_hint_y=None, height=40)
         button_layout.add_widget(Button(text='キャンセル', on_press=popup.dismiss))
