@@ -39,6 +39,14 @@ class TimeDisplayApp(App):
         # 色とフォントの初期設定
         self.load_settings_from_csv()
 
+        # 次へボタン
+        next_button = Button(text='次へ', on_press=self.next_page, size_hint=(1, 0.1))
+        self.layout.add_widget(next_button)
+
+        # 戻るボタン
+        prev_button = Button(text='戻る', on_press=self.prev_page, size_hint=(1, 0.1))
+        self.layout.add_widget(prev_button)
+
         return self.layout
 
     def update_time(self, dt):
@@ -66,7 +74,7 @@ class TimeDisplayApp(App):
                 csv_reader = csv.reader(csvfile)
                 row = next(csv_reader, None)  # Read the first row
                 if row:
-                    color_values = [float(value) for value in row[0].strip('[]').split(',')]
+                    color_values = [float(value) for value in row]
                     # 色情報を4つの要素に固定
                     while len(color_values) < 4:
                         color_values.append(1.0)  # 不足している場合は1.0で埋める
@@ -141,6 +149,14 @@ class TimeDisplayApp(App):
         content.add_widget(button_layout)
         popup.content = content
         popup.open()
+
+    def next_page(self, instance):
+        # ここに次へボタンが押されたときの処理を書く
+        pass
+
+    def prev_page(self, instance):
+        # ここに戻るボタンが押されたときの処理を書く
+        pass
 
 if __name__ == '__main__':
     TimeDisplayApp().run()
