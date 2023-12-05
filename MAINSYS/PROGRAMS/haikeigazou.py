@@ -35,7 +35,7 @@ def update_background():
     canvas.background_photo = background_photo
 
 def save_to_csv(image_link):
-    csv_folder = "./CSV"
+    csv_folder = ".\MAINSYS\CSV"
     os.makedirs(csv_folder, exist_ok=True)  # フォルダが存在しない場合、作成する
 
     csv_file = os.path.join(csv_folder, "selected_backgrounds.csv")
