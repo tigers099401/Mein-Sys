@@ -18,8 +18,9 @@ class MainDisplayApp(App):
         
         self.background_color = [1, 1, 1, 1]  # デフォルトは白い背景
 
+        bgopt = self.loadhaikei()
         # 背景の色と画像のパスを取得
-        background_color, background_image_path = self.get_background_settings()
+        background_color, background_image_path = self.get_background_settings(bgopt)
         
         # 背景の色を設定
         with self.layout.canvas.before:
@@ -68,7 +69,7 @@ class MainDisplayApp(App):
         os.system("python PROGRAMS\settings.py")
 
 
-    def get_background_settings(self):
+    def get_background_settings(self,bgopt):
         # selected_backgrounds.csvから背景画像のパスを取得
         if bgopt == 1:
             background_image_path = self.get_background_image_path("MAINSYS/CSV/selected_backgrounds.csv")
@@ -136,6 +137,16 @@ class MainDisplayApp(App):
             button_pos_y = data[row][1]
 
         return button_pos_x,button_pos_y
+    
+    def loadhaikei(self):
+        filename = 'MAINSYS\CSV\onoD_opt.csv'
+        
+        with open(filename, 'r') as csvfile:
+            reader = csv.reader(csvfile)
+            data = list(reader)
+            optdata = data[4][1]
+
+        return optdata
 
 if __name__ == '__main__':
     MainDisplayApp().run() 
