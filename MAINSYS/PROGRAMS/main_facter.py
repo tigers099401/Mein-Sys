@@ -126,6 +126,10 @@ class MainDisplayApp(App):
         print("on_sizeメソッドが呼ばれました。")
         # 背景のサイズをウィンドウのサイズに合わせる
         self.background_rect.size = self.layout.size
+
+        # 背景画像のサイズも更新
+        if hasattr(self, 'background_image'):
+            self.background_image.size = self.layout.size
     
     # CSVファイルからアプリの座標を取得するメソッド
     def load_button_position(self,row):
