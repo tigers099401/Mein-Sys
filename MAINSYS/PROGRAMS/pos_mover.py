@@ -29,8 +29,11 @@ class ButtonMoverApp(App):
         self.buttons = []  # ここで初期化
         self.background_color = [1, 1, 1, 1]  # デフォルトは白い背景
 
+        bgopt = self.loadhaikei()
+
+        print(bgopt)
         # 背景の色と画像のパスを取得
-        background_color, background_image_path = self.get_background_settings()
+        background_color, background_image_path = self.get_background_settings(bgopt)
         
         # 背景の色を設定
         with self.layout.canvas.before:
@@ -38,7 +41,7 @@ class ButtonMoverApp(App):
             self.background_rect = Rectangle(pos=self.layout.pos, size=self.layout.size)
 
         # 背景画像を設定
-        if background_image_path:
+        if background_image_path == None:
             with self.layout.canvas.before:
                 self.load_background_image(background_image_path)
         
@@ -89,15 +92,16 @@ class ButtonMoverApp(App):
         # アプリケーションが終了するときに呼ばれるメソッド
         self.save_button_positions()
 
-    def get_background_settings(self):
+    def get_background_settings(self,bgopt):
         # selected_backgrounds.csvから背景画像のパスを取得
-        background_image_path = self.get_background_image_path("MAINSYS\CSV\selected_backgrounds.csv")
-        if background_image_path:
-            return (1, 1, 1, 1), background_image_path
-
+        if bgopt == 1:
+            background_image_path = self.get_background_image_path("MAINSYS/CSV/selected_backgrounds.csv")
+            if background_image_path:
+                return (1, 1, 1, 1), background_image_path
+        else:
         # selected_backgrounds.csvがない場合はcolor_settings.csvから背景色を取得
-        background_color = self.get_background_color("MAINSYS\CSV\color_settings.csv")
-        return background_color, None
+            background_color = self.get_background_color("MAINSYS\CSV\color_settings.csv")
+            return background_color, None
 
     def get_background_image_path(self, csv_file):
         try:
@@ -152,11 +156,21 @@ class ButtonMoverApp(App):
         print("on_sizeメソッドが呼ばれました。")
         # ウィンドウサイズが変更されたときに呼び出される関数
         self.update_background_size()
-        self.load_background_image(self.get_background_image_path("MAINSYS\CSV\selected_backgrounds.csv"))
+
 
     def update_background_size(self):
         # 背景のサイズをウィンドウのサイズに合わせる
         self.background_rect.size = self.layout.size
+    
+    def loadhaikei(self):
+        filename = 'MAINSYS\CSV\onoD_opt.csv'
+        
+        with open(filename, 'r') as csvfile:
+            reader = csv.reader(csvfile)
+            data = list(reader)
+            optdata = data[4][1]
+
+        return optdata
 
 if __name__ == '__main__':
     # アプリケーションを起動
