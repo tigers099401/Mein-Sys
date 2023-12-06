@@ -19,15 +19,19 @@ class MainDisplayApp(App):
         self.background_color = [1, 1, 1, 1]  # デフォルトは白い背景
 
         bgopt = self.loadhaikei()
-        if bgopt == 2:
+        print("bgopt:", bgopt)
+        if bgopt == "2":
+            print("color_settings.csv を使用します")
             background_color = self.get_background_color("MAINSYS\CSV\color_settings.csv")
             background_image_path = None
 
         else:
+            print("selected_backgrounds.csv を使用します")
             # 背景の色と画像のパスを取得
             background_color, background_image_path = self.get_background_settings()
         
-        
+        print("background_color:", background_color)
+        print("background_image_path:", background_image_path)
         
         
         # 背景の色を設定
