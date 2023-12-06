@@ -19,8 +19,16 @@ class MainDisplayApp(App):
         self.background_color = [1, 1, 1, 1]  # デフォルトは白い背景
 
         bgopt = self.loadhaikei()
-        # 背景の色と画像のパスを取得
-        background_color, background_image_path = self.get_background_settings(bgopt)
+        if bgopt == 2:
+            background_color = self.get_background_color("MAINSYS\CSV\color_settings.csv")
+            background_image_path = None
+
+        else:
+            # 背景の色と画像のパスを取得
+            background_color, background_image_path = self.get_background_settings()
+        
+        
+        
         
         # 背景の色を設定
         with self.layout.canvas.before:
@@ -33,7 +41,7 @@ class MainDisplayApp(App):
                 self.load_background_image(background_image_path)
         
         # ウィンドウのサイズ変更時に呼び出す関数を設定
-        self.layout.bind(size=self.on_size)
+        self.layout.bind(size=self.update_background_size)
 
         # calenderApp と WeatherApp のインスタンスを作成
         weather_app = WeatherApp()
@@ -69,16 +77,11 @@ class MainDisplayApp(App):
         os.system("python PROGRAMS\settings.py")
 
 
-    def get_background_settings(self,bgopt):
-        # selected_backgrounds.csvから背景画像のパスを取得
-        if bgopt == 1:
-            background_image_path = self.get_background_image_path("MAINSYS/CSV/selected_backgrounds.csv")
-            if background_image_path:
-                return (1, 1, 1, 1), background_image_path
-        else:
-        # selected_backgrounds.csvがない場合はcolor_settings.csvから背景色を取得
-            background_color = self.get_background_color("MAINSYS\CSV\color_settings.csv")
-            return background_color, None
+    def get_background_settings(self):
+
+         # selected_backgrounds.csvがない場合はcolor_settings.csvから背景色を取得
+        background_image_path = self.get_background_image_path("MAINSYS/CSV/selected_backgrounds.csv")
+        return (1, 1, 1, 1), background_image_path
 
 
     def get_background_image_path(self, csv_file):
@@ -116,13 +119,11 @@ class MainDisplayApp(App):
             with self.layout.canvas.before:
                 self.background_image = Rectangle(pos=self.layout.pos, size=self.layout.size, source=background_image_path)
 
-    def on_size(self, instance, value):
-        print("on_sizeメソッドが呼ばれました。")
-        # ウィンドウサイズが変更されたときに呼び出される関数
-        self.update_background_size()
-        self.load_background_image(self.get_background_image_path("MAINSYS/CSV/selected_backgrounds.csv"))
 
-    def update_background_size(self):
+        
+
+    def update_background_size(self,v,a):
+        print("on_sizeメソッドが呼ばれました。")
         # 背景のサイズをウィンドウのサイズに合わせる
         self.background_rect.size = self.layout.size
     

@@ -96,8 +96,8 @@ class ButtonMoverApp(App):
         # selected_backgrounds.csvから背景画像のパスを取得
         if bgopt == 1:
             background_image_path = self.get_background_image_path("MAINSYS/CSV/selected_backgrounds.csv")
-            if background_image_path:
-                return (1, 1, 1, 1), background_image_path
+            return (1, 1, 1, 1), background_image_path
+                
         else:
         # selected_backgrounds.csvがない場合はcolor_settings.csvから背景色を取得
             background_color = self.get_background_color("MAINSYS\CSV\color_settings.csv")
