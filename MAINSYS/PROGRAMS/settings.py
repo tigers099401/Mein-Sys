@@ -112,7 +112,7 @@ class MyWidget(BoxLayout):
         
         if button_text == "戻る":
             # time_display_app.pyを実行する
-            app_path = os.path.join(os.getcwd(), "PROGRAMS\main_facter.py")
+            app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/main_facter.py")
             process = subprocess.Popen(["python", app_path])
             process.communicate()
 
