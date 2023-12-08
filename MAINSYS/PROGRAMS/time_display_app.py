@@ -92,10 +92,14 @@ class TimeDisplayApp(App):
         os.makedirs(csv_directory, exist_ok=True)
         csv_path = os.path.join(csv_directory, 'settings.csv')
 
+        # Convert the absolute font path to a relative path
+        font_path_relative = os.path.relpath(font_name, start=os.getcwd())
+
         with open(csv_path, 'w', newline='', encoding='utf-8') as csvfile:
             csv_writer = csv.writer(csvfile)
             csv_writer.writerow(color_values)
-            csv_writer.writerow([font_name])
+            csv_writer.writerow([font_path_relative])  # Save the relative font path
+
 
     def get_settings_data(self):
         # 現在の色とフォント情報をリストで返す
@@ -113,12 +117,14 @@ class TimeDisplayApp(App):
         file_chooser = FileChooserListView(path='MAINSYS/FONT', filters=['*.ttf'])
         content.add_widget(file_chooser)
 
+
         def set_font(selected_font):
             self.time_label.font_name = selected_font
             popup.dismiss()
 
             # 色とフォント情報をCSVに保存（上書き）
             self.save_settings_to_csv()
+
 
         button_layout = BoxLayout(size_hint_y=None, height=40)
         button_layout.add_widget(Button(text='キャンセル', on_press=popup.dismiss))
@@ -127,6 +133,7 @@ class TimeDisplayApp(App):
         content.add_widget(button_layout)
         popup.content = content
         popup.open()
+
 
     def show_color_picker(self, instance):
         popup = Popup(title='色を選択', size_hint=(0.9, 0.9))
