@@ -35,7 +35,7 @@ class MyWidget(BoxLayout):
         
         if button_text == "時間表示設定":
             # time_display_app.pyを実行する
-            app_path = os.path.join(os.getcwd(), "testplay/testplay22/time_display_app.py")
+            app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/time_display_app.py")
             process = subprocess.Popen(["python", app_path])
             process.communicate()
 
@@ -46,7 +46,7 @@ class MyWidget(BoxLayout):
         
         if button_text == "天気予報":
             # time_display_app.pyを実行する
-            app_path = os.path.join(os.getcwd(), "testplay/testplay22/time_display_app.py")
+            app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/main_facter.py")
             process = subprocess.Popen(["python", app_path])
             process.communicate()
 
@@ -57,7 +57,7 @@ class MyWidget(BoxLayout):
         
         if button_text == "予定表示":
             # time_display_app.pyを実行する
-            app_path = os.path.join(os.getcwd(), "testplay/testplay22/time_display_app.py")
+            app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/main_facter.py")
             process = subprocess.Popen(["python", app_path])
             process.communicate()
 
@@ -68,7 +68,7 @@ class MyWidget(BoxLayout):
         
         if button_text == "フォント・カラー":
             # time_display_app.pyを実行する
-            app_path = os.path.join(os.getcwd(), "testplay/testplay22/time_display_app.py")
+            app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/main_facter.py")
             process = subprocess.Popen(["python", app_path])
             process.communicate()
 
@@ -79,7 +79,7 @@ class MyWidget(BoxLayout):
         
         if button_text == "背景画像":
             # time_display_app.pyを実行する
-            app_path = os.path.join(os.getcwd(), "testplay/testplay22/time_display_app.py")
+            app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/haikeigazou.py")
             process = subprocess.Popen(["python", app_path])
             process.communicate()
 
@@ -90,7 +90,7 @@ class MyWidget(BoxLayout):
         
         if button_text == "追加":
             # time_display_app.pyを実行する
-            app_path = os.path.join(os.getcwd(), "testplay/testplay22/time_display_app.py")
+            app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/main_facter.py")
             process = subprocess.Popen(["python", app_path])
             process.communicate()
 
@@ -101,7 +101,7 @@ class MyWidget(BoxLayout):
         
         if button_text == "配置設定":
             # time_display_app.pyを実行する
-            app_path = os.path.join(os.getcwd(), "testplay/testplay22/time_display_app.py")
+            app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/pos_mover.py")
             process = subprocess.Popen(["python", app_path])
             process.communicate()
 
