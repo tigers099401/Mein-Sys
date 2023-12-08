@@ -1,7 +1,7 @@
 from kivy.app import App
 from kivy.uix.button import Button
-from kivy.uix.gridlayout import GridLayout
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.gridlayout import GridLayout
 import subprocess
 import os
 import japanize_kivy
@@ -28,93 +28,29 @@ class MyWidget(BoxLayout):
         confirm_button.bind(on_press=self.on_button_press)
         self.add_widget(confirm_button)
 
-    #時間表示設定
     def on_button_press(self, instance):
         button_text = instance.text
-        print(f"Button {button_text} pressed!")
-        
+        print(f"ボタン {button_text} が押されました！")
+
         if button_text == "時間表示設定":
-            # time_display_app.pyを実行する
             app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/time_display_app.py")
-            process = subprocess.Popen(["python", app_path])
-            process.communicate()
-
-    #天気予報
-    def on_button_press(self, instance):
-        button_text = instance.text
-        print(f"Button {button_text} pressed!")
-        
-        if button_text == "天気予報":
-            # time_display_app.pyを実行する
+        elif button_text == "天気予報":
             app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/main_facter.py")
-            process = subprocess.Popen(["python", app_path])
-            process.communicate()
-
-    #予定表示
-    def on_button_press(self, instance):
-        button_text = instance.text
-        print(f"Button {button_text} pressed!")
-        
-        if button_text == "予定表示":
-            # time_display_app.pyを実行する
+        elif button_text == "予定表示":
             app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/main_facter.py")
-            process = subprocess.Popen(["python", app_path])
-            process.communicate()
-
-    #フォント・カラー
-    def on_button_press(self, instance):
-        button_text = instance.text
-        print(f"Button {button_text} pressed!")
-        
-        if button_text == "フォント・カラー":
-            # time_display_app.pyを実行する
+        elif button_text == "フォント・カラー":
             app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/main_facter.py")
-            process = subprocess.Popen(["python", app_path])
-            process.communicate()
-
-    #背景画像
-    def on_button_press(self, instance):
-        button_text = instance.text
-        print(f"Button {button_text} pressed!")
-        
-        if button_text == "背景画像":
-            # time_display_app.pyを実行する
+        elif button_text == "背景画像":
             app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/haikeigazou.py")
-            process = subprocess.Popen(["python", app_path])
-            process.communicate()
-
-    #追加
-    def on_button_press(self, instance):
-        button_text = instance.text
-        print(f"Button {button_text} pressed!")
-        
-        if button_text == "追加":
-            # time_display_app.pyを実行する
+        elif button_text == "追加":
             app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/main_facter.py")
-            process = subprocess.Popen(["python", app_path])
-            process.communicate()
-
-    #配置設定
-    def on_button_press(self, instance):
-        button_text = instance.text
-        print(f"Button {button_text} pressed!")
-        
-        if button_text == "配置設定":
-            # time_display_app.pyを実行する
+        elif button_text == "配置設定":
             app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/pos_mover.py")
-            process = subprocess.Popen(["python", app_path])
-            process.communicate()
-
-    #戻る
-    def on_button_press(self, instance):
-        button_text = instance.text
-        print(f"Button {button_text} pressed!")
-        
-        if button_text == "戻る":
-            # time_display_app.pyを実行する
+        elif button_text == "戻る":
             app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/main_facter.py")
-            process = subprocess.Popen(["python", app_path])
-            process.communicate()
+
+        process = subprocess.Popen(["python", app_path])
+        process.communicate()
 
 class MyApp(App):
     def build(self):

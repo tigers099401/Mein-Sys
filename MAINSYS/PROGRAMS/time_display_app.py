@@ -92,7 +92,7 @@ class TimeDisplayApp(App):
         os.makedirs(csv_directory, exist_ok=True)
         csv_path = os.path.join(csv_directory, 'settings.csv')
 
-        # Convert the absolute font path to a relative path
+        # 絶対パスを相対パスに変換
         font_path_relative = os.path.relpath(font_name, start=os.getcwd())
 
         with open(csv_path, 'w', newline='', encoding='utf-8') as csvfile:
