@@ -44,7 +44,7 @@ class WeatherApp(App):
 
     def build(self):
         layout = BoxLayout(orientation='vertical')
-        coordinates_df = pd.read_csv('MAINSYS\CSV\47都道府県IDOKEIDO-UTF8.csv')
+        coordinates_df = pd.read_csv('MAINSYS\CSV\IDOKEIDO-UTF8.csv')
 
         if 'latitude' in coordinates_df.columns and 'longitude' in coordinates_df.columns:
             self.selected_data = None

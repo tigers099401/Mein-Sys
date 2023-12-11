@@ -15,7 +15,7 @@ class WeatherApp(App):
 
     def build(self):
         layout = BoxLayout(orientation='vertical')
-        coordinates_df = pd.read_csv('MAINSYS\CSV\47都道府県IDOKEIDO-UTF8.csv')
+        coordinates_df = pd.read_csv('MAINSYS\CSV\IDOKEIDO-UTF8.csv')
 
         # coordinates_df（pd.read_csvで読み込んだデータフレーム）の列に 'latitude' と 'longitude' が存在するかを確認
         if 'latitude' in coordinates_df.columns and 'longitude' in coordinates_df.columns:
@@ -49,14 +49,15 @@ class WeatherApp(App):
                     reader = csv.reader(csvfile)
                     data = list(reader)
 
-                    data[3][1] = idodata
-                    data[3][2] = keidodata
-                    data[4][1] = daydata
+                    data[5][1] = idodata
+                    data[5][2] = keidodata
+                    data[6][1] = daydata
 
                 # ここで CSV ファイルに書き込む
                 with open(filename, 'w', newline='') as csvfile:
                     csv_writer = csv.writer(csvfile)
                     csv_writer.writerows(data)
+                print("保存されました！")
 
             def re_setting(instance):
                 os.system("Python ") # 設定画面に遷移
