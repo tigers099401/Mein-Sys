@@ -82,10 +82,9 @@ class MainDisplayApp(App):
 
 
     def get_background_settings(self):
-
          # selected_backgrounds.csvがない場合はcolor_settings.csvから背景色を取得
         background_image_path = self.get_background_image_path("MAINSYS/CSV/selected_backgrounds.csv")
-        return (1, 1, 1, 1), background_image_path
+        return (0, 0, 0, 0), background_image_path
 
 
     def get_background_image_path(self, csv_file):
