@@ -11,6 +11,7 @@ import time
 import csv
 import os
 import japanize_kivy
+import subprocess
 
 class MovableBoxLayout(BoxLayout):
     def on_touch_move(self, touch):
@@ -92,7 +93,7 @@ class TimeDisplayApp(App):
         os.makedirs(csv_directory, exist_ok=True)
         csv_path = os.path.join(csv_directory, 'settings.csv')
 
-        # Convert the absolute font path to a relative path
+        # 絶対パスを相対パスに変換
         font_path_relative = os.path.relpath(font_name, start=os.getcwd())
 
         with open(csv_path, 'w', newline='', encoding='utf-8') as csvfile:
@@ -159,10 +160,20 @@ class TimeDisplayApp(App):
 
     def next_page(self, instance):
         # ここに次へボタンが押されたときの処理を書く
-        pass
+        # subprocessを使用してsettings.pyを実行する
+        subprocess.Popen(["python", "MAINSYS\PROGRAMS\settings.py"])
 
+        # オプションで、新しいスクリプトを開始した後に現在のKivyアプリを終了することができます
+        App.get_running_app().stop()
+        pass
+        
     def prev_page(self, instance):
         # ここに戻るボタンが押されたときの処理を書く
+        # subprocessを使用してsettings.pyを実行する
+        subprocess.Popen(["python", "MAINSYS\PROGRAMS\settings.py"])
+
+        # オプションで、新しいスクリプトを開始した後に現在のKivyアプリを終了することができます
+        App.get_running_app().stop()
         pass
 
 if __name__ == '__main__':
