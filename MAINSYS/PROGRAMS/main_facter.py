@@ -16,7 +16,7 @@ class MainDisplayApp(App):
         # レイアウトのインスタンスを作成
         self.layout = FloatLayout()
         
-        self.background_color = [1, 1, 1, 1]  # デフォルトは白い背景
+        self.background_color = [0, 0, 0, 0]  # デフォルトは黒い背景
 
         bgopt = self.loadhaikei()
         print("bgopt:", bgopt)
