@@ -85,7 +85,7 @@ class WeatherApp(App):
                         range_end = 1  # デフォルトは1日
 
                     for i in range(range_end):
-                        date = hourly_data["time"][i]
+                        date = hourly_data["time"][i*24]
                         formatted_date = self.format_date(date)
                         temperature = hourly_data["temperature_2m"][i]
                         max_temperature = daily_data["temperature_2m_max"][i]
