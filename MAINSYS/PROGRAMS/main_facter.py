@@ -4,7 +4,7 @@ from kivy.graphics import Color, Rectangle
 from kivy.app import App
 from kivy.uix.button import Button
 from kivy.uix.floatlayout import FloatLayout
-from WEATHERS.oneday_weather import WeatherApp
+from onoD_wth_test import WeatherApp
 from onoD_calendar import CalendarApp
 
 # 天気情報：WeatherApp
@@ -16,7 +16,7 @@ class MainDisplayApp(App):
         # レイアウトのインスタンスを作成
         self.layout = FloatLayout()
         
-        self.background_color = [1, 1, 1, 1]  # デフォルトは白い背景
+        self.background_color = [0, 0, 0, 1]  # デフォルトは黒い背景
 
         bgopt = self.loadhaikei()
         print("bgopt:", bgopt)
@@ -82,10 +82,9 @@ class MainDisplayApp(App):
 
 
     def get_background_settings(self):
-
          # selected_backgrounds.csvがない場合はcolor_settings.csvから背景色を取得
         background_image_path = self.get_background_image_path("MAINSYS/CSV/selected_backgrounds.csv")
-        return (1, 1, 1, 1), background_image_path
+        return (0, 0, 0, 0), background_image_path
 
 
     def get_background_image_path(self, csv_file):
