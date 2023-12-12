@@ -161,7 +161,7 @@ class TimeDisplayApp(App):
     def next_page(self, instance):
         # ここに次へボタンが押されたときの処理を書く
         # subprocessを使用してsettings.pyを実行する
-        subprocess.Popen(["python", "MAINSYS\PROGRAMS\settings.py"])
+        
 
         # オプションで、新しいスクリプトを開始した後に現在のKivyアプリを終了することができます
         App.get_running_app().stop()
@@ -170,7 +170,7 @@ class TimeDisplayApp(App):
     def prev_page(self, instance):
         # ここに戻るボタンが押されたときの処理を書く
         # subprocessを使用してsettings.pyを実行する
-        subprocess.Popen(["python", "MAINSYS\PROGRAMS\settings.py"])
+        
 
         # オプションで、新しいスクリプトを開始した後に現在のKivyアプリを終了することができます
         App.get_running_app().stop()
