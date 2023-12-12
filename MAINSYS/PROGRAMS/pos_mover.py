@@ -7,6 +7,19 @@ import os
 import subprocess
 import time
 import japanize_kivy
+from kivy.core.window import Window
+
+## インチあたりのピクセル数
+pixels_per_inch = 96
+
+# 縦8cm、横15cmのサイズをピクセルに変換
+width_cm = 15
+height_cm = 8
+width_pixels = int(width_cm * pixels_per_inch / 2.54)
+height_pixels = int(height_cm * pixels_per_inch / 2.54)
+
+# ウィンドウサイズの指定
+Window.size = (width_pixels, height_pixels)
 
 class RunningTask:
     def __init__(self):
@@ -48,9 +61,9 @@ class ButtonMoverApp(App):
         # ボタンの名前と初期位置
         button_info = [
             {"name": "時間表示設定", "pos": (50, 100)},
-            {"name": "天気予報", "pos": (200, 100)},
-            {"name": "予定表示", "pos": (350, 100)},
-            {"name": "追加", "pos": (500, 100)},
+            {"name": "天気予報", "pos": (100, 100)},
+            {"name": "予定表示", "pos": (150, 100)},
+            {"name": "追加", "pos": (200, 100)},
         ]
 
         for info in button_info:

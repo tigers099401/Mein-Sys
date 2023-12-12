@@ -6,17 +6,35 @@ from kivy.uix.button import Button
 from kivy.uix.floatlayout import FloatLayout
 from onoD_wth_test import WeatherApp
 from onoD_calendar import CalendarApp
+from onoD_clock import ClockApp
+from kivy.core.window import Window
+
 
 # 天気情報：WeatherApp
 # 予定情報：CalendarApp
-# 時計：App
+# 時計：ClockApp
+
+## インチあたりのピクセル数
+pixels_per_inch = 96
+
+# 縦8cm、横15cmのサイズをピクセルに変換
+width_cm = 15
+height_cm = 8
+width_pixels = int(width_cm * pixels_per_inch / 2.54)
+height_pixels = int(height_cm * pixels_per_inch / 2.54)
+
+# ウィンドウサイズの指定
+Window.size = (width_pixels, height_pixels)
+
 class MainDisplayApp(App):
     
+    
+
     def build(self):
         # レイアウトのインスタンスを作成
         self.layout = FloatLayout()
         
-        self.background_color = [0, 0, 0, 1]  # デフォルトは黒い背景
+        self.background_color = [0, 0, 0, 0]  # デフォルトは黒い背景
 
         bgopt = self.loadhaikei()
         print("bgopt:", bgopt)
@@ -50,20 +68,28 @@ class MainDisplayApp(App):
         # calenderApp と WeatherApp のインスタンスを作成
         weather_app = WeatherApp()
         calender_app = CalendarApp()
+        clock_app = ClockApp()
 
         # 各アプリのレイアウトを作成
         weather_layout = weather_app.build()
         calendar_layout = calender_app.build()
+        clock_layout = clock_app.build()
+
+        # 時間アプリの座標を読み込み
+        posrow = 1
+        x, y = self.load_button_position(posrow)
+        clock_layout.pos = (x, y)
 
         # 天気アプリの座標を読み込み
-        posrow = 1 
+        posrow = 2 
         x, y = self.load_button_position(posrow)
         weather_layout.pos = (x, y)
 
         # 予定アプリの座標を読み込み
-        posrow = 2
+        posrow = 3
         x, y = self.load_button_position(posrow)
         calendar_layout.pos = (x, y)
+
 
         # 設定ボタンの生成
         button = Button(text="設定", size_hint=(None, None), pos_hint={'top': 1})
@@ -72,6 +98,7 @@ class MainDisplayApp(App):
         self.layout.add_widget(button)
         self.layout.add_widget(weather_layout)
         self.layout.add_widget(calendar_layout)
+        self.layout.add_widget(clock_layout)
 
         return self.layout
     
@@ -142,7 +169,12 @@ class MainDisplayApp(App):
             reader = csv.reader(csvfile)
             data = list(reader)
             button_pos_x = data[row][0]
+            button_pos_x = float(button_pos_x)
+            button_pos_x = button_pos_x - 223.0
+            
             button_pos_y = data[row][1]
+            button_pos_y = float(button_pos_y)
+            button_pos_y = button_pos_y - 132.0
 
         return button_pos_x,button_pos_y
     
