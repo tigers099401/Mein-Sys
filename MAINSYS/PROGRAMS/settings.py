@@ -63,11 +63,11 @@ class MyWidget(FloatLayout):
         if button_text == "時間表示設定":
             app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/time_display_app.py")
         elif button_text == "天気予報":
-            app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/main_facter.py")
+            app_path = os.path.join(os.getcwd(), "MAINSYS\PROGRAMS\onoD_weatherSet.py")
         elif button_text == "予定表示":
             app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/main_facter.py")
         elif button_text == "フォント・カラー":
-            app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/main_facter.py")
+            app_path = os.path.join(os.getcwd(), "MAINSYS\PROGRAMS\haikei.py")
         elif button_text == "背景画像":
             app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/haikeigazou.py")
         elif button_text == "追加":
@@ -76,7 +76,7 @@ class MyWidget(FloatLayout):
             app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/pos_mover.py")
         elif button_text == "戻る":
             app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/main_facter.py")
-
+            App.get_running_app().stop()
         subprocess.Popen(["python", app_path])
 
 class MyApp(App):
