@@ -19,7 +19,7 @@ class MyWidget(FloatLayout):
         top_buttons_layout = BoxLayout(orientation='horizontal', size_hint_y=None, height=150, spacing=10, pos_hint={'center_x': 0.5, 'top': 0.7})
         
         # ボタンの作成と追加
-        button_names = ["時間表示設定", "天気予報", "予定表示", "フォント・カラー"]
+        button_names = ["時間表示設定", "天気予報", "予定表示", "フォントカラー・背景カラー"]
         for i, name in enumerate(button_names):
             button = Button(text=name, size_hint=(None, None), size=(200, 50))
             button.bind(on_press=self.on_button_press)
@@ -66,7 +66,7 @@ class MyWidget(FloatLayout):
             app_path = os.path.join(os.getcwd(), "MAINSYS\PROGRAMS\onoD_weatherSet.py")
         elif button_text == "予定表示":
             app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/main_facter.py")
-        elif button_text == "フォント・カラー":
+        elif button_text == "フォントカラー・背景カラー":
             app_path = os.path.join(os.getcwd(), "MAINSYS\PROGRAMS\haikei.py")
         elif button_text == "背景画像":
             app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/haikeigazou.py")
