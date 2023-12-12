@@ -76,7 +76,7 @@ class MyWidget(FloatLayout):
             app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/pos_mover.py")
         elif button_text == "戻る":
             app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/main_facter.py")
-
+            App.get_running_app().stop()
         subprocess.Popen(["python", app_path])
 
 class MyApp(App):
