@@ -92,7 +92,7 @@ class MainDisplayApp(App):
 
 
         # 設定ボタンの生成
-        button = Button(text="設定", size_hint=(None, None), pos_hint={'top': 1})
+        button = Button(text="設定", size_hint=(0.1, 0.15), pos_hint={'top': 1})
         button.bind(on_press=self.on_settings_button_press)
         
         self.layout.add_widget(button)
@@ -105,7 +105,7 @@ class MainDisplayApp(App):
 
     # 設定ボタンが押されたときの処理
     def on_settings_button_press(self, instance):
-        os.system("python PROGRAMS\settings.py")
+        os.system("python MAINSYS\PROGRAMS\settings.py")
 
 
     def get_background_settings(self):
@@ -171,7 +171,7 @@ class MainDisplayApp(App):
             button_pos_x = data[row][0]
             button_pos_x = float(button_pos_x)
             button_pos_x = button_pos_x - 223.0
-            
+
             button_pos_y = data[row][1]
             button_pos_y = float(button_pos_y)
             button_pos_y = button_pos_y - 132.0
