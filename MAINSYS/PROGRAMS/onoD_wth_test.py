@@ -8,6 +8,7 @@ from datetime import datetime
 import csv
 import japanize_kivy
 
+
 class WeatherApp(App):
     def get_weather_meaning(self, weather_code):
         if 0 <= weather_code <= 3:
