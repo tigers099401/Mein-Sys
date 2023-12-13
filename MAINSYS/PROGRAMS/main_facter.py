@@ -8,7 +8,7 @@ from onoD_wth_test import WeatherApp
 from onoD_calendar import CalendarApp
 from onoD_clock import ClockApp
 from kivy.core.window import Window
-
+import subprocess
 
 # 天気情報：WeatherApp
 # 予定情報：CalendarApp
@@ -105,8 +105,8 @@ class MainDisplayApp(App):
 
     # 設定ボタンが押されたときの処理
     def on_settings_button_press(self, instance):
-        os.system("python MAINSYS\PROGRAMS\settings.py")
-
+        subprocess.Popen(["python", "MAINSYS\PROGRAMS\settings.py"])#subprocessじゃないと画面が消えなかったんだ...
+        App.get_running_app().stop()
 
     def get_background_settings(self):
          # selected_backgrounds.csvがない場合はcolor_settings.csvから背景色を取得
