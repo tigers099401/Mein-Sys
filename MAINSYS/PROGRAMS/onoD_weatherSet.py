@@ -9,6 +9,7 @@ from kivy.core.window import Window
 import csv
 import japanize_kivy
 import os
+import subprocess
 from datetime import datetime
 
 class WeatherApp(App):
@@ -60,7 +61,8 @@ class WeatherApp(App):
                 print("保存されました！")
 
             def re_setting(instance):
-                os.system("Python ") # 設定画面に遷移
+                subprocess.Popen(["python", "MAINSYS\PROGRAMS\settings.py"])
+                App.get_running_app().stop()
                 return
 
             update_button = Button(text="地域を保存", size_hint=(None, None))

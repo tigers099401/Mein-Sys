@@ -8,9 +8,9 @@ import japanize_kivy
 
 class CalendarApp(App):
     def build(self):
+        fsize = "18"
+
         layout = BoxLayout(orientation='vertical')
-        label = Label(text='一日の予定:')
-        layout.add_widget(label)
 
         SCOPES = ['https://www.googleapis.com/auth/calendar']
         calendar_id = 'j5gr4sa@gmail.com'
@@ -43,7 +43,16 @@ class CalendarApp(App):
             else:
                 schedule += f'{start_time} ～ {end_time}: {summary}\n'
 
-        schedule_label = Label(text=schedule)
+        string_to_remove = "2023-"
+        schedule = schedule.replace(string_to_remove, "")
+        string_to_remove = ":00+09:00"
+        schedule = schedule.replace(string_to_remove, " ")
+        string_to_remove = "-"
+        schedule = schedule.replace(string_to_remove, "/")
+        string_to_remove = "T"
+        schedule = schedule.replace(string_to_remove, " ")
+
+        schedule_label = Label(text=schedule,font_size=fsize+'sp')
         layout.add_widget(schedule_label)
 
         return layout
