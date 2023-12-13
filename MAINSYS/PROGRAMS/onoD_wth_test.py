@@ -43,6 +43,9 @@ class WeatherApp(App):
         return formatted_date
 
     def build(self):
+        
+        fsize = "12"
+
         layout = BoxLayout(orientation='vertical')
         coordinates_df = pd.read_csv('MAINSYS\CSV\IDOKEIDO-UTF8.csv')
 
@@ -93,27 +96,45 @@ class WeatherApp(App):
                         weather_code = daily_data["weather_code"][i]
                         weather_meaning = self.get_weather_meaning(weather_code)
 
+                        string_to_remove = "2023-"
+                        formatted_date = formatted_date.replace(string_to_remove, "")
+                        string_to_remove = "00:00"
+                        formatted_date = formatted_date.replace(string_to_remove, "")
+                        string_to_remove = "-"
+                        formatted_date = formatted_date.replace(string_to_remove, "/")
+
                         # 横に並べて表示するために BoxLayout を使用
                         box = BoxLayout(orientation='vertical')
-                        date_label = Label(text=f"日付: {formatted_date}")
-                        temperature_label = Label(text=f"現在の気温: {temperature} ℃")
-                        max_temperature_label = Label(text=f"最高気温: {max_temperature} ℃")
-                        min_temperature_label = Label(text=f"最低気温: {min_temperature} ℃")
-                        weather_label = Label(text=f"天気: {weather_meaning}")
+                        if i == 0:
+                            day = "今日"
+                        elif i == 1:
+                            day = "明日"
+                        elif i == 2:
+                            day = "明後日"
+                        else: day = "" 
+
+                        weather_label = Label(text=day+
+                                            f" {formatted_date}\n" 
+                                           +f"\n現在の気温: {temperature} ℃\n"
+                                           +f"最高気温: {max_temperature} ℃\n"
+                                           +f"最低気温: {min_temperature} ℃\n"
+                                           +f"天気: {weather_meaning}"
+                                           ,font_size=fsize+'sp')
+                        
 
                         # box を horizontal_layout に追加
                         horizontal_layout.add_widget(box)
 
                         # box に各情報を追加
-                        box.add_widget(date_label)
-                        box.add_widget(temperature_label)
-                        box.add_widget(max_temperature_label)
-                        box.add_widget(min_temperature_label)
+
                         box.add_widget(weather_label)
+                        
+
                 else:
                     horizontal_layout.add_widget(Label(text=f"エラー: {response.status_code}"))
 
-            Clock.schedule_interval(update_weather, 10)
+            update_weather(dt = 10)
+            Clock.schedule_interval(update_weather, 1800)
 
             return layout
         else:
