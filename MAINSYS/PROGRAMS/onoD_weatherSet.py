@@ -61,7 +61,7 @@ class WeatherApp(App):
                 print("保存されました！")
 
             def re_setting(instance):
-                subprocess.Popen(["python", "MAINSYS\PROGRAMS\settings.py"])
+                #subprocess.Popen(["python", "MAINSYS\PROGRAMS\settings.py"])
                 App.get_running_app().stop()
                 return
 
