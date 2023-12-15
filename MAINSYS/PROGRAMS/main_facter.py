@@ -76,17 +76,17 @@ class MainDisplayApp(App):
         clock_layout = clock_app.build()
 
         # 時間アプリの座標を読み込み
-        posrow = 1
+        posrow = 0
         x, y = self.load_button_position(posrow)
         clock_layout.pos = (x, y)
 
         # 天気アプリの座標を読み込み
-        posrow = 2 
+        posrow = 1 
         x, y = self.load_button_position(posrow)
         weather_layout.pos = (x, y)
 
         # 予定アプリの座標を読み込み
-        posrow = 3
+        posrow = 2
         x, y = self.load_button_position(posrow)
         calendar_layout.pos = (x, y)
 
