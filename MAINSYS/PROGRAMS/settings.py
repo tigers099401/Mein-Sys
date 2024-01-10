@@ -37,7 +37,7 @@ class MyWidget(FloatLayout):
         bottom_buttons_layout = BoxLayout(orientation='horizontal', size_hint_y=None, height=50, spacing=10, pos_hint={'center_x': 0.5, 'top': 0.4})
         
         # ボタンの作成と追加
-        button_names = ["背景画像", "追加", "配置設定"]
+        button_names = ["背景画像", "追加", "配置設定","フォント"]
         for i, name in enumerate(button_names):
             button = Button(text=name, size_hint=(None, None), size=(200, 50))
             button.bind(on_press=self.on_button_press)
@@ -74,6 +74,8 @@ class MyWidget(FloatLayout):
             app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/main_facter.py")
         elif button_text == "配置設定":
             app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/pos_mover.py")
+        elif button_text == "フォント":
+            app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/font.py")
         elif button_text == "戻る":
             app_path = os.path.join(os.getcwd(), "MAINSYS\PROGRAMS\main_facter.py")
             App.get_running_app().stop()
