@@ -13,6 +13,7 @@ import japanize_kivy
 class WeatherApp(App):
     def get_weather_meaning(self, weather_code):
         if 0 <= weather_code <= 3:
+            self.weather_pass = 'MAINSYS\IMAGE\晴れアイコン （白）.png'
             return "晴れ"
         elif 4 <= weather_code <= 9:
             return "霞、ほこり、砂または煙"
@@ -46,7 +47,7 @@ class WeatherApp(App):
 
     def build(self):
         
-        fsize = "18"
+        fsize = "15"
 
         layout = BoxLayout(orientation='vertical')
         coordinates_df = pd.read_csv('MAINSYS\CSV\IDOKEIDO-UTF8.csv')
@@ -123,20 +124,26 @@ class WeatherApp(App):
                             day = "明後日"
                         else: day = "" 
 
+                        weather_icon = Image(source=self.weather_pass, size_hint=(0.1,0.1))
+
                         weather_label = Label(text=
                                             day+f" {formatted_date}日\n" 
                                            +f"\nNow:{temperature} ℃\n"
                                            +f"{max_temperature}℃/{min_temperature}℃\n"
                                            +f"天気: {weather_meaning}\n"
                                            ,font_size=fsize+'sp')
+                        
+                        
 
 
                         # box を horizontal_layout に追加
                         horizontal_layout.add_widget(box)
 
                         # box に各情報を追加
-
                         box.add_widget(weather_label)
+
+                        box.add_widget(weather_icon)
+
                         
 
                 else:
