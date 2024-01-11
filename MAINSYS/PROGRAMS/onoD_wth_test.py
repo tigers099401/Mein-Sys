@@ -5,6 +5,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.clock import Clock
 import requests
 from datetime import datetime
+from kivy.uix.image import Image
 import csv
 import japanize_kivy
 
@@ -12,6 +13,7 @@ import japanize_kivy
 class WeatherApp(App):
     def get_weather_meaning(self, weather_code):
         if 0 <= weather_code <= 3:
+            self.weatherpath = "MAINSYS\IMAGE\light-gray-concrete-wall.jpg"
             return "晴れ"
         elif 4 <= weather_code <= 9:
             return "霞、ほこり、砂または煙"
@@ -45,7 +47,7 @@ class WeatherApp(App):
 
     def build(self):
         
-        fsize = "12"
+        fsize = "15"
 
         layout = BoxLayout(orientation='vertical')
         coordinates_df = pd.read_csv('MAINSYS\CSV\IDOKEIDO-UTF8.csv')
@@ -119,9 +121,9 @@ class WeatherApp(App):
                                            +f"\n現在の気温: {temperature} ℃\n"
                                            +f"最高気温: {max_temperature} ℃\n"
                                            +f"最低気温: {min_temperature} ℃\n"
-                                           +f"天気: {weather_meaning}"
+                                           +f"天気: {weather_meaning}\n"
                                            ,font_size=fsize+'sp')
-                        
+                        layout.add_widget(Image(source=self.weatherpath, allow_stretch=True))
 
                         # box を horizontal_layout に追加
                         horizontal_layout.add_widget(box)

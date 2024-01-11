@@ -33,6 +33,7 @@ class MyWidget(FloatLayout):
         # 上部のボタンレイアウトを追加
         self.add_widget(top_buttons_layout)
 
+    
         # 下部に横並びでボタンを配置するBoxLayout
         bottom_buttons_layout = BoxLayout(orientation='horizontal', size_hint_y=None, height=50, spacing=10, pos_hint={'center_x': 0.5, 'top': 0.4})
         
