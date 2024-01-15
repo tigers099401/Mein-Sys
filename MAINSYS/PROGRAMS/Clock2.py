@@ -16,8 +16,7 @@ class AnalogClock(Widget):
         # ウィジェットのサイズを10%縮小
         self.size_hint = (0.9, 0.9)
 
-        # ウィジェットを画面中央に配置
-        self.pos_hint = {'center_x': 0.5, 'center_y': 0.5}
+        # ウィジェットを画面中央に配置する機能を削除
 
         self.center_x = self.width / 2
         self.center_y = self.height / 2
