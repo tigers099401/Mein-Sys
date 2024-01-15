@@ -27,6 +27,8 @@ class ImageSelectorApp(App):
 
         # 選択ボタンの作成
         button1 = Button(text='アナログ時計を選択', on_press=self.change_text_clock)
+
+        
         button2 = Button(text='デジタル時計を選択', on_press=self.change_clock_text)
 
         # レイアウトにウィジェットを追加
@@ -62,6 +64,8 @@ class ImageSelectorApp(App):
         with open(file_path, mode='w', newline='') as file:
             writer = csv.writer(file)
             writer.writerows(data)
+        
+        App.get_running_app().stop()
     
 
     def change_clock_text(self, instance):
@@ -82,6 +86,8 @@ class ImageSelectorApp(App):
         with open(file_path, mode='w', newline='') as file:
             writer = csv.writer(file)
             writer.writerows(data)
+
+        App.get_running_app().stop()
 
 
 if __name__ == '__main__':
