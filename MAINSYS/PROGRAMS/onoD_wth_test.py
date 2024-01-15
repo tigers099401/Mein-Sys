@@ -12,9 +12,7 @@ import japanize_kivy
 
 class WeatherApp(App):
     def get_weather_meaning(self, weather_code):
-        self.weather_pass = ''
         if 0 <= weather_code <= 3:
-            self.weather_pass = 1
             return "晴れ"
         elif 4 <= weather_code <= 9:
             return "霞、ほこり、砂または煙"
@@ -23,28 +21,20 @@ class WeatherApp(App):
         elif 30 <= weather_code <= 35:
             return "塵嵐、砂嵐"
         elif 36 <= weather_code <= 39:
-            self.weather_pass = 2
             return "吹雪または吹雪"
         elif 40 <= weather_code <= 49:
-            self.weather_pass = 2
             return "霧または氷"
         elif 50 <= weather_code <= 59:
-            self.weather_pass = 2
             return "霧または氷"
         elif 60 <= weather_code <= 69:
-            self.weather_pass = 3
             return "霧雨"
         elif 70 <= weather_code <= 79:
-            self.weather_pass = 3
             return "雨"
         elif 80 <= weather_code <= 89:
-            self.weather_pass = 3
             return "にわか降水"
         elif 90 <= weather_code <= 99:
-            self.weather_pass = 2
             return "降雪またはしんしゃく"
         elif 100 <= weather_code <= 199:
-            self.weather_pass = 2
             return "あられ"
         else:
             return "不明な天気"
@@ -133,8 +123,6 @@ class WeatherApp(App):
                             day = "明後日"
                         else: day = "" 
 
-                        weather_icon = Image(source=self.weather_pass, size_hint=(0.1,0.1), pos_hint={'center_x': 0.5, 'center_y': 0.5})
-
                         weather_label = Label(text=
                                             day+f" {formatted_date}日\n" 
                                            +f"\nNow:{temperature} ℃\n"
@@ -145,11 +133,7 @@ class WeatherApp(App):
                         
 
 
-                        # box を horizontal_layout に追加
-                        
-
                         # box に各情報を追加
-                        layout.add_widget(weather_icon)
                         layout.add_widget(weather_label)
 
                         
@@ -177,7 +161,9 @@ class WeatherApp(App):
             keidodata = data[5][2]
             daydata = data[6][1]
 
+
         return idodata, keidodata, daydata
+    
 
 if __name__ == '__main__':
     WeatherApp().run()

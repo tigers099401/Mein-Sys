@@ -165,7 +165,9 @@ class MainApp(App):
             reader = csv.reader(csvfile)
             data = list(reader)
 
+            
             data[4][1] = optval
+            
 
 
         with open(filename, mode='w', newline='') as file:

@@ -6,9 +6,11 @@ from kivy.uix.floatlayout import FloatLayout
 import subprocess
 import os
 import japanize_kivy
+import csv
 
 class MyWidget(FloatLayout):
     def __init__(self, **kwargs):
+        self.setflg(1)
         super(MyWidget, self).__init__(**kwargs)
 
         # タイトル表示用のラベルを作成
@@ -78,9 +80,32 @@ class MyWidget(FloatLayout):
         elif button_text == "フォント":
             app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/font.py")
         elif button_text == "戻る":
+            self.setflg(0)
             app_path = os.path.join(os.getcwd(), "MAINSYS\PROGRAMS\main_facter.py")
             App.get_running_app().stop()
         subprocess.Popen(["python", app_path])
+
+    def setflg(self,flgval):
+        # CSVファイルに緯度・経度・日数を保存するメソッド
+        filename = 'MAINSYS\CSV\onoD_opt.csv'
+        with open(filename, 'r') as csvfile:
+            reader = csv.reader(csvfile)
+            data = list(reader)
+            print(flgval)
+            data[10][1] = flgval
+        
+        with open(filename, 'w', newline='') as csvfile:
+            csv_writer = csv.writer(csvfile)
+            csv_writer.writerows(data)
+        print("保存されました！")
+
+            
+
+
+
+
+        return 
+
 
 class MyApp(App):
     def build(self):
