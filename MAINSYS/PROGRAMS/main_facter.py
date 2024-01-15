@@ -7,6 +7,7 @@ from kivy.uix.floatlayout import FloatLayout
 from onoD_wth_test import WeatherApp
 from onoD_calendar import CalendarApp
 from onoD_clock import ClockApp
+from analog import MyClockApp
 from kivy.core.window import Window
 import subprocess
 
@@ -66,17 +67,28 @@ class MainDisplayApp(App):
         weather_app = WeatherApp()
         calender_app = CalendarApp()
         clock_app = ClockApp()
+        analog_app = MyClockApp()
 
         # 各アプリのレイアウトを作成
         weather_layout = weather_app.build()
         calendar_layout = calender_app.build()
-        clock_layout = clock_app.build()
+        
+        clock_judgement = self.loadclockselect()
+        print("clock_judgement", clock_judgement)
+        if clock_judgement == "2":
+            print("デジタル時計を使用します")
+            clock_layout = clock_app.build()
+        else:
+            print("アナログ時計を使用します")
+            clock_layout = analog_app.build()
+
+        print("clock_layout", clock_layout)
+
 
         # 時間アプリの座標を読み込み
         posrow = 0
         x, y = self.load_button_position(posrow)
         clock_layout.pos = (x, y)
-
         # 天気アプリの座標を読み込み
         posrow = 1 
         x, y = self.load_button_position(posrow)
@@ -96,6 +108,7 @@ class MainDisplayApp(App):
         self.layout.add_widget(weather_layout)
         self.layout.add_widget(calendar_layout)
         self.layout.add_widget(clock_layout)
+
 
         return self.layout
 
@@ -177,6 +190,16 @@ class MainDisplayApp(App):
             reader = csv.reader(csvfile)
             data = list(reader)
             optdata = data[4][1]
+
+        return optdata
+    
+    def loadclockselect(self):
+        filename = 'MAINSYS\CSV\onoD_opt.csv'
+        
+        with open(filename, 'r') as csvfile:
+            reader = csv.reader(csvfile)
+            data = list(reader)
+            optdata = data[9][1]
 
         return optdata
 
