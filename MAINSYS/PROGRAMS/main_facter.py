@@ -47,8 +47,8 @@ class MainDisplayApp(App):
         
         print("background_color:", background_color)
         print("background_image_path:", background_image_path)
-        
-        
+
+
         # 背景の色を設定
         with self.layout.canvas.before:
             Color(*background_color)

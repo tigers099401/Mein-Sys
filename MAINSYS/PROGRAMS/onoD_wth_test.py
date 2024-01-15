@@ -14,7 +14,7 @@ class WeatherApp(App):
     def get_weather_meaning(self, weather_code):
         self.weather_pass = ''
         if 0 <= weather_code <= 3:
-            self.weather_pass = 'MAINSYS\IMAGE\晴れアイコン （黒）.png'
+            self.weather_pass = 1
             return "晴れ"
         elif 4 <= weather_code <= 9:
             return "霞、ほこり、砂または煙"
@@ -23,28 +23,28 @@ class WeatherApp(App):
         elif 30 <= weather_code <= 35:
             return "塵嵐、砂嵐"
         elif 36 <= weather_code <= 39:
-            self.weather_pass = 'MAINSYS\IMAGE\雪アイコン（黒）.png'
+            self.weather_pass = 2
             return "吹雪または吹雪"
         elif 40 <= weather_code <= 49:
-            self.weather_pass = 'MAINSYS\IMAGE\雪アイコン（黒）.png'
+            self.weather_pass = 2
             return "霧または氷"
         elif 50 <= weather_code <= 59:
-            self.weather_pass = 'MAINSYS\IMAGE\雪アイコン（黒）.png'
+            self.weather_pass = 2
             return "霧または氷"
         elif 60 <= weather_code <= 69:
-            self.weather_pass = 'MAINSYS\IMAGE\雨アイコン（黒）.png'
+            self.weather_pass = 3
             return "霧雨"
         elif 70 <= weather_code <= 79:
-            self.weather_pass = 'MAINSYS\IMAGE\雨アイコン（黒）.png'
+            self.weather_pass = 3
             return "雨"
         elif 80 <= weather_code <= 89:
-            self.weather_pass = 'MAINSYS\IMAGE\雨アイコン（黒）.png'
+            self.weather_pass = 3
             return "にわか降水"
         elif 90 <= weather_code <= 99:
-            self.weather_pass = 'MAINSYS\IMAGE\雪アイコン（黒）.png'
+            self.weather_pass = 2
             return "降雪またはしんしゃく"
         elif 100 <= weather_code <= 199:
-            self.weather_pass = 'MAINSYS\IMAGE\雪アイコン（黒）.png'
+            self.weather_pass = 2
             return "あられ"
         else:
             return "不明な天気"
@@ -58,7 +58,7 @@ class WeatherApp(App):
         
         fsize = "15"
 
-        layout = BoxLayout(orientation='horizontal', spacing=10)
+        layout = BoxLayout(orientation='vertical', spacing=10)
         coordinates_df = pd.read_csv('MAINSYS\CSV\IDOKEIDO-UTF8.csv')
 
         if 'latitude' in coordinates_df.columns and 'longitude' in coordinates_df.columns:
