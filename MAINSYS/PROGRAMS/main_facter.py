@@ -88,7 +88,7 @@ class MainDisplayApp(App):
         calendar_layout.pos = (x, y)
 
         # 設定ボタンの生成
-        button_image_path = "MAINSYS/IMAGE/haguruma.jpeg"
+        button_image_path = "MAINSYS/IMAGE/1.png"
         button = Image(source=button_image_path, size_hint=(0.1, 0.15), pos_hint={'top': 1})
         button.bind(on_touch_down=self.on_settings_button_press)
 
