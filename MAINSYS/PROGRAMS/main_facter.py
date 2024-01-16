@@ -30,7 +30,6 @@ Window.size = (width_pixels, height_pixels)
 class MainDisplayApp(App):
     
     def build(self):
-        self.save_bg_opt(1)
         # レイアウトのインスタンスを作成
         self.layout = FloatLayout()
         
@@ -49,8 +48,8 @@ class MainDisplayApp(App):
         
         print("background_color:", background_color)
         print("background_image_path:", background_image_path)
-
-
+        
+        
         # 背景の色を設定
         with self.layout.canvas.before:
             Color(*background_color)
@@ -194,24 +193,15 @@ class MainDisplayApp(App):
 
         return optdata
     
-    def save_bg_opt(self, optval):
-        # CSVファイルからボタンの座標を取得するメソッド
-
+    def loadclockselect(self):
         filename = 'MAINSYS\CSV\onoD_opt.csv'
+        
         with open(filename, 'r') as csvfile:
             reader = csv.reader(csvfile)
             data = list(reader)
+            optdata = data[9][1]
 
-            
-            data[11][1] = 1
-            
-
-
-        with open(filename, mode='w', newline='') as file:
-            writer = csv.writer(file)
-            writer.writerows(data)
-
-        return
+        return optdata
 
 if __name__ == '__main__':
     MainDisplayApp().run()
