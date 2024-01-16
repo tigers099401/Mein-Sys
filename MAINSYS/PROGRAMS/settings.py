@@ -85,8 +85,7 @@ class MyWidget(FloatLayout):
             App.get_running_app().stop()
         subprocess.Popen(["python", app_path])
 
-    def setflg(self,flgval):
-        # CSVファイルに緯度・経度・日数を保存するメソッド
+    def setflg(self,flgval):   # CSVファイルに設定用フラグを保存するメソッド
         filename = 'MAINSYS\CSV\onoD_opt.csv'
         with open(filename, 'r') as csvfile:
             reader = csv.reader(csvfile)
