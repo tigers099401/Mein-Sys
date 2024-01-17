@@ -90,7 +90,7 @@ class MyWidget(FloatLayout):
             app_path = os.path.join(os.getcwd(), "MAINSYS\PROGRAMS\onoD_weatherSet.py")
         elif button_text == "予定表示":
             app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/main_facter.py")
-        elif button_text == "フォントカラー・背景カラー":
+        elif button_text == "フォント・背景色":
             app_path = os.path.join(os.getcwd(), "MAINSYS\PROGRAMS\haikei.py")
         elif button_text == "背景画像":
             app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/haikeigazou.py")

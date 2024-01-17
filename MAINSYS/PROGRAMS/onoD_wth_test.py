@@ -137,12 +137,16 @@ class WeatherApp(App):
                             day = "明後日"
                         else: day = "" 
 
+                        fpass, fcolor1, fcolor2, fcolor3, fcolor4 = self.get_fpass()
+
                         weather_label = Label(text=
                                             day+f" {formatted_date}日\n" 
                                            +f"\nNow:{temperature} ℃\n"
                                            +f"{max_temperature}℃/{min_temperature}℃\n"
                                            +f"天気: {weather_meaning}\n"
-                                           ,font_size=fsize+'sp')
+                                           ,font_size=fsize+'sp'
+                                           ,font_name=fpass
+                                           ,color=[float(fcolor1), float(fcolor2), float(fcolor3), float(fcolor4)])
                         
                         
 
