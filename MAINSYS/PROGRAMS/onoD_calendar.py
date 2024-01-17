@@ -3,10 +3,24 @@ from kivy.uix.label import Label
 from kivy.uix.boxlayout import BoxLayout
 from googleapiclient.discovery import build
 from google.auth import load_credentials_from_file
+import csv
 import datetime
 import japanize_kivy
 
 class CalendarApp(App):
+    def get_fpass(self):
+        filename = 'MAINSYS\CSV\settings.csv'
+        
+        with open(filename, 'r') as csvfile:
+            reader = csv.reader(csvfile)
+            data = list(reader)
+            fpass = data[1][0]
+            fcolor1 = data[0][0]
+            fcolor2 = data[0][1]
+            fcolor3 = data[0][2]
+            fcolor4 = data[0][3]
+        return fpass, fcolor1, fcolor2, fcolor3, fcolor4
+    
     def build(self):
         fsize = "18"
 
@@ -52,10 +66,16 @@ class CalendarApp(App):
         string_to_remove = "T"
         schedule = schedule.replace(string_to_remove, " ")
 
-        schedule_label = Label(text=schedule,font_size=fsize+'sp')
+        fpass, fcolor1, fcolor2, fcolor3, fcolor4 = self.get_fpass()
+
+        # フォントを変更
+        schedule_label = Label(text=schedule,
+                               font_size=fsize + 'sp', 
+                               font_name=fpass,
+                               color=[float(fcolor1), float(fcolor2), float(fcolor3), float(fcolor4)])  # color を使用
         layout.add_widget(schedule_label)
 
         return layout
-
+    
 if __name__ == '__main__':
     CalendarApp().run()

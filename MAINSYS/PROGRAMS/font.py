@@ -21,7 +21,7 @@ class TimeDisplayApp(App):
         self.layout = MovableBoxLayout(orientation='vertical', size_hint=(1, 1))
 
         # "Hello World" 表示用のラベル
-        self.hello_label = Label(text="Hello World", font_size='40sp', size_hint=(1, 0.6))
+        self.hello_label = Label(text="A/a/ひら/漢字/カナ", font_size='40sp', size_hint=(1, 0.6))
         self.layout.add_widget(self.hello_label)
 
         # フォント変更ボタン
