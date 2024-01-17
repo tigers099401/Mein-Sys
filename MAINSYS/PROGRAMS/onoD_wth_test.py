@@ -38,6 +38,20 @@ class WeatherApp(App):
             return "あられ"
         else:
             return "不明な天気"
+        
+    def get_fpass(self):
+        filename = 'MAINSYS\CSV\settings.csv'
+        
+        with open(filename, 'r') as csvfile:
+            reader = csv.reader(csvfile)
+            data = list(reader)
+            fpass = data[1][0]
+            fcolor1 = data[0][0]
+            fcolor2 = data[0][1]
+            fcolor3 = data[0][2]
+            fcolor4 = data[0][3]
+        return fpass, fcolor1, fcolor2, fcolor3, fcolor4
+    
 
     def format_date(self, date_str):
         date_obj = datetime.strptime(date_str, "%Y-%m-%dT%H:%M")
