@@ -4,22 +4,17 @@ import pytz
 import requests
 
 from kivy.app import App
-from kivy.uix.widget import Widget
+from kivy.uix.floatlayout import FloatLayout
 from kivy.graphics import Color, Line, Ellipse, InstructionGroup
 from kivy.clock import Clock
 from datetime import datetime
 
-class AnalogClock(Widget):
+class AnalogClock(FloatLayout):
     def __init__(self, **kwargs):
         super(AnalogClock, self).__init__(**kwargs)
 
         # ウィジェットのサイズを10%縮小
-        self.size_hint = (0.9, 0.9)
-
-        # ウィジェットを画面中央に配置する機能を削除
-
-        self.center_x = self.width / 2
-        self.center_y = self.height / 2
+        self.size_hint = (0.2, 0.2)
 
         Clock.schedule_interval(self.update, 60.0 / 60.0)
 
@@ -99,7 +94,7 @@ class AnalogClock(Widget):
 
 class AnalogClockApp(App):
     def build(self):
-        return AnalogClock()
+        return AnalogClock(pos=(100, 100))  # 位置を直接指定
 
 if __name__ == '__main__':
     AnalogClockApp().run()

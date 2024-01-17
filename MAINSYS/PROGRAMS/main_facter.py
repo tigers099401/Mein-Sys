@@ -78,17 +78,21 @@ class MainDisplayApp(App):
         if clock_judgement == "2":
             print("デジタル時計を使用します")
             clock_layout = clock_app.build()
+            # 時間アプリの座標を読み込みif分追加
+            posrow = 0
+            x, y = self.load_button_position(posrow)
+            clock_layout.pos = (x, y)
         else:
             print("アナログ時計を使用します")
             clock_layout = analog_app.build()
+            # 時間アプリの座標を読み込みif分追加
+            posrow = 0
+            x, y = self.load_button_position(posrow)
+            clock_layout.pos = (x + 210, y + 115)
 
         print("clock_layout", clock_layout)
 
 
-        # 時間アプリの座標を読み込み
-        posrow = 0
-        x, y = self.load_button_position(posrow)
-        clock_layout.pos = (x, y)
         # 天気アプリの座標を読み込み
         posrow = 1 
         x, y = self.load_button_position(posrow)
