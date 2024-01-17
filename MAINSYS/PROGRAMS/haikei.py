@@ -47,8 +47,8 @@ class BackgroundChangerApp(App):
         # レイアウトにウィジェットを追加
         layout.add_widget(label_background)
         layout.add_widget(self.background_color_picker)
-        layout.add_widget(label_text)
-        layout.add_widget(self.text_color_picker)
+        #layout.add_widget(label_text)
+        #layout.add_widget(self.text_color_picker)
         layout.add_widget(button)
 
         # ウィンドウサイズ変更時にオブジェクトを調整
