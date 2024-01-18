@@ -53,8 +53,8 @@ class AnalogClock(FloatLayout):
         clock_face = InstructionGroup()
 
         # 中心の円
-        clock_face.add(Color(0, 0, 1))  # 青色
-        clock_face.add(Ellipse(pos=(self.center_x - 10, self.center_y - 10), size=(20, 20)))
+        #clock_face.add(Color(0, 0, 1))  # 青色
+        #clock_face.add(Ellipse(pos=(self.center_x - 10, self.center_y - 10), size=(20, 20)))
 
         # 文字盤の描画
         for hour in range(1, 13):
@@ -63,8 +63,8 @@ class AnalogClock(FloatLayout):
             text_y = self.center_y + self.width * 0.45 * math.cos(angle)
 
             # 青色で円を描く
-            clock_face.add(Color(0, 0, 1))  # 青色
-            clock_face.add(Ellipse(pos=(text_x - 5, text_y - 5), size=(10, 10)))
+            clock_face.add(Color(1, 1, 1))  # 青色
+            clock_face.add(Ellipse(pos=(text_x - 5, text_y - 5), size=(5, 5)))
 
         self.canvas.add(clock_face)
 

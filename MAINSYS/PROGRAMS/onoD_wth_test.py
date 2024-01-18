@@ -68,13 +68,6 @@ class WeatherApp(App):
         if 'latitude' in coordinates_df.columns and 'longitude' in coordinates_df.columns:
             self.selected_data = None
 
-            # BoxLayout を追加して横に並べる
-            
-            
-
-            
-
-
 
             def update_weather(dt):
                 # horizontal_layout のウィジェットをクリア
