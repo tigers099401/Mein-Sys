@@ -38,7 +38,7 @@ class MyWidget(FloatLayout):
         # 上部に縦並びでボタンを配置するBoxLayout
         top_buttons_layout = BoxLayout(orientation='horizontal', size_hint_y=None, height=150, #spacing=10, 
                                        pos_hint={'center_x': 0.5, 'top': 1})
-        
+
         # ボタンの作成と追加
         button_names = ["時間表示設定", "天気予報", "予定表示", "フォント・背景色"]
         for i, name in enumerate(button_names):
@@ -87,11 +87,11 @@ class MyWidget(FloatLayout):
         if button_text == "時間表示設定":
             app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/time_display_app.py")
         elif button_text == "天気予報":
-            app_path = os.path.join(os.getcwd(), "MAINSYS\PROGRAMS\onoD_weatherSet.py")
+            app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/onoD_weatherSet.py")
         elif button_text == "予定表示":
             app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/main_facter.py")
         elif button_text == "フォント・背景色":
-            app_path = os.path.join(os.getcwd(), "MAINSYS\PROGRAMS\haikei.py")
+            app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/haikei.py")
         elif button_text == "背景画像":
             app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/haikeigazou.py")
         elif button_text == "追加":
@@ -102,7 +102,7 @@ class MyWidget(FloatLayout):
             app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/font.py")
         elif button_text == "戻る":
             self.setflg(0)
-            app_path = os.path.join(os.getcwd(), "MAINSYS\PROGRAMS\main_facter.py")
+            app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/main_facter.py")
             App.get_running_app().stop()
         subprocess.Popen(["python", app_path])
 
