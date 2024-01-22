@@ -2,7 +2,7 @@ import os
 import cv2
 import numpy as np
 import csv
-
+import subprocess
 from kivy.app import App
 from kivy.uix.image import Image
 from kivy.uix.boxlayout import BoxLayout
@@ -116,6 +116,10 @@ class Test(BoxLayout):
             csv_writer.writerow([self.image_name])
 
         print(f"Image confirmed: {self.image_name}")
+
+        # "haikeigazou.py" を実行
+        subprocess.Popen(["python", "MAINSYS\PROGRAMS\pos_mover.py"])
+        App.get_running_app().stop()
 
     def next_image(self, instance):
         images = [f for f in os.listdir("MAINSYS/IMAGE") if f.lower().endswith(('.jpeg', '.jpg', '.png'))]
