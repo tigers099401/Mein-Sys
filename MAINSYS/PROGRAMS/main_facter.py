@@ -30,6 +30,7 @@ Window.size = (width_pixels, height_pixels)
 class MainDisplayApp(App):
     
     def build(self):
+        self.setflg(1)
         # レイアウトのインスタンスを作成
         self.layout = FloatLayout()
         
@@ -221,6 +222,21 @@ class MainDisplayApp(App):
             optdata = data[9][1]
 
         return optdata
+    
+    def setflg(self,flgval):   # CSVファイルに設定用フラグを保存するメソッド
+        filename = 'MAINSYS\CSV\onoD_opt.csv'
+        with open(filename, 'r') as csvfile:
+            reader = csv.reader(csvfile)
+            data = list(reader)
+            print(flgval)
+            data[11][1] = flgval
+        
+        with open(filename, 'w', newline='') as csvfile:
+            csv_writer = csv.writer(csvfile)
+            csv_writer.writerows(data)
+        print("保存されました！")
+
+        return 
 
 if __name__ == '__main__':
     MainDisplayApp().run()
