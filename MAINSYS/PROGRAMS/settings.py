@@ -93,7 +93,7 @@ class MyWidget(FloatLayout):
         elif button_text == "フォント・背景色":
             app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/haikei.py")
         elif button_text == "背景画像":
-            app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/haikeigazou.py")
+            app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/haikeigazou_notk.py")
         elif button_text == "追加":
             app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/main_facter.py")
         elif button_text == "配置設定":

@@ -146,7 +146,7 @@ class MainApp(App):
     def launch_haikeigazou(self, instance):
         # "haikeigazou.py" を実行
         self.save_bg_opt(1)
-        subprocess.Popen(["python", "MAINSYS\PROGRAMS\haikeigazou.py"])
+        subprocess.Popen(["python", "MAINSYS\PROGRAMS\haikeigazou_notk.py"])
         App.get_running_app().stop()
 
     def dismiss_popup(self, instance):

@@ -61,14 +61,30 @@ class BackgroundApp(App):
         with open(self.csv_file_path, 'w', newline='', encoding='utf-8') as csvfile:
             csv_writer = csv.writer(csvfile)
             csv_writer.writerow([selected_background])
-
+    
     def next_page(self, instance):
         # ここに次へボタンが押されたときの処理を書く
-        # subprocessを使用してpos_mover.pyを実行する
-        subprocess.run(["python", "MAINSYS/PROGRAMS/pos_mover.py"])
+        # 確定ボタンが押下されたときの処理
+        syokiflg,setflg = self.optflg()
+        if syokiflg == '0' and setflg == '0':
+            subprocess.Popen(["python", "MAINSYS\PROGRAMS\pos_mover.py"])
+            App.get_running_app().stop()
+        elif syokiflg == '1' and setflg == '1':
+            pass
+        else :
+            App.get_running_app().stop()
 
-        # オプションで、新しいスクリプトを開始した後に現在のKivyアプリを終了することができます
-        App.get_running_app().stop()
+    def optflg(self):
+        filename = 'MAINSYS\CSV\onoD_opt.csv'
+        
+        with open(filename, 'r') as csvfile:
+            reader = csv.reader(csvfile)
+            data = list(reader)
+            syokiopt = data[11][1]
+            setopt = data[10][1]
+            
+
+        return syokiopt, setopt
 
 if __name__ == '__main__':
     BackgroundApp().run()

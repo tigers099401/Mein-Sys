@@ -6,6 +6,7 @@ from kivy.core.window import Window
 import japanize_kivy
 import csv
 import os
+import subprocess
 
 class ImageSelectorApp(App):
     def build(self):
@@ -27,9 +28,9 @@ class ImageSelectorApp(App):
 
         # 選択ボタンの作成
         button1 = Button(text='アナログ時計を選択', on_press=self.change_text_clock)
-
         
         button2 = Button(text='デジタル時計を選択', on_press=self.change_clock_text)
+        button2.bind(on_press=self.digital_clock)
 
         # レイアウトにウィジェットを追加
         left_layout.add_widget(image1)
@@ -87,6 +88,11 @@ class ImageSelectorApp(App):
             writer = csv.writer(file)
             writer.writerows(data)
 
+        App.get_running_app().stop()
+
+    def digital_clock (self, instance):
+        # "haikeigazou.py" を実行
+        subprocess.Popen(["python", "MAINSYS/PROGRAMS/time_display_app.py"])
         App.get_running_app().stop()
 
 
