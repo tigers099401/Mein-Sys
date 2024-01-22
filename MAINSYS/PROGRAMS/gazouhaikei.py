@@ -109,17 +109,6 @@ class Test(BoxLayout):
         self.image.source = self.image_name
 
     def confirm_action(self, instance):
-        # MAINSYS\CSV\selected_backgrounds.csv に self.image_name を上書き保存
-        csv_file_path = os.path.join("MAINSYS", "CSV", "selected_backgrounds.csv")
-        with open(csv_file_path, mode='w', newline='') as csv_file:
-            csv_writer = csv.writer(csv_file)
-            csv_writer.writerow([self.image_name])
-
-        print(f"Image confirmed: {self.image_name}")
-
-        # "haikeigazou.py" を実行
-        subprocess.Popen(["python", "MAINSYS\PROGRAMS\pos_mover.py"])
-        App.get_running_app().stop()
 
         syokiflg,setflg = self.optflg()
         if syokiflg == '0' and setflg == '0':
