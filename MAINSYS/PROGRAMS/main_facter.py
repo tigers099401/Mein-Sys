@@ -109,12 +109,15 @@ class MainDisplayApp(App):
         button.bind(on_touch_down=self.on_settings_button_press)
 
         self.layout.add_widget(button)
-        self.layout.add_widget(weather_layout)
-        self.layout.add_widget(calendar_layout)
-        self.layout.add_widget(clock_layout)
-
-
+        weatherumu, calenderumu, clockumu = self.loadumu()
+        if weatherumu == "on":
+            self.layout.add_widget(weather_layout)
+        if calenderumu == "on":
+            self.layout.add_widget(calendar_layout)
+        if clockumu == "on":
+            self.layout.add_widget(clock_layout)
         return self.layout
+
 
     def on_settings_button_press(self, instance, touch):
         if instance.collide_point(*touch.pos):
@@ -196,6 +199,18 @@ class MainDisplayApp(App):
             optdata = data[4][1]
 
         return optdata
+    
+    def loadumu(self):
+        filename = 'MAINSYS\CSV\onoD_opt.csv'
+        
+        with open(filename, 'r') as csvfile:
+            reader = csv.reader(csvfile)
+            data = list(reader)
+            optdata1 = data[12][1]
+            optdata2 = data[12][2]
+            optdata3 = data[12][3]
+
+        return optdata1,optdata2,optdata3
     
     def loadclockselect(self):
         filename = 'MAINSYS\CSV\onoD_opt.csv'
