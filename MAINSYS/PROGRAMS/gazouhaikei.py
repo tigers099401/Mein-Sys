@@ -1,7 +1,7 @@
-
 import os
 import cv2
 import numpy as np
+import csv
 
 from kivy.app import App
 from kivy.uix.image import Image
@@ -9,26 +9,23 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.behaviors import ToggleButtonBehavior
+from kivy.uix.button import Button
 from kivy.clock import Clock
 from kivy.graphics.texture import Texture
+import japanize_kivy
 
-#画像ボタンクラス
 class MyButton(ToggleButtonBehavior, Image):
     def __init__(self, **kwargs):
         super(MyButton, self).__init__(**kwargs)
-        #画像ボタンの画像名を格納
         self.source = kwargs["source"]
-        #画像を編集できるようにテクスチャーとして扱う
         self.texture = self.button_texture(self.source)
 
-    # トグルボタンの状態、状態によって画像が変化する
     def on_state(self, widget, value):
         if value == 'down':
             self.texture = self.button_texture(self.source, off=True)
         else:
             self.texture = self.button_texture(self.source)
 
-    # 画像を変化させる、押した状態の時に矩形+色を暗く
     def button_texture(self, data, off=False):
         im = cv2.imread(data)
         im = self.square_image(im)
@@ -36,13 +33,11 @@ class MyButton(ToggleButtonBehavior, Image):
             im = self.adjust(im, alpha=0.6, beta=0.0)
             im = cv2.rectangle(im, (2, 2), (im.shape[1]-2, im.shape[0]-2), (255, 255, 0), 10)
 
-        # 上下反転
         buf = cv2.flip(im, 0)
         image_texture = Texture.create(size=(im.shape[1], im.shape[0]), colorfmt='bgr')
         image_texture.blit_buffer(buf.tostring(), colorfmt='bgr', bufferfmt='ubyte')
         return image_texture
 
-    # 画像を正方形にする
     def square_image(self, img):
         h, w = img.shape[:2]
         if h > w:
@@ -54,46 +49,46 @@ class MyButton(ToggleButtonBehavior, Image):
 
         return img
 
-    # 画像の色を暗くする
     def adjust(self, img, alpha=1.0, beta=0.0):
-        # 積和演算を行う。
         dst = alpha * img + beta
-        # [0, 255] でクリップし、uint8 型にする。
         return np.clip(dst, 0, 255).astype(np.uint8)
-
 
 class Test(BoxLayout):
     def __init__(self, **kwargs):
         super(Test, self).__init__(**kwargs)
-        # 読み込むディレクトリ
         image_dir = "MAINSYS\IMAGE"
-
-        # 縦配置
         self.orientation = 'vertical'
-
-        # 画像ファイルの名前を管理
         self.image_name = ""
+        self.current_image_index = 0
 
-        # 画像を表示するウィジェットの準備
         self.image = Image(size_hint=(1, 0.5))
         self.add_widget(self.image)
 
-        # 画像ボタンを配置する、スクロールビューの定義
         sc_view = ScrollView(size_hint=(1, None), size=(self.width, self.height*4))
-
-        # スクロールビューには１つのウィジェットしか配置できないため
         box = GridLayout(cols=5, spacing=10, size_hint_y=None)
         box.bind(minimum_height=box.setter('height'))
-
-        # 画像ボタンの一括定義、グリッドレイアウトに配置
         box = self.image_load(image_dir, box)
-
         sc_view.add_widget(box)
         self.add_widget(sc_view)
 
-    # 画像ボタンの読み込み
+        # ボタンを横に並べるBoxLayoutを作成
+        button_layout = BoxLayout(orientation='horizontal', size_hint_y=None, height=50)
+
+        # 確定ボタンに変更
+        self.confirm_button = Button(text="確定", size_hint=(0.5, None), height=50)
+        self.confirm_button.bind(on_press=self.confirm_action)
+
+        self.prev_button = Button(text="戻る", size_hint=(0.5, None), height=50)
+        self.prev_button.bind(on_press=self.prev_image)
+
+        button_layout.add_widget(self.prev_button)
+        button_layout.add_widget(self.confirm_button)
+
+        self.add_widget(button_layout)
+
     def image_load(self, im_dir, grid):
-        images = sorted(os.listdir(im_dir))
+        images = [f for f in os.listdir(im_dir) if f.lower().endswith(('.jpeg', '.jpg', '.png'))]
+        images = sorted(images)
 
         for image in images:
             button = MyButton(size_hint_y=None,
@@ -105,21 +100,37 @@ class Test(BoxLayout):
 
         return grid
 
-    # 画像をボタンを押した時、画像ウィジェットに画像を表示
     def set_image(self, btn):
-        if btn.state=="down":
+        if btn.state == "down":
             self.image_name = btn.source
-            #画面を更新
             Clock.schedule_once(self.update)
 
-    # 画面更新
     def update(self, t):
         self.image.source = self.image_name
 
+    def confirm_action(self, instance):
+        # MAINSYS\CSV\selected_backgrounds.csv に self.image_name を上書き保存
+        csv_file_path = os.path.join("MAINSYS", "CSV", "selected_backgrounds.csv")
+        with open(csv_file_path, mode='w', newline='') as csv_file:
+            csv_writer = csv.writer(csv_file)
+            csv_writer.writerow([self.image_name])
+
+        print(f"Image confirmed: {self.image_name}")
+
+    def next_image(self, instance):
+        images = [f for f in os.listdir("MAINSYS/IMAGE") if f.lower().endswith(('.jpeg', '.jpg', '.png'))]
+        images = sorted(images)
+        self.current_image_index = (self.current_image_index + 1) % len(images)
+        next_image_path = os.path.join("MAINSYS/IMAGE", images[self.current_image_index])
+        self.image_name = next_image_path
+        Clock.schedule_once(self.update)
+
+    def prev_image(self, instance):
+        App.get_running_app().stop()
 
 class SampleApp(App):
     def build(self):
         return Test()
 
-
-SampleApp().run()
+if __name__ == '__main__':
+    SampleApp().run()
