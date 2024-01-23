@@ -109,7 +109,7 @@ class Test(BoxLayout):
         self.image.source = self.image_name
 
     def confirm_action(self, instance):
-
+        self.setflg(1)
         syokiflg,setflg = self.optflg()
         if syokiflg == '0' and setflg == '0':
             # MAINSYS\CSV\selected_backgrounds.csv に self.image_name を上書き保存
@@ -166,6 +166,21 @@ class Test(BoxLayout):
             
 
         return syokiopt, setopt
+    
+    def setflg(self,flgval):   # CSVファイルに設定用フラグを保存するメソッド
+        filename = 'MAINSYS\CSV\onoD_opt.csv'
+        with open(filename, 'r') as csvfile:
+            reader = csv.reader(csvfile)
+            data = list(reader)
+            print(flgval)
+            data[4][1] = flgval
+        
+        with open(filename, 'w', newline='') as csvfile:
+            csv_writer = csv.writer(csvfile)
+            csv_writer.writerows(data)
+        print("保存されました！")
+
+        return 
 
 class SampleApp(App):
     def build(self):
