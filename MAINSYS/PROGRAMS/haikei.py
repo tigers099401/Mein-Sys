@@ -74,7 +74,7 @@ class BackgroundChangerApp(App):
         self.label_text.color = value
 
     def change_background_and_text_color(self, instance):
-        self.setflg(1)
+        self.setflg(2)
         # カラーピッカーの選択色をCSVファイルに保存
         background_color = self.background_color_picker.color
         text_color = self.text_color_picker.color

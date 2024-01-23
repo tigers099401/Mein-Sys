@@ -39,6 +39,7 @@ class MainDisplayApp(App):
         bgopt = self.loadhaikei()
         print("bgopt:", bgopt)
         if bgopt == "2":
+            #背景色
             print("color_settings.csv を使用します")
             background_color = self.get_background_color("MAINSYS\CSV\color_settings.csv")
             background_image_path = None
