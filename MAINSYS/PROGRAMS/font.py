@@ -99,7 +99,6 @@ class TimeDisplayApp(App):
 
     def show_font_chooser(self, instance):
         popup = Popup(title='フォントを選択', size_hint=(0.9, 0.9))
-
         content = BoxLayout(orientation='vertical')
         file_chooser = FileChooserListView(path='MAINSYS/FONT', filters=['*.ttf'])
         content.add_widget(file_chooser)
