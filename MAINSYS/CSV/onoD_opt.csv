@@ -3,11 +3,11 @@ clock,1
 tenki,270000
 prefecture,
 haikei,1
-idokeido,38.27175,140.82907
+idokeido,38.26889,140.34118
 weatherday,1,1
 fontcolor,0.9,0.19999999999999996,1,1
 backcolor,0.6,1,0.85,1
 clockselect,2
 setflg,0
-syoki,0
+syoki,1
 umu,on,on,on
