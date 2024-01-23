@@ -60,7 +60,7 @@ class WeatherApp(App):
 
     def build(self):
         
-        fsize = "30"
+        fsize = "20"
 
         layout = BoxLayout(orientation='horizontal', spacing=10, size_hint=(0.7,0.7))
         coordinates_df = pd.read_csv('MAINSYS\CSV\IDOKEIDO-UTF8.csv')
