@@ -42,7 +42,7 @@ class BackgroundChangerApp(App):
         self.text_color_picker.bind(color=self.on_text_color)
 
         # ボタン
-        button = Button(text="背景色を変更", on_press=self.change_background_and_text_color)
+        button = Button(text="背景色と文字色を変更", on_press=self.change_background_and_text_color)
 
         # レイアウトにウィジェットを追加
         layout.add_widget(label_background)
@@ -74,7 +74,6 @@ class BackgroundChangerApp(App):
         self.label_text.color = value
 
     def change_background_and_text_color(self, instance):
-        self.setflg(2)
         # カラーピッカーの選択色をCSVファイルに保存
         background_color = self.background_color_picker.color
         text_color = self.text_color_picker.color
@@ -141,21 +140,6 @@ class BackgroundChangerApp(App):
             data = list(reader)
             optdata = data[val][1]
         return optdata
-    
-    def setflg(self,flgval):   # CSVファイルに設定用フラグを保存するメソッド
-        filename = 'MAINSYS\CSV\onoD_opt.csv'
-        with open(filename, 'r') as csvfile:
-            reader = csv.reader(csvfile)
-            data = list(reader)
-            print(flgval)
-            data[4][1] = flgval
-        
-        with open(filename, 'w', newline='') as csvfile:
-            csv_writer = csv.writer(csvfile)
-            csv_writer.writerows(data)
-        print("保存されました！")
-
-        return 
     
 if __name__ == '__main__':
     BackgroundChangerApp().run()
