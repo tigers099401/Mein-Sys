@@ -40,7 +40,7 @@ class MyWidget(FloatLayout):
                                        pos_hint={'center_x': 0.5, 'top': 1})
 
         # ボタンの作成と追加
-        button_names = ["時間表示設定", "天気予報", "予定表示", "フォント・背景色"]
+        button_names = ["時間表示設定", "天気予報", "機能選択", "フォント・背景色"]
         for i, name in enumerate(button_names):
             button = Button(text=name, size_hint=(None, None), size=(140, 50))
             button.bind(on_press=self.on_button_press)
@@ -88,8 +88,8 @@ class MyWidget(FloatLayout):
             app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/time_display_app.py")
         elif button_text == "天気予報":
             app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/onoD_weatherSet.py")
-        elif button_text == "予定表示":
-            app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/main_facter.py")
+        elif button_text == "機能選択":
+            app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/tukauka.py")
         elif button_text == "フォント・背景色":
             app_path = os.path.join(os.getcwd(), "MAINSYS/PROGRAMS/haikei.py")
         elif button_text == "背景画像":
@@ -118,12 +118,7 @@ class MyWidget(FloatLayout):
             csv_writer = csv.writer(csvfile)
             csv_writer.writerows(data)
         print("保存されました！")
-
-            
-
-
-
-
+        
         return 
 
 

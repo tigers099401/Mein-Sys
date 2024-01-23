@@ -8,6 +8,7 @@ from onoD_wth_test import WeatherApp
 from onoD_calendar import CalendarApp
 from onoD_clock import ClockApp
 from analog import MyClockApp
+from audio import MusicPlayerApp
 from kivy.core.window import Window
 import subprocess
 
@@ -68,10 +69,12 @@ class MainDisplayApp(App):
         calender_app = CalendarApp()
         clock_app = ClockApp()
         analog_app = MyClockApp()
+        audio_app = MusicPlayerApp()
 
         # 各アプリのレイアウトを作成
         weather_layout = weather_app.build()
         calendar_layout = calender_app.build()
+        audio_layout = audio_app.build()
         
         clock_judgement = self.loadclockselect()
         print("clock_judgement", clock_judgement)
@@ -103,19 +106,27 @@ class MainDisplayApp(App):
         x, y = self.load_button_position(posrow)
         calendar_layout.pos = (x, y)
 
+        # 追加アプリの座標を読み込み
+        posrow = 3
+        x, y = self.load_button_position(posrow)
+        audio_layout.pos = (x, y)
+        audio_layout.size_hint=(0.15,0.15)
+
         # 設定ボタンの生成
         button_image_path = "MAINSYS/IMAGE/1.png"
         button = Image(source=button_image_path, size_hint=(0.1, 0.15), pos_hint={'top': 1})
         button.bind(on_touch_down=self.on_settings_button_press)
 
         self.layout.add_widget(button)
-        weatherumu, calenderumu, clockumu = self.loadumu()
+        weatherumu, calenderumu, clockumu, audioum = self.loadumu()
         if weatherumu == "on":
             self.layout.add_widget(weather_layout)
         if calenderumu == "on":
             self.layout.add_widget(calendar_layout)
         if clockumu == "on":
             self.layout.add_widget(clock_layout)
+        #if audioum == "on":
+            #self.layout.add_widget(audio_layout)
         return self.layout
 
 
@@ -209,8 +220,9 @@ class MainDisplayApp(App):
             optdata1 = data[12][1]
             optdata2 = data[12][2]
             optdata3 = data[12][3]
+            optdata4 = data[12][4]
 
-        return optdata1,optdata2,optdata3
+        return optdata1,optdata2,optdata3,optdata4
     
     def loadclockselect(self):
         filename = 'MAINSYS\CSV\onoD_opt.csv'

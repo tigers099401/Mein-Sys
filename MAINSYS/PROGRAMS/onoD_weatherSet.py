@@ -6,6 +6,7 @@ from kivy.uix.spinner import Spinner
 from kivy.uix.button import Button
 from kivy.uix.popup import Popup
 from kivy.core.window import Window
+from error import ErrorApp
 import csv
 import japanize_kivy
 import os
@@ -43,22 +44,29 @@ class WeatherApp(App):
             days_spinner.bind(text=self.on_days_spinner_change) # on_days_spinner_changeは76行あたり
             layout.add_widget(days_spinner)
 
+            self.errcon = 0
             def saveopt(idodata, keidodata, daydata):
+                if idodata == None or keidodata == None or daydata == None :
+                    if self.errcon == 0:
+                        self.errcon += 1
+                        print(self.errcon)
+                        layout.add_widget(Label(text="エラー: 保存する地域を選択してください",color=(1,0,0,1)))
+                        pass
                 # CSVファイルに緯度・経度・日数を保存するメソッド
-                filename = 'MAINSYS\CSV\onoD_opt.csv'
-                with open(filename, 'r') as csvfile:
-                    reader = csv.reader(csvfile)
-                    data = list(reader)
+                else:
+                    filename = 'MAINSYS\CSV\onoD_opt.csv'
+                    with open(filename, 'r') as csvfile:
+                        reader = csv.reader(csvfile)
+                        data = list(reader)
 
-                    data[5][1] = idodata
-                    data[5][2] = keidodata
-                    data[6][1] = daydata
+                        data[5][1] = idodata
+                        data[5][2] = keidodata
+                        data[6][1] = daydata
 
-                # ここで CSV ファイルに書き込む
-                with open(filename, 'w', newline='') as csvfile:
-                    csv_writer = csv.writer(csvfile)
-                    csv_writer.writerows(data)
-                print("保存されました！")
+                    # ここで CSV ファイルに書き込む
+                    with open(filename, 'w', newline='') as csvfile:
+                        csv_writer = csv.writer(csvfile)
+                        csv_writer.writerows(data)
 
             def re_setting(instance):
                 #subprocess.Popen(["python", "MAINSYS\PROGRAMS\settings.py"])
