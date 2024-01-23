@@ -41,7 +41,7 @@ class TimeDisplayApp(App):
         self.load_settings_from_csv()
 
         # 次へボタン
-        next_button = Button(text='確定', on_press=self.next_page, size_hint=(1, 0.1))
+        next_button = Button(text='次へ', on_press=self.next_page, size_hint=(1, 0.1))
         self.layout.add_widget(next_button)
 
         # 戻るボタン
@@ -123,7 +123,8 @@ class TimeDisplayApp(App):
             self.time_label.font_name = selected_font
             popup.dismiss()
 
-
+            # 色とフォント情報をCSVに保存（上書き）
+            self.save_settings_to_csv()
 
 
         button_layout = BoxLayout(size_hint_y=None, height=40)
@@ -146,7 +147,8 @@ class TimeDisplayApp(App):
             self.time_label.color = selected_color
             popup.dismiss()
 
-
+            # 色とフォント情報をCSVに保存（上書き）
+            self.save_settings_to_csv()
 
         button_layout = BoxLayout(size_hint_y=None, height=40)
         button_layout.add_widget(Button(text='キャンセル', on_press=popup.dismiss))
@@ -157,12 +159,9 @@ class TimeDisplayApp(App):
         popup.open()
 
     def next_page(self, instance):
-        self.setflg(2)
-        # ここに確定ボタンが押されたときの処理を書く
+        # ここに次へボタンが押されたときの処理を書く
         # subprocessを使用してsettings.pyを実行する
-        # 色とフォント情報をCSVに保存（上書き）
-        self.save_settings_to_csv()
-
+        
 
         # オプションで、新しいスクリプトを開始した後に現在のKivyアプリを終了することができます
         App.get_running_app().stop()
@@ -176,23 +175,6 @@ class TimeDisplayApp(App):
         # オプションで、新しいスクリプトを開始した後に現在のKivyアプリを終了することができます
         App.get_running_app().stop()
         pass
-
-    def setflg(self,flgval):   # CSVファイルに設定用フラグを保存するメソッド
-        filename = 'MAINSYS\CSV\onoD_opt.csv'
-        with open(filename, 'r') as csvfile:
-            reader = csv.reader(csvfile)
-            data = list(reader)
-            print(flgval)
-            data[9][1] = flgval
-        
-        with open(filename, 'w', newline='') as csvfile:
-            csv_writer = csv.writer(csvfile)
-            csv_writer.writerows(data)
-        print("保存されました！")
-
-        return 
-    
-
 
 if __name__ == '__main__':
     TimeDisplayApp().run()

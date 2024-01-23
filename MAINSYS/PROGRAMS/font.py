@@ -36,7 +36,7 @@ class TimeDisplayApp(App):
         self.load_settings_from_csv()
 
         # 次へボタン
-        next_button = Button(text='確定', on_press=self.next_page, size_hint=(1, 0.1))
+        next_button = Button(text='次へ', on_press=self.next_page, size_hint=(1, 0.1))
         self.layout.add_widget(next_button)
 
         # 戻るボタン
@@ -99,6 +99,7 @@ class TimeDisplayApp(App):
 
     def show_font_chooser(self, instance):
         popup = Popup(title='フォントを選択', size_hint=(0.9, 0.9))
+
         content = BoxLayout(orientation='vertical')
         file_chooser = FileChooserListView(path='MAINSYS/FONT', filters=['*.ttf'])
         content.add_widget(file_chooser)
@@ -106,6 +107,9 @@ class TimeDisplayApp(App):
         def set_font(selected_font):
             self.hello_label.font_name = selected_font
             popup.dismiss()
+
+            # 色とフォント情報をCSVに保存（上書き）
+            self.save_settings_to_csv()
 
         button_layout = BoxLayout(size_hint_y=None, height=40)
         button_layout.add_widget(Button(text='キャンセル', on_press=popup.dismiss))
@@ -126,6 +130,9 @@ class TimeDisplayApp(App):
             self.hello_label.color = selected_color
             popup.dismiss()
 
+            # 色とフォント情報をCSVに保存（上書き）
+            self.save_settings_to_csv()
+
         button_layout = BoxLayout(size_hint_y=None, height=40)
         button_layout.add_widget(Button(text='キャンセル', on_press=popup.dismiss))
         button_layout.add_widget(Button(text='選択', on_press=lambda instance: set_color(color_picker.color)))
@@ -135,15 +142,11 @@ class TimeDisplayApp(App):
         popup.open()
 
     def next_page(self, instance):
-        # 確定ボタンが押されたときの処理
-        # 色とフォント情報をCSVに保存（上書き）
-        self.save_settings_to_csv()
-        App.get_running_app().stop()
+        # 次へボタンが押されたときの処理
         pass
 
     def prev_page(self, instance):
         # 戻るボタンが押されたときの処理
-        App.get_running_app().stop()
         pass
 
 if __name__ == '__main__':

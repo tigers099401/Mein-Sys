@@ -2,12 +2,19 @@ opt_name,val
 clock,1
 tenki,270000
 prefecture,
-haikei,1
-idokeido,38.26889,140.34118
+haikei,2
+idokeido,43.06819,141.32346
 weatherday,1,1
 fontcolor,0.9,0.19999999999999996,1,1
 backcolor,0.6,1,0.85,1
+<<<<<<< HEAD
 clockselect,2
 setflg,0
 syoki,1
 umu,on,on,on
+=======
+clockselect,1
+setflg,1
+syoki,1
+umu,on,on,on,on
+>>>>>>> 2910bed7910b1169ec92740c5f87e6953d162e2c
