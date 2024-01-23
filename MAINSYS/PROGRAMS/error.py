@@ -28,7 +28,7 @@ class ErrorApp(App):
             # 初回描画
             self.update_canvas(layout, layout.size)
 
-            self.sound = SoundLoader.load('test\onoD\onoD_audio_list\六甲おろし.mp3')  # ここに音楽ファイルのパスを指定
+            self.sound = SoundLoader.load('MAINSYS\AUDIO\六甲おろし.mp3')  # ここに音楽ファイルのパスを指定
             self.play_music()  # アプリ起動時に自動で音楽を再生
 
             return layout

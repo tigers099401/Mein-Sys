@@ -2,11 +2,12 @@ import csv
 import os
 from kivy.graphics import Color, Rectangle
 from kivy.app import App
-from kivy.uix.button import Button
+from kivy.uix.image import Image
 from kivy.uix.floatlayout import FloatLayout
 from onoD_wth_test import WeatherApp
 from onoD_calendar import CalendarApp
 from onoD_clock import ClockApp
+from analog import MyClockApp
 from kivy.core.window import Window
 import subprocess
 
@@ -28,9 +29,8 @@ Window.size = (width_pixels, height_pixels)
 
 class MainDisplayApp(App):
     
-    
-
     def build(self):
+        self.setflg(1)
         # レイアウトのインスタンスを作成
         self.layout = FloatLayout()
         
@@ -42,7 +42,6 @@ class MainDisplayApp(App):
             print("color_settings.csv を使用します")
             background_color = self.get_background_color("MAINSYS\CSV\color_settings.csv")
             background_image_path = None
-
         else:
             print("selected_backgrounds.csv を使用します")
             # 背景の色と画像のパスを取得
@@ -69,16 +68,31 @@ class MainDisplayApp(App):
         weather_app = WeatherApp()
         calender_app = CalendarApp()
         clock_app = ClockApp()
+        analog_app = MyClockApp()
 
         # 各アプリのレイアウトを作成
         weather_layout = weather_app.build()
         calendar_layout = calender_app.build()
-        clock_layout = clock_app.build()
+        
+        clock_judgement = self.loadclockselect()
+        print("clock_judgement", clock_judgement)
+        if clock_judgement == "2":
+            print("デジタル時計を使用します")
+            clock_layout = clock_app.build()
+            # 時間アプリの座標を読み込みif分追加
+            posrow = 0
+            x, y = self.load_button_position(posrow)
+            clock_layout.pos = (x, y)
+        else:
+            print("アナログ時計を使用します")
+            clock_layout = analog_app.build()
+            # 時間アプリの座標を読み込みif分追加
+            posrow = 0
+            x, y = self.load_button_position(posrow)
+            clock_layout.pos = (x + 210, y + 115)
 
-        # 時間アプリの座標を読み込み
-        posrow = 0
-        x, y = self.load_button_position(posrow)
-        clock_layout.pos = (x, y)
+        print("clock_layout", clock_layout)
+
 
         # 天気アプリの座標を読み込み
         posrow = 1 
@@ -90,30 +104,32 @@ class MainDisplayApp(App):
         x, y = self.load_button_position(posrow)
         calendar_layout.pos = (x, y)
 
-
         # 設定ボタンの生成
-        button = Button(text="設定", size_hint=(0.1, 0.15), pos_hint={'top': 1})
-        button.bind(on_press=self.on_settings_button_press)
-        
+        button_image_path = "MAINSYS/IMAGE/1.png"
+        button = Image(source=button_image_path, size_hint=(0.1, 0.15), pos_hint={'top': 1})
+        button.bind(on_touch_down=self.on_settings_button_press)
+
         self.layout.add_widget(button)
-        self.layout.add_widget(weather_layout)
-        self.layout.add_widget(calendar_layout)
-        self.layout.add_widget(clock_layout)
-
+        weatherumu, calenderumu, clockumu = self.loadumu()
+        if weatherumu == "on":
+            self.layout.add_widget(weather_layout)
+        if calenderumu == "on":
+            self.layout.add_widget(calendar_layout)
+        if clockumu == "on":
+            self.layout.add_widget(clock_layout)
         return self.layout
-    
 
-    # 設定ボタンが押されたときの処理
-    def on_settings_button_press(self, instance):
-        subprocess.Popen(["python", "MAINSYS\PROGRAMS\settings.py"])#subprocessじゃないと画面が消えなかったんだ...
-        App.get_running_app().stop()
+
+    def on_settings_button_press(self, instance, touch):
+        if instance.collide_point(*touch.pos):
+            subprocess.Popen(["python", "MAINSYS\PROGRAMS\settings.py"])
+            App.get_running_app().stop()
 
     def get_background_settings(self):
          # selected_backgrounds.csvがない場合はcolor_settings.csvから背景色を取得
         background_image_path = self.get_background_image_path("MAINSYS/CSV/selected_backgrounds.csv")
         
-        return (1,1,1,1), background_image_path
-
+        return (1, 1, 1, 1), background_image_path
 
     def get_background_image_path(self, csv_file):
         try:
@@ -126,7 +142,6 @@ class MainDisplayApp(App):
         except FileNotFoundError:
             pass
         return None
-    
 
     def get_background_color(self, csv_file):
         # color_settings.csvから背景色を取得
@@ -150,10 +165,7 @@ class MainDisplayApp(App):
             with self.layout.canvas.before:
                 self.background_image = Rectangle(pos=self.layout.pos, size=self.layout.size, source=background_image_path)
 
-
-        
-
-    def update_background_size(self,v,a):
+    def update_background_size(self, instance, value):
         print("on_sizeメソッドが呼ばれました。")
         # 背景のサイズをウィンドウのサイズに合わせる
         self.background_rect.size = self.layout.size
@@ -163,7 +175,7 @@ class MainDisplayApp(App):
             self.background_image.size = self.layout.size
     
     # CSVファイルからアプリの座標を取得するメソッド
-    def load_button_position(self,row):
+    def load_button_position(self, row):
         filename = 'MAINSYS\CSV\move.csv'
         
         with open(filename, 'r') as csvfile:
@@ -177,7 +189,7 @@ class MainDisplayApp(App):
             button_pos_y = float(button_pos_y)
             button_pos_y = button_pos_y - 132.0
 
-        return button_pos_x,button_pos_y
+        return button_pos_x, button_pos_y
     
     def loadhaikei(self):
         filename = 'MAINSYS\CSV\onoD_opt.csv'
@@ -188,6 +200,43 @@ class MainDisplayApp(App):
             optdata = data[4][1]
 
         return optdata
+    
+    def loadumu(self):
+        filename = 'MAINSYS\CSV\onoD_opt.csv'
+        
+        with open(filename, 'r') as csvfile:
+            reader = csv.reader(csvfile)
+            data = list(reader)
+            optdata1 = data[12][1]
+            optdata2 = data[12][2]
+            optdata3 = data[12][3]
+
+        return optdata1,optdata2,optdata3
+    
+    def loadclockselect(self):
+        filename = 'MAINSYS\CSV\onoD_opt.csv'
+        
+        with open(filename, 'r') as csvfile:
+            reader = csv.reader(csvfile)
+            data = list(reader)
+            optdata = data[9][1]
+
+        return optdata
+    
+    def setflg(self,flgval):   # CSVファイルに設定用フラグを保存するメソッド
+        filename = 'MAINSYS\CSV\onoD_opt.csv'
+        with open(filename, 'r') as csvfile:
+            reader = csv.reader(csvfile)
+            data = list(reader)
+            print(flgval)
+            data[11][1] = flgval
+        
+        with open(filename, 'w', newline='') as csvfile:
+            csv_writer = csv.writer(csvfile)
+            csv_writer.writerows(data)
+        print("保存されました！")
+
+        return 
 
 if __name__ == '__main__':
-    MainDisplayApp().run() 
+    MainDisplayApp().run()

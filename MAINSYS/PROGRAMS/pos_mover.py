@@ -60,9 +60,9 @@ class ButtonMoverApp(App):
         
         # ボタンの名前と初期位置
         button_info = [
-            {"name": "時間表示設定", "pos": (50, 100)},
-            {"name": "天気予報", "pos": (100, 100)},
-            {"name": "予定表示", "pos": (150, 100)},
+            {"name": "時計", "pos": (50, 100)},
+            {"name": "天気", "pos": (100, 100)},
+            {"name": "予定", "pos": (150, 100)},
             {"name": "追加", "pos": (200, 100)},
         ]
 
@@ -155,8 +155,14 @@ class ButtonMoverApp(App):
 
     def on_confirm_button_press(self, instance):
         # 確定ボタンが押下されたときの処理
-        self.save_button_positions()
-        subprocess.Popen(["python", "MAINSYS\PROGRAMS\main_facter.py"])
+        syokiflg,setflg = self.optflg()
+        if syokiflg == '0' and setflg == '0':
+            self.save_button_positions()
+            subprocess.Popen(["python", "MAINSYS\PROGRAMS\main_facter.py"])
+        elif syokiflg == '1' and setflg == '1':
+            pass
+        else :
+            subprocess.Popen(["python", "MAINSYS\PROGRAMS\error.py"])
         App.get_running_app().stop()
 
     def load_background_image(self, background_image_path):
@@ -184,6 +190,19 @@ class ButtonMoverApp(App):
             optdata = data[4][1]
 
         return optdata
+    
+    def optflg(self):
+        filename = 'MAINSYS\CSV\onoD_opt.csv'
+        
+        with open(filename, 'r') as csvfile:
+            reader = csv.reader(csvfile)
+            data = list(reader)
+            syokiopt = data[11][1]
+            setopt = data[10][1]
+            
+
+        return syokiopt, setopt
+
 
 if __name__ == '__main__':
     # アプリケーションを起動

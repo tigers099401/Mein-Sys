@@ -47,8 +47,8 @@ class BackgroundChangerApp(App):
         # レイアウトにウィジェットを追加
         layout.add_widget(label_background)
         layout.add_widget(self.background_color_picker)
-        layout.add_widget(label_text)
-        layout.add_widget(self.text_color_picker)
+        #layout.add_widget(label_text)
+        #layout.add_widget(self.text_color_picker)
         layout.add_widget(button)
 
         # ウィンドウサイズ変更時にオブジェクトを調整
@@ -98,10 +98,21 @@ class BackgroundChangerApp(App):
         # 保存後に別のPythonスクリプトを実行
         script_path = 'MAINSYS\PROGRAMS\pos_mover.py'
         if os.path.exists(script_path):
-            subprocess.Popen(["python", script_path])
+            setflg_row = 10  # 設定画面遷移時に使用するフラグの保存行番号
+            syokiflg_row = 11 # 初期設定時に使用するフラグの保存行番号
+
+            setflg = self.optflg(setflg_row)
+            syokiflg = self.optflg(syokiflg_row)
+            if syokiflg == '0' and setflg == '0':
+                subprocess.Popen(["python", "MAINSYS\PROGRAMS\pos_mover.py"])
+            elif syokiflg == '1' and setflg == '1':
+                pass
+            else :
+                subprocess.Popen(["python", "MAINSYS\PROGRAMS\error.py"])
             App.get_running_app().stop()
         else:
             print(f"スクリプト '{script_path}' は存在しません。")
+            subprocess.Popen(["python", "MAINSYS\PROGRAMS\error.py"])
 
     def save_colors_to_csv(self, csv_file, background_red, background_green, background_blue, background_alpha,
                            text_red, text_green, text_blue, text_alpha):
@@ -120,6 +131,15 @@ class BackgroundChangerApp(App):
                 'TextBlue': text_blue,
                 'TextAlpha': text_alpha
             })
+    
+    def optflg(self,val):
+        filename = 'MAINSYS\CSV\onoD_opt.csv'
+
+        with open(filename, 'r') as csvfile:
+            reader = csv.reader(csvfile)
+            data = list(reader)
+            optdata = data[val][1]
+        return optdata
     
 if __name__ == '__main__':
     BackgroundChangerApp().run()

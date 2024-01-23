@@ -5,6 +5,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.clock import Clock
 import requests
 from datetime import datetime
+from kivy.uix.image import Image
 import csv
 import japanize_kivy
 
@@ -37,6 +38,20 @@ class WeatherApp(App):
             return "あられ"
         else:
             return "不明な天気"
+        
+    def get_fpass(self):
+        filename = 'MAINSYS\CSV\settings.csv'
+        
+        with open(filename, 'r') as csvfile:
+            reader = csv.reader(csvfile)
+            data = list(reader)
+            fpass = data[1][0]
+            fcolor1 = data[0][0]
+            fcolor2 = data[0][1]
+            fcolor3 = data[0][2]
+            fcolor4 = data[0][3]
+        return fpass, fcolor1, fcolor2, fcolor3, fcolor4
+    
 
     def format_date(self, date_str):
         date_obj = datetime.strptime(date_str, "%Y-%m-%dT%H:%M")
@@ -45,21 +60,20 @@ class WeatherApp(App):
 
     def build(self):
         
-        fsize = "12"
+        fsize = "15"
 
-        layout = BoxLayout(orientation='vertical')
+        layout = BoxLayout(orientation='vertical', spacing=10)
         coordinates_df = pd.read_csv('MAINSYS\CSV\IDOKEIDO-UTF8.csv')
 
         if 'latitude' in coordinates_df.columns and 'longitude' in coordinates_df.columns:
             self.selected_data = None
 
-            # BoxLayout を追加して横に並べる
-            horizontal_layout = BoxLayout(orientation='horizontal')
-            layout.add_widget(horizontal_layout)
 
             def update_weather(dt):
                 # horizontal_layout のウィジェットをクリア
-                horizontal_layout.clear_widgets()
+                
+
+                
 
                 url = "https://api.open-meteo.com/v1/forecast"
 
@@ -97,7 +111,9 @@ class WeatherApp(App):
                         weather_code = daily_data["weather_code"][i]
                         weather_meaning = self.get_weather_meaning(weather_code)
 
-                        string_to_remove = "2023-"
+                        string_to_remove = "2024-01-"
+                        formatted_date = formatted_date.replace(string_to_remove, "")
+                        string_to_remove = "2024-02-"
                         formatted_date = formatted_date.replace(string_to_remove, "")
                         string_to_remove = "00:00"
                         formatted_date = formatted_date.replace(string_to_remove, "")
@@ -105,7 +121,7 @@ class WeatherApp(App):
                         formatted_date = formatted_date.replace(string_to_remove, "/")
 
                         # 横に並べて表示するために BoxLayout を使用
-                        box = BoxLayout(orientation='vertical')
+                        
                         if i == 0:
                             day = "今日"
                         elif i == 1:
@@ -114,25 +130,29 @@ class WeatherApp(App):
                             day = "明後日"
                         else: day = "" 
 
-                        weather_label = Label(text=day+
-                                            f" {formatted_date}\n" 
-                                           +f"\n現在の気温: {temperature} ℃\n"
-                                           +f"最高気温: {max_temperature} ℃\n"
-                                           +f"最低気温: {min_temperature} ℃\n"
-                                           +f"天気: {weather_meaning}"
-                                           ,font_size=fsize+'sp')
+                        fpass, fcolor1, fcolor2, fcolor3, fcolor4 = self.get_fpass()
+
+                        weather_label = Label(text=
+                                            day+f" {formatted_date}日\n" 
+                                           +f"\nNow:{temperature} ℃\n"
+                                           +f"{max_temperature}℃/{min_temperature}℃\n"
+                                           +f"天気: {weather_meaning}\n"
+                                           ,font_size=fsize+'sp'
+                                           ,font_name=fpass
+                                           ,color=[float(fcolor1), float(fcolor2), float(fcolor3), float(fcolor4)])
+                        
                         
 
-                        # box を horizontal_layout に追加
-                        horizontal_layout.add_widget(box)
 
                         # box に各情報を追加
+                        layout.add_widget(weather_label)
 
-                        box.add_widget(weather_label)
+                        
+
                         
 
                 else:
-                    horizontal_layout.add_widget(Label(text=f"エラー: {response.status_code}"))
+                    layout.add_widget(Label(text=f"エラー: {response.status_code}"))
 
             update_weather(dt = 10)
             Clock.schedule_interval(update_weather, 1800)
@@ -152,7 +172,9 @@ class WeatherApp(App):
             keidodata = data[5][2]
             daydata = data[6][1]
 
+
         return idodata, keidodata, daydata
+    
 
 if __name__ == '__main__':
     WeatherApp().run()
