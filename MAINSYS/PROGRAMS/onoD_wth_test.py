@@ -60,9 +60,9 @@ class WeatherApp(App):
 
     def build(self):
         
-        fsize = "15"
+        fsize = "20"
 
-        layout = BoxLayout(orientation='vertical', spacing=10)
+        layout = BoxLayout(orientation='horizontal', spacing=10, size_hint=(0.7,0.7))
         coordinates_df = pd.read_csv('MAINSYS\CSV\IDOKEIDO-UTF8.csv')
 
         if 'latitude' in coordinates_df.columns and 'longitude' in coordinates_df.columns:

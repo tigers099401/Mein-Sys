@@ -40,7 +40,7 @@ class TimeDisplayApp(App):
         # 色とフォントの初期設定
         self.load_settings_from_csv()
 
-        # 次へボタン
+        # 確定ボタン
         next_button = Button(text='確定', on_press=self.next_page, size_hint=(1, 0.1))
         self.layout.add_widget(next_button)
 

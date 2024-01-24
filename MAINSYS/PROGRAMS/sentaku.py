@@ -73,20 +73,20 @@ class ImageSelectorApp(App):
         
         print("デジタル時計を選択が押されました。")
         # ファイルの読み込みと書き込みはここで行います
-        file_path = "MAINSYS\CSV\onoD_opt.csv"
+        #file_path = "MAINSYS\CSV\onoD_opt.csv"
             
         # 既存のCSVファイルを読み込む
-        with open(file_path, mode='r') as file:
-            reader = csv.reader(file)
-            data = list(reader)
+        #with open(file_path, mode='r') as file:
+        #    reader = csv.reader(file)
+        #    data = list(reader)
             
         # 必要な部分を変更
-        data[9][1] = 2
+        #data[9][1] = 2
 
         # 新しいCSVファイルに書き出す
-        with open(file_path, mode='w', newline='') as file:
-            writer = csv.writer(file)
-            writer.writerows(data)
+        #with open(file_path, mode='w', newline='') as file:
+        #    writer = csv.writer(file)
+        #    writer.writerows(data)
 
         App.get_running_app().stop()
 

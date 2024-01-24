@@ -145,36 +145,19 @@ class MainApp(App):
 
     def launch_haikeigazou(self, instance):
         # "gazouhaikei.py" を実行
-        self.save_bg_opt(1)
+ 
         subprocess.Popen(["python", "MAINSYS\PROGRAMS\gazouhaikei.py"])
         App.get_running_app().stop()
 
     def dismiss_popup(self, instance):
         self.popup.dismiss()
-        self.save_bg_opt(2)
+
         if instance.text == 'いいえ':
             # "teshaikei.py" を実行かつ、画面を閉じる
             subprocess.Popen(["python", "MAINSYS\PROGRAMS\haikei.py"])
             App.get_running_app().stop()
 
-    def save_bg_opt(self, optval):
-        # CSVファイルからボタンの座標を取得するメソッド
 
-        filename = 'MAINSYS\CSV\onoD_opt.csv'
-        with open(filename, 'r') as csvfile:
-            reader = csv.reader(csvfile)
-            data = list(reader)
-
-            
-            data[4][1] = optval
-            
-
-
-        with open(filename, mode='w', newline='') as file:
-            writer = csv.writer(file)
-            writer.writerows(data)
-
-        return
 
 if __name__ == "__main__":
     MainApp().run()

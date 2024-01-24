@@ -4,6 +4,7 @@ from kivy.uix.label import Label
 from kivy.graphics import Rectangle, Color
 from kivy.core.audio import SoundLoader
 import japanize_kivy
+import csv
 
 class ErrorApp(App):
     def build(self):
@@ -12,7 +13,8 @@ class ErrorApp(App):
 
         if error_condition:
             # エラーメッセージを生成
-            error_message = "エラーが発生しました。"
+            text = self.load_error()
+            error_message = f"{text}エラーが発生しました。"
 
             # エラー画面を表示するレイアウト
             layout = BoxLayout(orientation='vertical')
@@ -52,6 +54,14 @@ class ErrorApp(App):
         if self.sound:
             self.sound.play()
             self.sound.bind(on_stop=self.play_music)  # 音楽が停止したら再度再生
-
+    
+    def load_error(self):
+        filename = 'MAINSYS\CSV\onoD_opt.csv'
+        
+        with open(filename, 'r') as csvfile:
+            reader = csv.reader(csvfile)
+            data = list(reader)
+            self.clock_states = data[12][1]
+            
 if __name__ == '__main__':
     ErrorApp().run()

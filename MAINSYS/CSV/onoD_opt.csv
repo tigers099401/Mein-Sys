@@ -2,12 +2,16 @@ opt_name,val
 clock,1
 tenki,270000
 prefecture,
+<<<<<<< HEAD
 haikei,1
-idokeido,38.27175,140.82907
-weatherday,1,1
+=======
+haikei,2
+>>>>>>> be032e2d964650ed06ffc1ad8cb59901d4cc0510
+idokeido,34.69612,135.508
+weatherday,3,1
 fontcolor,0.9,0.19999999999999996,1,1
 backcolor,0.6,1,0.85,1
-clockselect,2
-setflg,1
+clockselect,1
+setflg,0
 syoki,1
-umu,on,on,on
+umu,on,on,on,on
