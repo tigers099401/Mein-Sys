@@ -13,7 +13,7 @@ class ErrorApp(App):
 
         if error_condition:
             # エラーメッセージを生成
-            text = load_error()
+            text = self.load_error()
             error_message = f"{text}エラーが発生しました。"
 
             # エラー画面を表示するレイアウト
@@ -62,9 +62,6 @@ class ErrorApp(App):
             reader = csv.reader(csvfile)
             data = list(reader)
             self.clock_states = data[12][1]
-            self.weather_states = data[12][2]
-            self.schedule_states = data[12][3]
-            self.add_states = data[12][4]
-
+            
 if __name__ == '__main__':
     ErrorApp().run()
