@@ -48,9 +48,9 @@ class AppSelectorApp(App):
         with open(filename, 'r') as csvfile:
             reader = csv.reader(csvfile)
             data = list(reader)
-            self.clock_states = data[12][1]
-            self.weather_states = data[12][2]
-            self.schedule_states = data[12][3]
+            self.clock_states = data[12][3]
+            self.weather_states = data[12][1]
+            self.schedule_states = data[12][2]
             self.add_states = data[12][4]
 
     def change_text_clock(self, instance):
@@ -99,9 +99,9 @@ class AppSelectorApp(App):
         with open(file_path, mode='r') as file:
             reader = csv.reader(file)
             data = list(reader)
-            data[12][1] = self.clock_states
-            data[12][2] = self.weather_states
-            data[12][3] = self.schedule_states
+            data[12][3] = self.clock_states
+            data[12][1] = self.weather_states
+            data[12][2] = self.schedule_states
             data[12][4] = self.add_states
 
         with open(file_path, mode='w', newline='') as file:
